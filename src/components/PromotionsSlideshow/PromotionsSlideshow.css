@@ -1,0 +1,55 @@
+.promotions {
+	margin: 0 auto;
+	margin-top: 60vh;
+	width: 80vw;
+}
+
+.promotions-title {
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--primary-color);
+	height: 5rem;
+	margin-bottom: 1.5rem;
+}
+
+.promotions-slideshow {
+	height: 37rem;
+	position: relative;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.promotions-slideshow > div {
+	margin: 0 1.4vw;
+}
+.promotions-slideshow > button {
+	position: absolute;
+	align-self: center;
+}
+
+.left-arrow {
+	left: -6rem;
+}
+
+.right-arrow {
+	right: -6rem;
+}
+
+.left-arrow,
+.right-arrow {
+	padding: .5rem 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	outline: none;
+	background-color: transparent;
+	border: .2rem solid var(--primary-color);
+}
+
+.left-arrow:hover,
+.right-arrow:hover {
+	background-color: var(--primary-color);
+}

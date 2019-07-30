@@ -1,0 +1,21 @@
+.main-navbar-container {
+	background-color: black;
+	height: 6rem;
+}
+
+.main-navbar {
+	padding: 1rem 0;
+	margin: auto;
+	width: 80vw;
+	height: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.main-navbar-items {
+	color: var(--primary-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

@@ -1,0 +1,31 @@
+.search {
+	height: 3rem;
+	display: flex;
+	align-items: center;
+}
+
+.search-input {
+	height: 100%;
+	border: .2rem solid var(--primary-color);
+	border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem;
+	outline: none;
+	font-size: 1.7rem;
+	width: 25vw;
+}
+
+.search-submit {
+	cursor: pointer;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	background-color: var(--primary-color);
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+	outline: none;
+	border: none;
+}
+
+.search-icon {
+	height: 2rem;
+}
