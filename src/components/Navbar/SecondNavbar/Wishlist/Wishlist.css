@@ -1,0 +1,14 @@
+.wishlist {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	padding: 0 .5rem;
+}
+
+.wishlist:hover {
+	background-color: #484848;
+}
+
+.wishlist-text {
+	margin-left: .5rem;
+}

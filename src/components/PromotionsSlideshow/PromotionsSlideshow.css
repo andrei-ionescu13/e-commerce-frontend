@@ -1,7 +1,8 @@
 .promotions {
 	margin: 0 auto;
-	margin-top: 60vh;
+	margin-top: 55vh;
 	width: 80vw;
+	margin-bottom: 10vh;
 }
 
 .promotions-title {
@@ -22,8 +23,9 @@
 }
 
 .promotions-slideshow > div {
-	margin: 0 1.4vw;
+	flex-basis: calc(100% / 6);
 }
+
 .promotions-slideshow > button {
 	position: absolute;
 	align-self: center;

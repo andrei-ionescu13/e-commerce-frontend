@@ -5,11 +5,9 @@
 
 .second-navbar {
 	color: white;
-	padding: 1rem 0;
 	margin: auto;
 	width: 80vw;
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
 }

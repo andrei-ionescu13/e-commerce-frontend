@@ -2,12 +2,12 @@ import React from 'react';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
 import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
 import './Product.css';
-const Product = ({ name }) => {
+const Product = ({ name, price, imageURL }) => {
 	return (
 		<div className="product">
-			<img className="product-image" src="/Procesor AMD RYZEN 3 2200G, 3.5GHz, 6MB, socket AM4.jpg" alt="" />
+			<img className="product-image" src={imageURL} alt="" />
 			<div className="product-title">{name}</div>
-			<div className="product-price">312312</div>
+			<div className="product-price">{price}</div>
 			<div className="product-discountedPrice">asda</div>
 			<button className="buy-button">Adauga in cos</button>
 			<div className="flex-container">
