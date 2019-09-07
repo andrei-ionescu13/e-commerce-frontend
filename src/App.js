@@ -13,14 +13,13 @@ const App = () => {
 		<Provider store={store}>
 			<Router>
 				<div className="App">
-					{/* <Navbar />
-				<PromotionSlideshow />
+					<Navbar />
+					{/* <PromotionSlideshow />
 				<Brands />
 				<Newsletter /> */}
 				</div>
-				<Switch>
-					<Route path="/:category/:pageNumber" component={ProductsSection} />
-				</Switch>
+
+				<Route path="/:categoryOrSearch" component={ProductsSection} />
 			</Router>
 		</Provider>
 	);

@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as LeftArrowIcon } from '../../assets/icons/left-arrow.svg';
 import { ReactComponent as RightArrowIcon } from '../../assets/icons/right-arrow.svg';
 import './PromotionsSlideshow.css';
-import useSlideshow from '../../customHooks/useSlideshow';
+import useSlideshow from '../../hooks/useSlideshow';
 
 const PromotionSlideshow = () => {
 	const [ items, slide, numberItemsShown, showPrevious, showNext, onClickPrevious, onClickNext ] = useSlideshow(4);

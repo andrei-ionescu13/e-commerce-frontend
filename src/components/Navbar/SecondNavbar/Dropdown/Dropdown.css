@@ -49,7 +49,8 @@
 .dropdown-content {
 	top: 4.5rem;
 	position: absolute;
-	display: flex;
+	/* display: flex; */
+	display: none;
 }
 
 .dropdown-link {

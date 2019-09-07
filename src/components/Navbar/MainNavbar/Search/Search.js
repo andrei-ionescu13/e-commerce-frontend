@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { setProductsAndFiltersAsync } from '../../../../store/Actions/ProductsActions';
 import './Search.css';
 import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg';
-const Search = () => {
+const Search = ({ location, history }) => {
+	const dispatch = useDispatch();
 	const [ iconColor, setIconColor ] = useState('white');
 	const [ keyword, setKeyword ] = useState('');
 
@@ -11,8 +15,13 @@ const Search = () => {
 	};
 
 	const submit = e => {
-		setKeyword('');
 		e.preventDefault();
+
+		if (keyword !== '') {
+			setKeyword('');
+			dispatch(setProductsAndFiltersAsync(`http://localhost:3333/search/${keyword}`));
+			history.push('/search/1');
+		}
 	};
 
 	useEffect(
@@ -33,4 +42,4 @@ const Search = () => {
 	);
 };
 
-export default Search;
+export default withRouter(Search);

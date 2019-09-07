@@ -1,25 +1,28 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './ProductsSection.css';
-import { setProducts } from '../../store/Actions/ProductsActions';
+import { setProductsAndFiltersAsync } from '../../store/Actions/ProductsActions';
 import Filters from './Filters/Filters';
-import OrderBy from './OrderBy/OrderBy';
+import DisplayCriteria from './DisplayCriteria/DisplayCriteria';
 import Spinner from '../Spinner/Spinner';
-const Products = lazy(() => import('./Products/Products'));
+import Products from './Products/Products';
+import { productsLoadingSelector } from '../../store/Selectors/ProductsSelector';
+import queryString from 'query-string';
 
-const ProductsSection = ({ match }) => {
+const ProductsSection = ({ location, match, history }) => {
+	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(setProducts(match.params.category));
+		const { p } = queryString.parse(location.search);
+		console.log(p);
+		console.log(match.params.categoryOrSearch);
+		dispatch(setProductsAndFiltersAsync(`http://localhost:3333/${match.params.categoryOrSearch}`));
 	}, []);
 	return (
 		<div className="products-section">
-			<Suspense fallback={<Spinner />}>
-				<Products />
-			</Suspense>
-
+			{productsLoading ? <Spinner /> : <Products />}
 			<Filters />
-			<OrderBy />
+			<DisplayCriteria />
 		</div>
 	);
 };

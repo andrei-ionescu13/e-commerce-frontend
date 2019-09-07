@@ -1,0 +1,18 @@
+.display-criteria {
+	background-color: var(--primary-color);
+	grid-area: d;
+	margin-bottom: 3rem;
+	display: flex;
+	height: 5vh;
+	justify-content: space-around;
+	align-items: center;
+	padding: 0 10rem;
+}
+
+.display-criteria > div {
+	display: flex;
+}
+
+.display-criteria > div > label {
+	margin-right: 1rem;
+}
