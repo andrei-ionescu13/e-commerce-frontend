@@ -20,15 +20,15 @@ const Products = ({ history, match, location }) => {
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
 	const badKeyword = useSelector(state => badKeywordSelector(state));
 	const [ actualPage, setActualPage ] = useState(queryString.parse(location.search).p || 1);
+
+	// useEffect(
+	// 	() => {
+	// 		setActualPage(parseInt(queryString.parse(location.search).p) || 1);
+	// 	},
+	// 	[ location ]
+	// );
 	useEffect(
 		() => {
-			setActualPage(queryString.parse(location.search).p || 1);
-		},
-		[ location ]
-	);
-	useEffect(
-		() => {
-			console.log(actualPage);
 			if (products.length > 0) {
 				products = products.map(x => (
 					<Product
@@ -38,22 +38,45 @@ const Products = ({ history, match, location }) => {
 						imageURL={'http://localhost:3333/images/' + x.imagesURL[0] + '.jpg'}
 					/>
 				));
-				setProductsShown(products.slice((actualPage - 1) * itemsPerPage, actualPage * itemsPerPage));
+				setProductsShown(
+					products.slice(
+						(parseInt(queryString.parse(location.search).p) - 1) * itemsPerPage,
+						parseInt(queryString.parse(location.search).p) * itemsPerPage
+					)
+				);
 			}
 		},
-		[ products, location, itemsPerPage ]
+		[ products, location.search, itemsPerPage ]
 	);
 
 	useEffect(
 		() => {
-			if (!(actualPage > 0) || (actualPage > Math.ceil(products.length / itemsPerPage) && products.length > 0)) {
+			if (
+				!(parseInt(queryString.parse(location.search).p) > 0) ||
+				(parseInt(queryString.parse(location.search).p) > Math.ceil(products.length / itemsPerPage) &&
+					products.length > 0)
+			) {
 				history.push({
 					search: `?p=1`
 				});
 			}
 		},
-		[ location, products ]
+		[ products, location.search ]
 	);
+	console.log(actualPage);
+
+	const onPageChangeHanler = e => {
+		// history.push((e.selected + 1).toString());
+		if (e.selected == 0) {
+			history.push({
+				search: ``
+			});
+		} else
+			history.push({
+				search: `?p=${(e.selected + 1).toString()}`
+			});
+		window.scrollTo(0, 0);
+	};
 
 	return (
 		<div className="products-container">
@@ -67,7 +90,7 @@ const Products = ({ history, match, location }) => {
 						previousLabel={'Pagina anterioara'}
 						nextLabel={'Pagina anterioara'}
 						previousLinkClassName={'previous-page'}
-						forcePage={parseInt(actualPage) - 1 || 0}
+						forcePage={parseInt(parseInt(queryString.parse(location.search).p)) - 1 || 0}
 						disableInitialCallback={true}
 						nextLinkClassName={'next-page'}
 						breakLabel={'...'}
@@ -75,13 +98,7 @@ const Products = ({ history, match, location }) => {
 						pageCount={Math.ceil(products.length / itemsPerPage)}
 						marginPagesDisplayed={2}
 						pageRangeDisplayed={3}
-						onPageChange={e => {
-							// history.push((e.selected + 1).toString());
-							history.push({
-								search: `?p=${(e.selected + 1).toString()}`
-							});
-							window.scrollTo(0, 0);
-						}}
+						onPageChange={e => onPageChangeHanler(e)}
 						containerClassName={'pagination'}
 						pageLinkClassName={'page'}
 						activeLinkClassName={'active'}
