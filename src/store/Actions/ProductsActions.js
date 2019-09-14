@@ -7,18 +7,16 @@ export const setProductsAndFiltersAsync = url => async dispatch => {
 	try {
 		const result = await axios.get(url);
 		if (result.data.products.length === 0) {
-			console.log('bad');
 			dispatch(setBadKeyword(true));
 			dispatch(setProductsToEmpty());
 		} else {
-			console.log('good');
 			dispatch(setBadKeyword(false));
 
 			dispatch(setProducts(result.data.products));
 			dispatch(setFilters(result.data.filters));
 		}
 	} catch (error) {
-		console.log(products);
+		console.log(error);
 	} finally {
 		dispatch(setProductsLoading(false));
 	}

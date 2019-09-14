@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -11,12 +11,22 @@ const OrderBy = ({ history, location }) => {
 	const dispatch = useDispatch();
 	const orderBy = useSelector(state => orderBySelector(state));
 
-	const onChangeHandler = e => {
-		console.log(queryString.stringify(location.search));
+	useEffect(
+		() => {
+			const orderBy = queryString.parse(location.search).orderBy || 'price-asc';
+			dispatch(setOrderBy(orderBy));
+		},
+		[ location.search ]
+	);
 
-		dispatch(setOrderBy(e.target.value));
+	const onChangeHandler = e => {
+		const params = new URLSearchParams(location.search);
+		const orderBy = e.target.value;
+		params.set('orderBy', orderBy);
+		params.delete('page');
+		dispatch(setOrderBy(orderBy));
 		history.push({
-			search: `?orderBy=${e.target.value}`
+			search: params.toString()
 		});
 	};
 

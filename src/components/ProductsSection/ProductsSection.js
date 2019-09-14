@@ -12,12 +12,16 @@ import queryString from 'query-string';
 const ProductsSection = ({ location, match, history }) => {
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const dispatch = useDispatch();
-	useEffect(() => {
-		const { p } = queryString.parse(location.search);
-		console.log(p);
-		console.log(match.params.categoryOrSearch);
-		dispatch(setProductsAndFiltersAsync(`http://localhost:3333/${match.params.categoryOrSearch}`));
-	}, []);
+	useEffect(
+		() => {
+			console.log(match.params.categoryOrSearch);
+			if (match.params.categoryOrSearch === 'search') {
+				const keyword = queryString.parse(location.search).keyword;
+				dispatch(setProductsAndFiltersAsync(`http://localhost:3333/search/${keyword}`));
+			} else dispatch(setProductsAndFiltersAsync(`http://localhost:3333/${match.params.categoryOrSearch}`));
+		},
+		[ match.params.categoryOrSearch ]
+	);
 	return (
 		<div className="products-section">
 			{productsLoading ? <Spinner /> : <Products />}

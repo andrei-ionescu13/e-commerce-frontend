@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { setProductsAndFiltersAsync } from '../../../../store/Actions/ProductsActions';
 import './Search.css';
 import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg';
+import queryString from 'query-string';
 const Search = ({ location, history }) => {
 	const dispatch = useDispatch();
 	const [ iconColor, setIconColor ] = useState('white');
@@ -19,8 +20,11 @@ const Search = ({ location, history }) => {
 
 		if (keyword !== '') {
 			setKeyword('');
-			dispatch(setProductsAndFiltersAsync(`http://localhost:3333/search/${keyword}`));
-			history.push('/search/1');
+
+			history.push({
+				pathname: '/search',
+				search: `keyword=${keyword}`
+			});
 		}
 	};
 

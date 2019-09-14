@@ -3,16 +3,20 @@ import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsPerPageSelector } from '../../../../store/Selectors/ProductsSelector';
 import { setItemsPerPage } from '../../../../store/Actions/ProductsActions';
-
 import './Show.css';
+import { querystring } from 'query-string';
 
-const Show = ({ history }) => {
+const Show = ({ history, location }) => {
 	const dispatch = useDispatch();
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
 
 	const onChangeHandler = e => {
 		dispatch(setItemsPerPage(e.target.value));
-		history.push('1');
+		const params = new URLSearchParams(location.search);
+		params.delete('page');
+		history.push({
+			search: params.toString()
+		});
 	};
 	return (
 		<div className="show">

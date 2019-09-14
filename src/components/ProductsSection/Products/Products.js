@@ -10,7 +10,7 @@ import ReactPaginate from 'react-paginate';
 import { withRouter } from 'react-router-dom';
 import Product from '../../Product/Product';
 import queryString from 'query-string';
-
+import _ from 'lodash';
 const NoProductsFound = <h1 className="noProducts-message">Nu s-a gasit niciun produs</h1>;
 
 const Products = ({ history, match, location }) => {
@@ -29,6 +29,7 @@ const Products = ({ history, match, location }) => {
 	// );
 	useEffect(
 		() => {
+			const page = parseInt(queryString.parse(location.search).page) || 1;
 			if (products.length > 0) {
 				products = products.map(x => (
 					<Product
@@ -38,12 +39,7 @@ const Products = ({ history, match, location }) => {
 						imageURL={'http://localhost:3333/images/' + x.imagesURL[0] + '.jpg'}
 					/>
 				));
-				setProductsShown(
-					products.slice(
-						(parseInt(queryString.parse(location.search).p) - 1) * itemsPerPage,
-						parseInt(queryString.parse(location.search).p) * itemsPerPage
-					)
-				);
+				setProductsShown(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));
 			}
 		},
 		[ products, location.search, itemsPerPage ]
@@ -51,30 +47,33 @@ const Products = ({ history, match, location }) => {
 
 	useEffect(
 		() => {
-			if (
-				!(parseInt(queryString.parse(location.search).p) > 0) ||
-				(parseInt(queryString.parse(location.search).p) > Math.ceil(products.length / itemsPerPage) &&
-					products.length > 0)
-			) {
+			const page = parseInt(queryString.parse(location.search).page) || 1;
+
+			if (!(page > 0) || (page > Math.ceil(products.length / itemsPerPage) && products.length > 0)) {
 				history.push({
-					search: `?p=1`
+					search: ``
 				});
 			}
 		},
 		[ products, location.search ]
 	);
-	console.log(actualPage);
 
 	const onPageChangeHanler = e => {
 		// history.push((e.selected + 1).toString());
+		const params = new URLSearchParams(location.search);
+
 		if (e.selected == 0) {
+			params.delete('page');
+
 			history.push({
-				search: ``
+				search: params.toString()
 			});
-		} else
+		} else {
+			params.set('page', `${e.selected + 1}`);
 			history.push({
-				search: `?p=${(e.selected + 1).toString()}`
+				search: params.toString()
 			});
+		}
 		window.scrollTo(0, 0);
 	};
 
@@ -90,7 +89,7 @@ const Products = ({ history, match, location }) => {
 						previousLabel={'Pagina anterioara'}
 						nextLabel={'Pagina anterioara'}
 						previousLinkClassName={'previous-page'}
-						forcePage={parseInt(parseInt(queryString.parse(location.search).p)) - 1 || 0}
+						forcePage={parseInt(queryString.parse(location.search).page) - 1 || 0}
 						disableInitialCallback={true}
 						nextLinkClassName={'next-page'}
 						breakLabel={'...'}
