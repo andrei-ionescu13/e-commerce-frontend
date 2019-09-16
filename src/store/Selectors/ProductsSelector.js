@@ -11,38 +11,76 @@ export const showAsSelector = state => state.products.showAs;
 export const filtersSelector = state => state.products.filters;
 export const badKeywordSelector = state => state.products.badKeyword;
 export const productsLoadingSelector = state => state.products.productsLoading;
+export const activeFiltersSelector = state => state.products.activeFilters;
 
-export const orderedProductsSelector = createSelector(productsSelector, orderBySelector, (products, orderBy) => {
-	const fff = {
-		brand: [ 'TOSHIBA' ],
-		'Capacitate (GB)': [ '1000' ]
-	};
-	switch (orderBy) {
-		case 'most-popular':
-			break;
+export const orderedProductsSelector = createSelector(
+	productsSelector,
+	orderBySelector,
+	activeFiltersSelector,
+	(products, orderBy, activeFilters) => {
+		const filteredProducts = products.filter(x => {
+			let returnProduct = false;
+			if (Object.entries(activeFilters).length === 0) returnProduct = true;
+			for (let [ key, value ] of Object.entries(activeFilters)) {
+				if (key === 'pret') {
+					if (Array.isArray(activeFilters[key])) {
+						activeFilters[key].forEach(element => {
+							if (element.includes('Sub ') && x.price < parseFloat(element.replace('Sub  ', '')))
+								returnProduct = true;
 
-		case 'name':
-			return [
-				...products.sort((a, b) => (a.name < b.name ? -1 : 1)).filter(x => {
-					console.log('loooog', getByKey(x, 'Capacitate (GB)'));
-					for (let [ key, value ] of Object.entries(fff)) {
-						if (value.includes(getByKey(x, key).toString().toUpperCase())) return true;
+							if (
+								element.includes(' - ') &&
+								x.price > parseFloat(element.split(' - ')[0]) &&
+								x.price < parseFloat(element.split(' - ')[1])
+							)
+								returnProduct = true;
+
+							if (element.includes('Peste ') && x.price > parseFloat(element.replace('Peste ', '')))
+								returnProduct = true;
+						});
+					} else {
+						if (
+							activeFilters[key].includes('Sub ') &&
+							x.price < parseFloat(activeFilters[key].replace('Sub ', ''))
+						)
+							returnProduct = true;
+
+						if (
+							activeFilters[key].includes(' - ') &&
+							x.price > parseFloat(activeFilters[key].split(' - ')[0]) &&
+							x.price < parseFloat(activeFilters[key].split(' - ')[1])
+						)
+							returnProduct = true;
+
+						if (
+							activeFilters[key].includes('Peste ') &&
+							x.price > parseFloat(activeFilters[key].replace('Peste ', ''))
+						)
+							returnProduct = true;
 					}
-					return false;
-				})
-			];
+				} else if (value.includes(getByKey(x, key).toString())) returnProduct = true;
+			}
+			return returnProduct;
+		});
 
-		case 'price-asc':
-			return [ ...products.sort((a, b) => (a.price < b.price ? -1 : 1)) ];
+		switch (orderBy) {
+			case 'most-popular':
+				break;
 
-		case 'price-desc':
-			const array = [ ...products ];
-			return array.sort((a, b) => (a.price < b.price ? 1 : -1));
+			case 'name':
+				return filteredProducts.sort((a, b) => (a.name < b.name ? -1 : 1));
 
-		case 'discount':
-			break;
+			case 'price-asc':
+				return filteredProducts.sort((a, b) => (a.price < b.price ? -1 : 1));
 
-		default:
-			break;
+			case 'price-desc':
+				return filteredProducts.sort((a, b) => (a.price < b.price ? 1 : -1));
+
+			case 'discount':
+				break;
+
+			default:
+				break;
+		}
 	}
-});
+);

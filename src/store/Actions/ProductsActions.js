@@ -27,6 +27,11 @@ export const setFilters = filters => ({
 	payload: filters
 });
 
+export const setActiveFilters = activeFilters => ({
+	type: types.SET_ACTIVE_FILTERS,
+	payload: activeFilters
+});
+
 export const setProducts = products => ({
 	type: types.SET_PRODUCTS,
 	payload: products

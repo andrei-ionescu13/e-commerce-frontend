@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setActiveFilters } from '../../../../store/Actions/ProductsActions';
 import './Filter.css';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 
-const Filter = ({ filterName, filterValues }) => {
+const Filter = ({ filterName, filterValues, history, location }) => {
 	const filterValuesMapped = [];
 	const keys = Object.keys(filterValues).sort((a, b) => {
 		if (a.includes(' - ') || b.includes(' - ')) {
@@ -12,20 +16,37 @@ const Filter = ({ filterName, filterValues }) => {
 		}
 		return a < b ? -1 : 1;
 	});
-	// for (let [ key, value ] of Object.entries(filterValues)) {
-	// 	filterValuesMapped.push(
-	// 		<div className="filter-item">
-	// 			<input type="checkbox" value={key} />
-	// 			{`${key} (${value})`}
 
-	// 			<br />
-	// 		</div>
-	// 	);
-	// }
+	const onClickHandler = e => {
+		const params = new URLSearchParams(location.search);
+		const key = filterName;
+		if (e.target.checked) {
+			params.append(key, e.target.value);
+		} else {
+			let values = queryString.parse(location.search)[key];
+			if (typeof values !== 'string') {
+				values = values.filter(x => x !== e.target.value);
+			}
+			params.delete(key);
+			if (typeof values !== 'string') values.forEach(x => params.append(key, x));
+		}
+		history.push({
+			search: params.toString()
+		});
+	};
+
 	keys.forEach((x, index) => {
+		let checked = false;
+		let values = queryString.parse(location.search)[filterName];
+		console.log();
+		if (typeof values == 'string' && values === x) {
+			checked = true;
+		} else if (values !== undefined && values.includes(x)) {
+			checked = true;
+		}
 		filterValuesMapped.push(
 			<div className="filter-item">
-				<input type="checkbox" value={x} />
+				<input type="checkbox" defaultChecked={checked} onChange={e => onClickHandler(e)} value={x} />
 				<label>{`${x} (${filterValues[x]})`}</label>
 				<br />
 			</div>
@@ -34,10 +55,10 @@ const Filter = ({ filterName, filterValues }) => {
 
 	return (
 		<div className="filter">
-			<label>{typeof filterName === 'object' ? Object.keys(filterName)[0] : filterName}</label>
+			<label>{filterName}</label>
 			{filterValuesMapped}
 		</div>
 	);
 };
 
-export default Filter;
+export default withRouter(Filter);

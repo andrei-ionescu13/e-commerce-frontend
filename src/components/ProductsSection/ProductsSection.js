@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './ProductsSection.css';
-import { setProductsAndFiltersAsync } from '../../store/Actions/ProductsActions';
+import { setProductsAndFiltersAsync, setActiveFilters } from '../../store/Actions/ProductsActions';
 import Filters from './Filters/Filters';
 import DisplayCriteria from './DisplayCriteria/DisplayCriteria';
 import Spinner from '../Spinner/Spinner';
@@ -22,6 +22,7 @@ const ProductsSection = ({ location, match, history }) => {
 		},
 		[ match.params.categoryOrSearch ]
 	);
+
 	return (
 		<div className="products-section">
 			{productsLoading ? <Spinner /> : <Products />}

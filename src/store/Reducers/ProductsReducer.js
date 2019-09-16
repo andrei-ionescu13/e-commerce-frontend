@@ -6,6 +6,7 @@ const initialState = {
 	orderBy: 'price-asc',
 	products: [],
 	filters: [],
+	activeFilters: {},
 	badKeyword: false,
 	productsLoading: false
 };
@@ -24,6 +25,11 @@ const reducer = (state = initialState, { type, payload }) => {
 				filters: payload
 			};
 
+		case types.SET_ACTIVE_FILTERS:
+			return {
+				...state,
+				activeFilters: payload
+			};
 		case types.SET_PRODUCTS_TO_EMPTY:
 			return {
 				...state,
