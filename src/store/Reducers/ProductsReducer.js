@@ -64,6 +64,13 @@ const reducer = (state = initialState, { type, payload }) => {
 				productsLoading: payload
 			};
 		}
+		case types.SET_FILTERS_TO_EMPTY: {
+			return {
+				...state,
+				filters: [],
+				activeFilters: {}
+			};
+		}
 		default:
 			return state;
 	}

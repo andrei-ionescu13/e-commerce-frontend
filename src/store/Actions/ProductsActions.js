@@ -11,9 +11,13 @@ export const setProductsAndFiltersAsync = url => async dispatch => {
 			dispatch(setProductsToEmpty());
 		} else {
 			dispatch(setBadKeyword(false));
-
 			dispatch(setProducts(result.data.products));
-			dispatch(setFilters(result.data.filters));
+			if (!url.includes('search')) {
+				console.log('aaaaaaa', result.data.filters);
+				dispatch(setFilters(result.data.filters));
+			} else
+				dispatch(setFilters([ { pret: [ 50, 100, 200, 500, 1000, 1500, 2000, 3000, 4000, 5000 ] }, 'brand' ]));
+			dispatch(setProductsLoading(false));
 		}
 	} catch (error) {
 		console.log(error);
@@ -64,4 +68,8 @@ export const setBadKeyword = badKeyword => ({
 export const setProductsLoading = isLoading => ({
 	type: types.SET_PRODUCTS_LOADING,
 	payload: isLoading
+});
+
+export const setFiltersToEmpty = () => ({
+	type: types.SET_FILTERS_TO_EMPTY
 });

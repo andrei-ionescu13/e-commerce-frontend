@@ -47,11 +47,3 @@
 
 	color: var(--primary-color);
 }
-
-.noProducts-message {
-	font-size: 3rem;
-	border: 1px solid black;
-	width: 30%;
-	margin: auto;
-	padding: 1rem;
-}

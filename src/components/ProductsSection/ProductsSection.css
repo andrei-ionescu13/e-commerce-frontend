@@ -6,3 +6,13 @@
 	grid-template-columns: 1fr 4fr;
 	grid-template-areas: "f d" "f p";
 }
+
+.noProducts-message {
+	font-size: 2rem;
+	text-align: center;
+	border: 1px solid black;
+	width: 30%;
+	margin: auto;
+	margin-top: 5rem;
+	padding: 1rem;
+}

@@ -4,10 +4,13 @@ import { setActiveFilters } from '../../../../store/Actions/ProductsActions';
 import './Filter.css';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
+import FilterItem from './FilterItem/FilterItem';
 
 const Filter = ({ filterName, filterValues, history, location }) => {
 	const filterValuesMapped = [];
 	const keys = Object.keys(filterValues).sort((a, b) => {
+		if (a.includes('Sub')) return -1;
+		if (b.includes('Peste')) return 1;
 		if (a.includes(' - ') || b.includes(' - ')) {
 			return parseFloat(a.match(/\d+/)) < parseFloat(b.match(/\d+/)) ? -1 : 1;
 		}
@@ -45,11 +48,17 @@ const Filter = ({ filterName, filterValues, history, location }) => {
 			checked = true;
 		}
 		filterValuesMapped.push(
-			<div className="filter-item">
-				<input type="checkbox" defaultChecked={checked} onChange={e => onClickHandler(e)} value={x} />
-				<label>{`${x} (${filterValues[x]})`}</label>
-				<br />
-			</div>
+			// <div className="filter-item">
+			// 	<input type="checkbox" defaultChecked={checked} onChange={e => onClickHandler(e)} value={x} />
+			// 	<label>{`${x} (${filterValues[x]})`}</label>
+			// 	<br />
+			// </div>
+			<FilterItem
+				value={x}
+				occurrence={filterValues[x]}
+				onClickHandler={onClickHandler}
+				filterName={filterName}
+			/>
 		);
 	});
 

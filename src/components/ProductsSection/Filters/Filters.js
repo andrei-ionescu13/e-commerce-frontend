@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Filters.css';
 import { setActiveFilters } from '../../../store/Actions/ProductsActions';
 
-import { filtersSelector, productsSelector } from '../../../store/Selectors/ProductsSelector';
+import {
+	filtersSelector,
+	productsSelector,
+	badKeywordSelector,
+	productsLoadingSelector
+} from '../../../store/Selectors/ProductsSelector';
 import { useDispatch, useSelector } from 'react-redux';
 import getByKey from '../../../helpers/getByKey';
 import _ from 'lodash';
@@ -12,11 +17,13 @@ import { withRouter } from 'react-router-dom';
 import Filter from './Filter/Filter';
 const Filters = ({ location }) => {
 	const dispatch = useDispatch();
+	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const filters = useSelector(state => filtersSelector(state));
 	const products = useSelector(state => productsSelector(state));
+	const badKeyword = useSelector(state => badKeywordSelector(state));
 	let array = [];
 
-	if (products.length > 0 && filters.length > 0) {
+	if (products.length > 0 && filters.length > 0 && !productsLoading) {
 		let [ prices, ...otherFilters ] = filters;
 		prices = prices.pret;
 		filters.forEach(element => array.push([]));
@@ -34,7 +41,7 @@ const Filters = ({ location }) => {
 			}
 			for (let index2 = 0; index2 < otherFilters.length; index2++) {
 				let value = getByKey(products[index], otherFilters[index2]);
-
+				if (typeof value === 'undefined') continue;
 				value = value.toString().trim();
 				if (value.includes(',')) {
 					value = value.split(',');
@@ -52,12 +59,10 @@ const Filters = ({ location }) => {
 			if (filters.length > 0) {
 				const activeFilters = queryString.parse(location.search);
 				for (let [ key, value ] of Object.entries(activeFilters)) {
-					console.log(key);
 					if (!filters.includes(key) && key !== 'pret') {
 						delete activeFilters[key];
 					}
 				}
-				console.log(activeFilters);
 				dispatch(setActiveFilters(activeFilters));
 			}
 		},

@@ -1,13 +1,16 @@
 import React from 'react';
 import './Banner.css';
 import image1 from '../../assets/images/CPU.jpg';
-
-const Banner = () => {
+import { withRouter } from 'react-router-dom';
+const Banner = ({ location }) => {
+	const style = {
+		display: location.pathname.localeCompare('/') === 0 ? 'block' : 'none'
+	};
 	return (
-		<div className="banner">
+		<div style={style} className="banner">
 			<img src={image1} alt="nvidia" />
 		</div>
 	);
 };
 
-export default Banner;
+export default withRouter(Banner);

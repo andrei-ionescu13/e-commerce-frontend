@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom';
 import Product from '../../Product/Product';
 import queryString from 'query-string';
 import _ from 'lodash';
-const NoProductsFound = <h1 className="noProducts-message">Nu s-a gasit niciun produs</h1>;
 
 const Products = ({ history, match, location }) => {
 	let products = useSelector(state => orderedProductsSelector(state));
@@ -36,6 +35,7 @@ const Products = ({ history, match, location }) => {
 						key={x._id}
 						name={x.name}
 						price={x.price}
+						discountedPrice={x.discountedPrice}
 						imageURL={'http://localhost:3333/images/' + x.imagesURL[0] + '.jpg'}
 					/>
 				));
@@ -79,33 +79,30 @@ const Products = ({ history, match, location }) => {
 
 	return (
 		<div className="products-container">
-			{badKeyword ? (
-				NoProductsFound
-			) : (
-				<React.Fragment>
-					<div className="products">{productsShown}</div>
+			<React.Fragment>
+				<div className="products">{productsShown}</div>
 
-					<ReactPaginate
-						previousLabel={'Pagina anterioara'}
-						nextLabel={'Pagina anterioara'}
-						previousLinkClassName={'previous-page'}
-						forcePage={parseInt(queryString.parse(location.search).page) - 1 || 0}
-						disableInitialCallback={true}
-						nextLinkClassName={'next-page'}
-						breakLabel={'...'}
-						breakClassName={'break-me'}
-						pageCount={Math.ceil(products.length / itemsPerPage)}
-						marginPagesDisplayed={2}
-						pageRangeDisplayed={3}
-						onPageChange={e => onPageChangeHanler(e)}
-						containerClassName={'pagination'}
-						pageLinkClassName={'page'}
-						activeLinkClassName={'active'}
-						// pageLinkClassName={'pages'}
-						// activeClassName={'active'}
-					/>
-				</React.Fragment>
-			)}
+				<ReactPaginate
+					previousLabel={'Pagina anterioara'}
+					nextLabel={'Pagina anterioara'}
+					previousLinkClassName={'previous-page'}
+					forcePage={parseInt(queryString.parse(location.search).page) - 1 || 0}
+					disableInitialCallback={true}
+					nextLinkClassName={'next-page'}
+					breakLabel={'...'}
+					breakClassName={'break-me'}
+					pageCount={Math.ceil(products.length / itemsPerPage)}
+					marginPagesDisplayed={2}
+					pageRangeDisplayed={3}
+					onPageChange={e => onPageChangeHanler(e)}
+					containerClassName={'pagination'}
+					pageLinkClassName={'page'}
+					activeLinkClassName={'active'}
+					// pageLinkClassName={'pages'}
+					// activeClassName={'active'}
+				/>
+			</React.Fragment>
+			)
 		</div>
 	);
 };

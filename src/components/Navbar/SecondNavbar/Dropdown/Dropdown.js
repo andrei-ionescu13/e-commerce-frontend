@@ -2,54 +2,57 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Dropdown.css';
 import Banner from '../../../Banner/Banner';
-const Dropdown = () => {
+import { withRouter } from 'react-router-dom';
+const Dropdown = ({ location }) => {
+	const display = location.pathname === '/' ? 'flex' : 'none';
+
 	return (
 		<div className="dropdown">
 			<button className="dropdown-button">Categorii</button>
-			<div className="dropdown-content">
-				<ul>
+			<div style={{ display }} className="dropdown-content">
+				<ul className="categories-list">
 					<li>
-						<Link className="dropdown-link" to="products/placi-video">
+						<Link className="dropdown-link" to="placi-video">
 							Placi video
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/procesoare">
+						<Link className="dropdown-link" to="procesoare">
 							Procesoare
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/placi-de-baza">
+						<Link className="dropdown-link" to="placi-baza">
 							Placi de baza
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/memorii">
+						<Link className="dropdown-link" to="memorii">
 							Memorii
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/SSD">
+						<Link className="dropdown-link" to="ssd">
 							SSD
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/hard-disk">
+						<Link className="dropdown-link" to="hard-disk">
 							Hard disk-uri
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/surse">
+						<Link className="dropdown-link" to="surse-alimentare">
 							Surse
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/carcase">
+						<Link className="dropdown-link" to="carcase">
 							Carcase
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="products/cooler">
+						<Link className="dropdown-link" to="coolere">
 							Coolere
 						</Link>
 					</li>
@@ -60,4 +63,4 @@ const Dropdown = () => {
 	);
 };
 
-export default Dropdown;
+export default withRouter(Dropdown);

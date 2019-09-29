@@ -18,8 +18,10 @@ const App = () => {
 				<Brands />
 				<Newsletter /> */}
 				</div>
-
-				<Route path="/:categoryOrSearch" component={ProductsSection} />
+				<Switch>
+					<Route path="/search" component={ProductsSection} />
+					<Route path="/:category" component={ProductsSection} />
+				</Switch>
 			</Router>
 		</Provider>
 	);
