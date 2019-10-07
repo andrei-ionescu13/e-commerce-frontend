@@ -5,10 +5,12 @@ const initialState = {
 	itemsPerPage: 8,
 	orderBy: 'price-asc',
 	products: [],
+	product: {},
 	filters: [],
 	activeFilters: {},
 	badKeyword: false,
-	productsLoading: false
+	productsLoading: false,
+	comparedProducts: []
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -19,6 +21,11 @@ const reducer = (state = initialState, { type, payload }) => {
 				products: payload
 			};
 
+		case types.SET_PRODUCT:
+			return {
+				...state,
+				product: payload
+			};
 		case types.SET_FILTERS:
 			return {
 				...state,
@@ -69,6 +76,12 @@ const reducer = (state = initialState, { type, payload }) => {
 				...state,
 				filters: [],
 				activeFilters: {}
+			};
+		}
+		case types.SET_COMPARED_PRODUCTS: {
+			return {
+				...state,
+				comparedProducts: payload
 			};
 		}
 		default:

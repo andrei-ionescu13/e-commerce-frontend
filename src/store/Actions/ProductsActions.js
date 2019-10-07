@@ -3,20 +3,18 @@ import axios from 'axios';
 
 export const setProductsAndFiltersAsync = url => async dispatch => {
 	dispatch(setProductsLoading(true));
-	let products = [];
 	try {
 		const result = await axios.get(url);
-		if (result.data.products.length === 0) {
+		const products = result.data.products;
+		const filters = result.data.filters;
+		console.log(result);
+		if (products.length === 0) {
 			dispatch(setBadKeyword(true));
 			dispatch(setProductsToEmpty());
 		} else {
 			dispatch(setBadKeyword(false));
-			dispatch(setProducts(result.data.products));
-			if (!url.includes('search')) {
-				console.log('aaaaaaa', result.data.filters);
-				dispatch(setFilters(result.data.filters));
-			} else
-				dispatch(setFilters([ { pret: [ 50, 100, 200, 500, 1000, 1500, 2000, 3000, 4000, 5000 ] }, 'brand' ]));
+			dispatch(setProducts(products));
+			dispatch(setFilters(filters));
 			dispatch(setProductsLoading(false));
 		}
 	} catch (error) {
@@ -45,6 +43,10 @@ export const setProductsToEmpty = () => ({
 	type: types.SET_PRODUCTS_TO_EMPTY
 });
 
+export const setProduct = product => ({
+	type: types.SET_PRODUCT,
+	payload: product
+});
 export const setOrderBy = orderBy => ({
 	type: types.SET_ORDER_BY,
 	payload: orderBy
@@ -72,4 +74,9 @@ export const setProductsLoading = isLoading => ({
 
 export const setFiltersToEmpty = () => ({
 	type: types.SET_FILTERS_TO_EMPTY
+});
+
+export const setComparedProducts = products => ({
+	type: types.SET_COMPARED_PRODUCTS,
+	payload: products
 });

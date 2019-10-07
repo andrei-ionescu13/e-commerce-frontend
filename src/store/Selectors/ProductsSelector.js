@@ -1,10 +1,7 @@
 import { createSelector } from 'reselect';
 import getByKey from '../../helpers/getByKey';
 import getPercentage from '../../helpers/getPercentage';
-export const productsSelector = state => {
-	const products = [ ...state.products.products ];
-	return products;
-};
+export const productsSelector = state => state.products.products;
 export const filteredProductsSelector = state => state.products.filteredProducts;
 export const itemsPerPageSelector = state => state.products.itemsPerPage;
 export const orderBySelector = state => state.products.orderBy;
@@ -13,7 +10,7 @@ export const filtersSelector = state => state.products.filters;
 export const badKeywordSelector = state => state.products.badKeyword;
 export const productsLoadingSelector = state => state.products.productsLoading;
 export const activeFiltersSelector = state => state.products.activeFilters;
-
+export const comparedProductsSelector = state => state.products.comparedProducts;
 export const orderedProductsSelector = createSelector(
 	productsSelector,
 	orderBySelector,
@@ -25,7 +22,6 @@ export const orderedProductsSelector = createSelector(
 			for (let [ key, value ] of Object.entries(activeFilters)) {
 				if (key === 'pret') {
 					const productPrice = x.discountedPrice || x.price;
-					console.log('productPrice', productPrice);
 					if (Array.isArray(activeFilters[key])) {
 						activeFilters[key].forEach(element => {
 							if (element.includes('Sub ') && productPrice < parseFloat(element.replace('Sub  ', '')))
@@ -62,7 +58,14 @@ export const orderedProductsSelector = createSelector(
 						)
 							returnProduct = true;
 					}
-				} else if (value.includes(getByKey(x, key).toString())) returnProduct = true;
+				} else {
+					if (!Array.isArray(value)) value = [ value ];
+					value.forEach(x2 => {
+						if (getByKey(x, key) !== undefined && getByKey(x, key).toString().split(/, /).includes(x2))
+							returnProduct = true;
+					});
+				}
+				// if (value.includes(getByKey(x, key).toString())) returnProduct = true;
 			}
 			return returnProduct;
 		});

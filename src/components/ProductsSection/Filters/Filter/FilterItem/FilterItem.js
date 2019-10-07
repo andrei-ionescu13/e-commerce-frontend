@@ -5,9 +5,9 @@ import queryString from 'query-string';
 const FilterItem = ({ value, occurrence, onClickHandler, location, filterName }) => {
 	const verifyChecked = () => {
 		let values = queryString.parse(location.search)[filterName];
-		if (typeof values == 'string' && values === value) {
+		if (Array.isArray(values) && values.includes(value)) {
 			return true;
-		} else if (values !== undefined && values.includes(value)) {
+		} else if (values === value) {
 			return true;
 		}
 		return false;

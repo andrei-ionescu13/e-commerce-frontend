@@ -12,47 +12,47 @@ const Dropdown = ({ location }) => {
 			<div style={{ display }} className="dropdown-content">
 				<ul className="categories-list">
 					<li>
-						<Link className="dropdown-link" to="placi-video">
+						<Link className="dropdown-link" to="/cat/placi-video">
 							Placi video
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="procesoare">
+						<Link className="dropdown-link" to="/cat/procesoare">
 							Procesoare
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="placi-baza">
+						<Link className="dropdown-link" to="/cat/placi-baza">
 							Placi de baza
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="memorii">
+						<Link className="dropdown-link" to="/cat/memorii">
 							Memorii
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="ssd">
+						<Link className="dropdown-link" to="/cat/ssd">
 							SSD
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="hard-disk">
+						<Link className="dropdown-link" to="/cat/hard-disk">
 							Hard disk-uri
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="surse-alimentare">
+						<Link className="dropdown-link" to="/cat/surse-alimentare">
 							Surse
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="carcase">
+						<Link className="dropdown-link" to="/cat/carcase">
 							Carcase
 						</Link>
 					</li>
 					<li>
-						<Link className="dropdown-link" to="coolere">
+						<Link className="dropdown-link" to="/cat/coolere">
 							Coolere
 						</Link>
 					</li>

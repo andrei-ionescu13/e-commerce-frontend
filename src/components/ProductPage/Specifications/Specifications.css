@@ -1,0 +1,11 @@
+.productPage-specs {
+	margin-top: 6rem;
+	display: flex;
+	flex-flow: column wrap;
+	max-height: 100vh;
+}
+.productPage-specs > div {
+	width: 50%;
+	display: flex;
+	justify-content: center;
+}

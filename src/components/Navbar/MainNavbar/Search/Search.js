@@ -5,21 +5,16 @@ import { setProductsAndFiltersAsync } from '../../../../store/Actions/ProductsAc
 import './Search.css';
 import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg';
 import queryString from 'query-string';
+import useInput from '../../../../hooks/useInput';
 const Search = ({ location, history }) => {
-	const dispatch = useDispatch();
 	const [ iconColor, setIconColor ] = useState('white');
-	const [ keyword, setKeyword ] = useState('');
-
-	const keywordOnChange = e => {
-		const keyword = e.target.value;
-		setKeyword(keyword);
-	};
+	const [ keyword, bindKeyword, resetKeyword ] = useInput('');
 
 	const submit = e => {
 		e.preventDefault();
 
 		if (keyword !== '') {
-			setKeyword('');
+			resetKeyword();
 
 			history.push({
 				pathname: '/search',
@@ -38,7 +33,7 @@ const Search = ({ location, history }) => {
 
 	return (
 		<form className="search" onSubmit={e => submit(e)}>
-			<input className="search-input" value={keyword} onChange={e => keywordOnChange(e)} />
+			<input className="search-input" {...bindKeyword} />
 			<button className="search-submit" type="submit">
 				<SearchIcon fill={iconColor} className="search-icon" />
 			</button>
