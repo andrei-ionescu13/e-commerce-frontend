@@ -5,6 +5,7 @@ import insertCharacterFromEnd from '../../helpers/insertCharacterFromEnd';
 import Slideshow from './Slideshow/Slideshow';
 import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
+import getPercentage from '../../helpers/getPercentage';
 import Specifications from './Specifications/Specifications';
 const ProductPage = ({ location }) => {
 	const [ loading, setLoading ] = useState(true);
@@ -30,11 +31,16 @@ const ProductPage = ({ location }) => {
 			<div className="productPage">
 				<div className="productPage-product">
 					<div className="productPage-product-title">{product.name}</div>
-					<Slideshow imagesURL={product.imagesURL} productName={product.name} />
+					<Slideshow
+						imagesURL={product.imagesURL}
+						productName={product.name}
+						price={product.price}
+						discountedPrice={product.discountedPrice}
+					/>
 					<div className="productPage-product-rightSide">
 						<div className="productPage-product-price">
 							{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
-							<sup>{actualPrice.split('.')[1]}</sup>
+							<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
 						</div>
 						<div className="productPage-product-oldPrice">
 							{product.discountedPrice &&

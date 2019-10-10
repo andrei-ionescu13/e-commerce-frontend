@@ -7,7 +7,8 @@
 	display: flex;
 	flex-flow: column;
 	justify-content: space-between;
-	height: 20rem;
+	align-items: center;
+	height: 22rem;
 	cursor: pointer;
 }
 
@@ -33,4 +34,16 @@
 	width: 40%;
 	line-height: 40%;
 	padding-bottom: .2rem;
+}
+
+.compare-button {
+	border: none;
+	width: 4rem;
+	margin: .5rem 0;
+	background-color: var(--primary-color);
+	cursor: pointer;
+}
+
+.compare-icon {
+	width: 60%;
 }

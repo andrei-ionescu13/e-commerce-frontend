@@ -19,7 +19,10 @@ const Product = ({ product }) => {
 		const comparedProducts = [];
 		const comparedProductsInStorage = localStorage.getObject('comparedProducts');
 
-		if (comparedProductsInStorage) {
+		if (comparedProductsInStorage && comparedProductsInStorage.length > 0) {
+			if (comparedProductsInStorage[0].category !== product.category) {
+				return;
+			}
 			if (comparedProductsInStorage.length >= 4) return;
 			comparedProductsInStorage.forEach(x => {
 				if (x._id === product._id) {
@@ -43,7 +46,7 @@ const Product = ({ product }) => {
 			</Link>
 			<div className="product-price">
 				{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
-				<sup>{actualPrice.split('.')[1]}</sup>
+				<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
 			</div>
 			<div className="product-oldPrice">
 				{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}

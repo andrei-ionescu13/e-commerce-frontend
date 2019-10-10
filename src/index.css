@@ -22,4 +22,5 @@ html {
 :root {
 	--primary-color: #ff9801;
 	--primary-hover-color: #f9812a;
+	--primary-width: 1536px;
 }

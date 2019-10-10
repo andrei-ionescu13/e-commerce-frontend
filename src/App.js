@@ -9,6 +9,8 @@ import Brands from './components/Brands/Brands';
 import Newsletter from './components/Newsletter/Newsletter';
 import ProductsSection from './components/ProductsSection/ProductsSection';
 import ProductPage from './components/ProductPage/ProductPage';
+import ComparePage from './components/ComparePage/ComparePage';
+import Routes from './Routes';
 Storage.prototype.setObject = function(key, value) {
 	this.setItem(key, JSON.stringify(value));
 };
@@ -26,11 +28,7 @@ const App = () => {
 				<Brands />
 				<Newsletter /> */}
 				</div>
-				<Switch>
-					<Route path="/search" component={ProductsSection} />
-					<Route path="/cat/:category" component={ProductsSection} />
-					<Route path="/:productName" component={ProductPage} />
-				</Switch>
+				<Routes />
 			</Router>
 		</Provider>
 	);

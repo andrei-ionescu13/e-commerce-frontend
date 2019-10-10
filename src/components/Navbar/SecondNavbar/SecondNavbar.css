@@ -6,7 +6,7 @@
 .second-navbar {
 	color: white;
 	margin: auto;
-	width: 80vw;
+	width: var(--primary-width);
 	height: 100%;
 	display: flex;
 	justify-content: space-between;

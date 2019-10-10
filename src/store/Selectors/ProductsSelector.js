@@ -78,11 +78,18 @@ export const orderedProductsSelector = createSelector(
 				return filteredProducts.sort((a, b) => (a.name < b.name ? -1 : 1));
 
 			case 'price-asc':
-				return filteredProducts.sort((a, b) => (a.price < b.price ? -1 : 1));
+				return filteredProducts.sort((a, b) => {
+					const price1 = a.discountedPrice || a.price;
+					const price2 = b.discountedPrice || b.price;
+					return price1 < price2 ? -1 : 1;
+				});
 
 			case 'price-desc':
-				return filteredProducts.sort((a, b) => (a.price < b.price ? 1 : -1));
-
+				return filteredProducts.sort((a, b) => {
+					const price1 = a.discountedPrice || a.price;
+					const price2 = b.discountedPrice || b.price;
+					return price1 > price2 ? -1 : 1;
+				});
 			case 'discount':
 				return filteredProducts
 					.filter(x => x.discountedPrice)

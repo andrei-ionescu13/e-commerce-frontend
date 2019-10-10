@@ -1,5 +1,6 @@
 .productPage {
-	width: 1536px;
+	width: var(--primary-width);
+
 	margin: auto;
 }
 
@@ -30,8 +31,6 @@
 	font-size: 5rem;
 	color: black;
 	font-weight: bold;
-
-	margin: 1rem;
 }
 
 .productPage-product-price > sup {
@@ -40,9 +39,9 @@
 
 .productPage-product-oldPrice {
 	font-size: 2.4rem;
-	height: 2rem;
 	color: grey;
 	text-decoration: line-through;
+	margin-bottom: .5rem;
 }
 
 .productPage-product-oldPrice > sup {

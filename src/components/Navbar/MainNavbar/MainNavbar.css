@@ -6,7 +6,8 @@
 .main-navbar {
 	padding: 1rem 0;
 	margin: auto;
-	width: 80vw;
+	width: var(--primary-width);
+
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
