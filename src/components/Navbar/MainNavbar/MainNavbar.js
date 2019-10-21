@@ -5,7 +5,10 @@ import Logo from './Logo/Logo';
 import Search from './Search/Search';
 import Cart from './Cart/Cart';
 
-const Button = styled.button`
+import { Link } from 'react-router-dom';
+
+const StyledLink = styled(Link)`	
+	text-decoration:none;
 	user-select: none;
 	cursor: pointer;
 	border: none;
@@ -16,9 +19,7 @@ const Button = styled.button`
 	padding: 0;
 	margin: 0 1rem;
 	font-weight: bold;
-	&:hover {
-		color: whitesmoke;
-	}
+	
 `;
 
 const MainNavbar = () => {
@@ -28,8 +29,8 @@ const MainNavbar = () => {
 				<Logo />
 				<Search />
 				<div className="main-navbar-items">
-					<Button>SigIn</Button>
-					<Button>LogIn</Button>
+					<StyledLink to="/login">LogIn</StyledLink>
+					<StyledLink to="/signin">SigIn</StyledLink>
 					<Cart />
 				</div>
 			</div>

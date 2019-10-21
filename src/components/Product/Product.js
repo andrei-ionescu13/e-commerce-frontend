@@ -7,11 +7,13 @@ import './Product.css';
 import getPercentage from '../../helpers/getPercentage';
 import { Link } from 'react-router-dom';
 import insertCharacterFromEnd from '../../helpers/insertCharacterFromEnd';
+import ProductOldPrice from './ProductOldPrice';
+import ProductPrice from './ProductPrice';
+import ProductDiscount from './ProductDiscount';
 
 const Product = ({ product }) => {
 	const { name, price, discountedPrice } = product;
 	const imageURL = `http://localhost:3333/images/${product.imagesURL[0]}.jpg`;
-	const actualPrice = (discountedPrice || price).toString();
 
 	const dispatch = useDispatch();
 
@@ -44,18 +46,18 @@ const Product = ({ product }) => {
 			<Link style={{ textDecoration: 'none' }} to={`/${name}`}>
 				<div className="product-title">{name}</div>
 			</Link>
-			<div className="product-price">
+			{/* <div className="product-price">
 				{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
 				<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
 			</div>
 			<div className="product-oldPrice">
 				{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}
 				<sup>{discountedPrice && price.toString().split('.')[1]}</sup>
-			</div>
+			</div> */}
+			<ProductPrice price={price} discountedPrice={discountedPrice} />
+			<ProductOldPrice price={price} discountedPrice={discountedPrice} />
 			<button className="buy-button">Adauga in cos</button>
-			{discountedPrice && (
-				<div className="discount">{`${Math.floor(100 - getPercentage(discountedPrice, price))}%`}</div>
-			)}
+			<ProductDiscount price={price} discountedPrice={discountedPrice} />
 			<div className="flex-container">
 				<div className="product-compare" onClick={() => compareOnClickHandler()}>
 					<CompareIcon className="product-compare-icon" />

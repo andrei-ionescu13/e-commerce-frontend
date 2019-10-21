@@ -4,6 +4,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+Storage.prototype.setObject = function(key, value) {
+	this.setItem(key, JSON.stringify(value));
+};
+
+Storage.prototype.getObject = function(key) {
+	return JSON.parse(this.getItem(key));
+};
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

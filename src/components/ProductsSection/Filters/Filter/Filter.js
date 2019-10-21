@@ -39,21 +39,9 @@ const Filter = ({ filterName, filterValues, history, location }) => {
 	};
 
 	keys.forEach((x, index) => {
-		// let checked = false;
-		// let values = queryString.parse(location.search)[filterName];
-		// console.log();
-		// if (typeof values == 'string' && values === x) {
-		// 	checked = true;
-		// } else if (values !== undefined && values.includes(x)) {
-		// 	checked = true;
-		// }
 		filterValuesMapped.push(
-			// <div className="filter-item">
-			// 	<input type="checkbox" defaultChecked={checked} onChange={e => onClickHandler(e)} value={x} />
-			// 	<label>{`${x} (${filterValues[x]})`}</label>
-			// 	<br />
-			// </div>
 			<FilterItem
+				key={x}
 				value={x}
 				occurrence={filterValues[x]}
 				onClickHandler={onClickHandler}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -11,14 +11,14 @@ import ProductsSection from './components/ProductsSection/ProductsSection';
 import ProductPage from './components/ProductPage/ProductPage';
 import ComparePage from './components/ComparePage/ComparePage';
 import Routes from './Routes';
-Storage.prototype.setObject = function(key, value) {
-	this.setItem(key, JSON.stringify(value));
-};
+import useVerification from './hooks/useVerification';
 
-Storage.prototype.getObject = function(key) {
-	return JSON.parse(this.getItem(key));
-};
 const App = () => {
+	const { getToken, isExpired } = useVerification('authorization');
+	isExpired();
+	useEffect(() => {
+		console.log('In App');
+	}, []);
 	return (
 		<Provider store={store}>
 			<Router>

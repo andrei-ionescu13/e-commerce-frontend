@@ -36,7 +36,7 @@ const ProductsSection = ({ location, match, history }) => {
 			if (location.pathname.includes('search')) {
 				const keyword = queryString.parse(location.search).keyword;
 				dispatch(setProductsAndFiltersAsync(`http://localhost:3333/search/${keyword}`));
-			} else dispatch(setProductsAndFiltersAsync(`http://localhost:3333/${match.params.category}`));
+			} else dispatch(setProductsAndFiltersAsync(`http://localhost:3333/category/${match.params.category}`));
 
 			return function() {
 				dispatch(setProductsToEmpty);
