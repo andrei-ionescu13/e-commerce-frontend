@@ -32,13 +32,13 @@ const Products = ({ history, match, location }) => {
 			if (products.length > 0) {
 				products = products.map(x => (
 					<Product
-						// id={x._id}
 						key={x._id}
-						// name={x.name}
-						// price={x.price}
-						// discountedPrice={x.discountedPrice}
-						// imageURL={'http://localhost:3333/images/' + x.imagesURL[0] + '.jpg'}
-						product={x}
+						_id={x._id}
+						name={x.name}
+						price={x.price}
+						discountedPrice={x.discountedPrice}
+						category={x.category}
+						imagesURL={x.imagesURL}
 					/>
 				));
 				setProductsShown(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));

@@ -1,74 +1,83 @@
 import React from 'react';
-import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
-import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
-import { setComparedProducts } from '../../store/Actions/ProductsActions';
-import { useDispatch } from 'react-redux';
-import './Product.css';
-import getPercentage from '../../helpers/getPercentage';
 import { Link } from 'react-router-dom';
-import insertCharacterFromEnd from '../../helpers/insertCharacterFromEnd';
-import ProductOldPrice from './ProductOldPrice';
-import ProductPrice from './ProductPrice';
+import ProductOldPrice from './OldPrice';
+import ProductPrice from './Price';
 import ProductDiscount from './ProductDiscount';
+import CompareButton from './CompareButton';
+import WishlistButton from './WishlistButton';
+import styled from 'styled-components';
 
-const Product = ({ product }) => {
-	const { name, price, discountedPrice } = product;
-	const imageURL = `http://localhost:3333/images/${product.imagesURL[0]}.jpg`;
+const StyledProduct = styled.div`
+	width: 20rem;
+	height: 37rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
 
-	const dispatch = useDispatch();
+	img {
+		width: 15rem;
+		height: 15rem;
+		user-select: none;
+	}
+`;
 
-	const compareOnClickHandler = () => {
-		const comparedProducts = [];
-		const comparedProductsInStorage = localStorage.getObject('comparedProducts');
+const FlexContainer = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+`;
 
-		if (comparedProductsInStorage && comparedProductsInStorage.length > 0) {
-			if (comparedProductsInStorage[0].category !== product.category) {
-				return;
-			}
-			if (comparedProductsInStorage.length >= 4) return;
-			comparedProductsInStorage.forEach(x => {
-				if (x._id === product._id) {
-					return;
-				}
-				comparedProducts.push(x);
-			});
-		}
-		comparedProducts.push(product);
-		dispatch(setComparedProducts(comparedProducts));
-		localStorage.setObject('comparedProducts', comparedProducts);
-	};
+const Title = styled.div`
+	text-overflow: ellipsis;
+	text-align: center;
+	height: 7rem;
+	font-size: 1.2rem;
+	overflow: hidden;
+	margin: 0 .4rem;
+	margin-top: 2rem;
+	width: 90%;
+	color: rgb(89, 88, 87);
+`;
+
+const BuyButton = styled.button`
+	user-select: none;
+	cursor: pointer;
+	margin-top: 1.8rem;
+	margin-bottom: 1rem;
+	height: 3.8rem;
+	width: 80%;
+	border: none;
+	outline: none;
+	background-color: var(--primary-color);
+	border-radius: .8rem;
+	color: #f8f8ff;
+
+	&:hover {
+		background-color: #fe7f01;
+	}
+`;
+const Product = ({ name, price, discountedPrice, _id, category, imagesURL }) => {
+	const imageURL = `http://localhost:3333/images/${imagesURL[0]}.jpg`;
 
 	return (
-		<div className="product">
+		<StyledProduct>
 			<Link to={`/${name}`}>
-				<img className="product-image" src={imageURL} alt="" />
+				<img src={imageURL} alt={name} />
 			</Link>
 			<Link style={{ textDecoration: 'none' }} to={`/${name}`}>
-				<div className="product-title">{name}</div>
+				<Title>{name}</Title>
 			</Link>
-			{/* <div className="product-price">
-				{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
-				<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
-			</div>
-			<div className="product-oldPrice">
-				{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}
-				<sup>{discountedPrice && price.toString().split('.')[1]}</sup>
-			</div> */}
+
 			<ProductPrice price={price} discountedPrice={discountedPrice} />
 			<ProductOldPrice price={price} discountedPrice={discountedPrice} />
-			<button className="buy-button">Adauga in cos</button>
+			<BuyButton>Adauga in cos</BuyButton>
 			<ProductDiscount price={price} discountedPrice={discountedPrice} />
-			<div className="flex-container">
-				<div className="product-compare" onClick={() => compareOnClickHandler()}>
-					<CompareIcon className="product-compare-icon" />
-					<div className="product-compare-text">Compara</div>
-				</div>
-				<div className="product-whishlist">
-					<EmptyHeartIcon className="product-wishlist-icon" />
-					<div className="product-wishlist-text">Wishlist</div>
-				</div>
-			</div>
-		</div>
+			<FlexContainer>
+				<CompareButton name={name} _id={_id} category={category} imageURL={imagesURL[0]} />
+				<WishlistButton />
+			</FlexContainer>
+		</StyledProduct>
 	);
 };
 

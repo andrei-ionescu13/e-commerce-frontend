@@ -80,3 +80,8 @@ export const setComparedProducts = products => ({
 	type: types.SET_COMPARED_PRODUCTS,
 	payload: products
 });
+
+export const setIsLogged = isLogged => ({
+	type: types.SET_IS_LOGGED,
+	payload: isLogged
+});

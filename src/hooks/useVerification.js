@@ -17,7 +17,13 @@ const useVerification = tokenName => {
 		return false;
 	};
 
-	// Cookies.set(tokenName, `Bearer ${response.data.token}`);
+	const setToken = token => {
+		Cookies.set(tokenName, `Bearer ${token}`);
+	};
+
+	const deleteToken = () => {
+		Cookies.remove(tokenName);
+	};
 
 	return { getToken, isExpired };
 };

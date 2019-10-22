@@ -15,7 +15,7 @@ const ProductPage = ({ location }) => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:3333/product/${productName}`)
+			.get(`http://localhost:3333/products/${productName}`)
 			.then(result => {
 				console.log(result.data);
 				setProduct(result.data);

@@ -12,25 +12,27 @@ import ProductPage from './components/ProductPage/ProductPage';
 import ComparePage from './components/ComparePage/ComparePage';
 import Routes from './Routes';
 import useVerification from './hooks/useVerification';
+import { useDispatch } from 'react-redux';
+import isTokenExpired from './helpers/isTokenExpired';
+import { setIsLogged } from './store/Actions/ProductsActions';
 
 const App = () => {
-	const { getToken, isExpired } = useVerification('authorization');
-	isExpired();
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		console.log('In App');
+		console.log(isTokenExpired('authorization'));
+		if (!isTokenExpired('authorization')) dispatch(setIsLogged(true));
 	}, []);
 	return (
-		<Provider store={store}>
-			<Router>
-				<div className="App">
-					<Navbar />
-					{/* <PromotionSlideshow />
+		<Router>
+			<div className="App">
+				<Navbar />
+				{/* <PromotionSlideshow />
 				<Brands />
 				<Newsletter /> */}
-				</div>
-				<Routes />
-			</Router>
-		</Provider>
+			</div>
+			<Routes />
+		</Router>
 	);
 };
 

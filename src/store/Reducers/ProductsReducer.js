@@ -10,7 +10,9 @@ const initialState = {
 	activeFilters: {},
 	badKeyword: false,
 	productsLoading: false,
-	comparedProducts: []
+	comparedProducts: [],
+	showComparison: false,
+	isLogged: false
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -84,6 +86,13 @@ const reducer = (state = initialState, { type, payload }) => {
 				comparedProducts: payload
 			};
 		}
+		case types.SET_IS_LOGGED: {
+			return {
+				...state,
+				isLogged: payload
+			};
+		}
+
 		default:
 			return state;
 	}

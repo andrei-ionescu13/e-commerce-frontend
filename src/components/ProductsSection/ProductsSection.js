@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import './ProductsSection.css';
 import {
 	setProductsAndFiltersAsync,
-	setActiveFilters,
 	setProductsToEmpty,
 	setFiltersToEmpty,
 	setComparedProducts
@@ -18,24 +17,23 @@ import {
 	comparedProductsSelector
 } from '../../store/Selectors/ProductsSelector';
 import queryString from 'query-string';
-import Compare from './Compare/Compare';
+import Comparison from './Comparison/Comparison';
 
 const NoProductsFound = <h1 className="noProducts-message">Nu s-a gasit niciun produs</h1>;
 
-const ProductsSection = ({ location, match, history }) => {
+const ProductsSection = ({ location, match }) => {
 	const badKeyword = useSelector(state => badKeywordSelector(state));
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const comparedProducts = useSelector(state => comparedProductsSelector(state));
 	const dispatch = useDispatch();
 	const keyword = queryString.parse(location.search).keyword;
-	const [ showCompare, setShowCompare ] = useState(false);
 	useEffect(
 		() => {
 			dispatch(setProductsToEmpty);
 			dispatch(setFiltersToEmpty);
 			if (location.pathname.includes('search')) {
 				const keyword = queryString.parse(location.search).keyword;
-				dispatch(setProductsAndFiltersAsync(`http://localhost:3333/search/${keyword}`));
+				dispatch(setProductsAndFiltersAsync(`http://localhost:3333/products/search/${keyword}`));
 			} else dispatch(setProductsAndFiltersAsync(`http://localhost:3333/category/${match.params.category}`));
 
 			return function() {
@@ -47,9 +45,10 @@ const ProductsSection = ({ location, match, history }) => {
 	);
 
 	useEffect(() => {
-		const comparedProducts = localStorage.getObject('comparedProducts');
+		const comparedProducts = localStorage.getObject('compared-products');
 		if (comparedProducts) dispatch(setComparedProducts(comparedProducts));
 	}, []);
+
 	return badKeyword ? (
 		NoProductsFound
 	) : (
@@ -57,7 +56,7 @@ const ProductsSection = ({ location, match, history }) => {
 			{productsLoading ? <Spinner /> : <Products />}
 			<Filters />
 			<DisplayCriteria />
-			{comparedProducts.length > 0 && <Compare />}
+			{comparedProducts.length > 0 && <Comparison />}
 		</div>
 	);
 };

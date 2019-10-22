@@ -11,6 +11,8 @@ export const badKeywordSelector = state => state.products.badKeyword;
 export const productsLoadingSelector = state => state.products.productsLoading;
 export const activeFiltersSelector = state => state.products.activeFilters;
 export const comparedProductsSelector = state => state.products.comparedProducts;
+export const isLoggedSelector = state => state.products.isLogged;
+
 export const orderedProductsSelector = createSelector(
 	productsSelector,
 	orderBySelector,

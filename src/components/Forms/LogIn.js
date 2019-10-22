@@ -6,7 +6,6 @@ import { logInSchema } from '../../validation';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { StyledContainer, StyledUserForm, FormResponses, FormError } from '../../styles';
-import { useHistory } from 'react-router-dom';
 
 const RecoveryLink = styled(Link)`
 	align-self: flex-start;
@@ -27,11 +26,10 @@ const SignInLink = styled(Link)`
 
 `;
 
-const LogIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
+const LogIn = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const buttonRef = useRef(null);
-	const history = useHistory();
 
 	useEffect(() => {
 		emailRef.current.focus();
@@ -72,7 +70,7 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
 				<RecoveryLink css={`text-decoration:none;`} to="/recovery">
 					Ai uitat parola?
 				</RecoveryLink>
-				<button ref={buttonRef} type="submit" className="login-button">
+				<button disabled={isSubmitting} ref={buttonRef} type="submit" className="login-button">
 					LogIn
 				</button>
 				<FormResponses>
@@ -87,19 +85,22 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
 };
 
 export default withFormik({
-	mapPropsToValues({ email, password }) {
+	mapPropsToValues({ email, password, history }) {
 		return {
 			email: email || '',
-			password: password || ''
+			password: password || '',
+			history: history
 		};
 	},
-	async handleSubmit(values, { resetForm, setErrors }) {
+	async handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
 		try {
-			const response = await axios.post('http://localhost:3333/user/login', values);
+			const response = await axios.post('http://localhost:3333/user/login', {
+				email: values.email,
+				password: values.password
+			});
 			console.log('succes');
-
 			Cookies.set('authorization', `Bearer ${response.data.token}`);
-			resetForm();
+			window.location.href = 'http://localhost:3000/';
 		} catch (err) {
 			setErrors({ reqErrors: err.response.data.error });
 			console.log(err.response.data.error);

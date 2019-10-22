@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import './Search.css';
-import { ReactComponent as SearchIcon } from '../../../../assets/icons/search.svg';
-import useInput from '../../../../hooks/useInput';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search.svg';
+import useInput from '../../../hooks/useInput';
 import styled from 'styled-components';
 
 const StyledSearchBar = styled.form`

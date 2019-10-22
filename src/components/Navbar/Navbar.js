@@ -1,12 +1,18 @@
 import React from 'react';
 import MainNavbar from './MainNavbar/MainNavbar';
-import './Navbar.css';
 import SecondNavbar from './SecondNavbar/SecondNavbar';
+import styled from 'styled-components';
+
+const Line = styled.div`
+	background-color: var(--primary-color);
+	height: .1rem;
+`;
+
 const Navbar = () => {
 	return (
 		<React.Fragment>
 			<MainNavbar />
-			<div className="full-line" />
+			<Line />
 			<SecondNavbar />
 		</React.Fragment>
 	);
