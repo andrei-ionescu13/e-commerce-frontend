@@ -16,7 +16,7 @@ const StyledDiscount = styled.div`
 	border-bottom-right-radius: 1.5rem;
 `;
 
-const ProductDiscount = ({ price, discountedPrice }) => {
+const Discount = ({ price, discountedPrice }) => {
 	return (
 		discountedPrice && (
 			<StyledDiscount>{`${Math.floor(100 - getPercentage(discountedPrice, price))}%`}</StyledDiscount>
@@ -24,4 +24,4 @@ const ProductDiscount = ({ price, discountedPrice }) => {
 	);
 };
 
-export default ProductDiscount;
+export default Discount;

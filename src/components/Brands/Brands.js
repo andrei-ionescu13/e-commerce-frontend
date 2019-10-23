@@ -8,14 +8,15 @@ function importAll(r) {
 const images = importAll(require.context('../../assets/images/brands', false, /\.(png|jpe?g|svg)$/));
 
 const Brands = () => {
+	const brandNames = images.map(x => x.split(/[\/\.]/)[3].replace('-', ' '));
+	console.log(brandNames);
 	return (
 		<div className="brands">
-			{console.log(images)}
 			<div className="brands-title">Cele mai bune branduri</div>
 			<div className="brands-container">
-				{images.map(x => (
+				{images.map((x, index) => (
 					<div className="brand-container">
-						<Link>
+						<Link key={index} to={`/search?keyword=${brandNames[index]}`}>
 							<img src={x} />
 						</Link>
 					</div>

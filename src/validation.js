@@ -35,3 +35,8 @@ export const resetSchema = Yup.object().shape({
 		.required('Confirmarea parolei este obligatorie')
 		.oneOf([ Yup.ref('password'), null ], 'Parolele trebuie sa se potriveasca')
 });
+
+export const reviewSchema = Yup.object().shape({
+	value: Yup.number().required('Nota este obligatorie').min(1, 'Nota este obligatorie'),
+	review: Yup.string()
+});

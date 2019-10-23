@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductOldPrice from './OldPrice';
 import ProductPrice from './Price';
-import ProductDiscount from './ProductDiscount';
+import Discount from './Discount';
 import CompareButton from './CompareButton';
 import WishlistButton from './WishlistButton';
+import BuyButton from './BuyButton';
+
 import styled from 'styled-components';
 
 const StyledProduct = styled.div`
@@ -40,23 +42,6 @@ const Title = styled.div`
 	color: rgb(89, 88, 87);
 `;
 
-const BuyButton = styled.button`
-	user-select: none;
-	cursor: pointer;
-	margin-top: 1.8rem;
-	margin-bottom: 1rem;
-	height: 3.8rem;
-	width: 80%;
-	border: none;
-	outline: none;
-	background-color: var(--primary-color);
-	border-radius: .8rem;
-	color: #f8f8ff;
-
-	&:hover {
-		background-color: #fe7f01;
-	}
-`;
 const Product = ({ name, price, discountedPrice, _id, category, imagesURL }) => {
 	const imageURL = `http://localhost:3333/images/${imagesURL[0]}.jpg`;
 
@@ -72,7 +57,7 @@ const Product = ({ name, price, discountedPrice, _id, category, imagesURL }) => 
 			<ProductPrice price={price} discountedPrice={discountedPrice} />
 			<ProductOldPrice price={price} discountedPrice={discountedPrice} />
 			<BuyButton>Adauga in cos</BuyButton>
-			<ProductDiscount price={price} discountedPrice={discountedPrice} />
+			<Discount price={price} discountedPrice={discountedPrice} />
 			<FlexContainer>
 				<CompareButton name={name} _id={_id} category={category} imageURL={imagesURL[0]} />
 				<WishlistButton />

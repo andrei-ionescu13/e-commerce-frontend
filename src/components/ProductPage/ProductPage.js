@@ -5,8 +5,8 @@ import insertCharacterFromEnd from '../../helpers/insertCharacterFromEnd';
 import Slideshow from './Slideshow/Slideshow';
 import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
-import getPercentage from '../../helpers/getPercentage';
 import Specifications from './Specifications/Specifications';
+
 const ProductPage = ({ location }) => {
 	const [ loading, setLoading ] = useState(true);
 	const productName = location.pathname.substring(1);
@@ -20,12 +20,11 @@ const ProductPage = ({ location }) => {
 				console.log(result.data);
 				setProduct(result.data);
 				setActualPrice((result.data.discountedPrice || result.data.price).toString());
-
 				setLoading(false);
 			})
 			.catch(err => console.log(err));
 	}, []);
-	!loading && console.log(product.imagesURL[0]);
+
 	return (
 		!loading && (
 			<div className="productPage">

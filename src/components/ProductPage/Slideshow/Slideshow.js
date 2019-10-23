@@ -19,7 +19,9 @@ const Slideshow = ({ imagesURL, productName, price, discountedPrice }) => {
 			)}
 			<img className="main-image" src={mainImage} alt={productName} />
 			<div className="secondary-images">
-				{images.map(x => <img src={x} alt={productName} onClick={e => onClickHandler(e)} />)}
+				{images.map((x, index) => (
+					<img src={x} key={index} alt={productName} onClick={e => onClickHandler(e)} />
+				))}
 			</div>
 		</div>
 	);

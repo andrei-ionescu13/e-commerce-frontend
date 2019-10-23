@@ -5,7 +5,7 @@ const Specification = ({ name, pairs }) => {
 	const specs = [];
 	for (const [ key, value ] of Object.entries(pairs)) {
 		specs.push(
-			<tr>
+			<tr key={key}>
 				<td>{`${key}:`}</td>
 				<td>{value}</td>
 			</tr>
@@ -13,11 +13,13 @@ const Specification = ({ name, pairs }) => {
 	}
 	return (
 		<div>
-			<table cellpadding="10p" className="productPage-specs-table">
-				<tr>
-					<th colspan="2">{name}</th>
-				</tr>
-				{specs}
+			<table cellPadding="10px" className="productPage-specs-table">
+				<tbody>
+					<tr>
+						<th colSpan="2">{name}</th>
+					</tr>
+					{specs}
+				</tbody>
 			</table>
 		</div>
 	);

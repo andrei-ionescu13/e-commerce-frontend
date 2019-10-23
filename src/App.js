@@ -9,7 +9,6 @@ import Brands from './components/Brands/Brands';
 import Newsletter from './components/Newsletter/Newsletter';
 import ProductsSection from './components/ProductsSection/ProductsSection';
 import ProductPage from './components/ProductPage/ProductPage';
-import ComparePage from './components/ComparePage/ComparePage';
 import Routes from './Routes';
 import useVerification from './hooks/useVerification';
 import { useDispatch } from 'react-redux';
@@ -26,12 +25,8 @@ const App = () => {
 	return (
 		<Router>
 			<div className="App">
-				<Navbar />
-				{/* <PromotionSlideshow />
-				<Brands />
-				<Newsletter /> */}
+				<Routes />
 			</div>
-			<Routes />
 		</Router>
 	);
 };
