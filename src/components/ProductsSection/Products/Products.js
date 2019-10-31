@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import './Products.css';
 import { useSelector } from 'react-redux';
-import {
-	orderedProductsSelector,
-	itemsPerPageSelector,
-	badKeywordSelector
-} from '../../../store/Selectors/ProductsSelector';
+import { orderedProductsSelector, itemsPerPageSelector } from '../../../store/Selectors/ProductsSelector';
 import ReactPaginate from 'react-paginate';
 import { withRouter } from 'react-router-dom';
 import Product from '../../Product/Product';
 import queryString from 'query-string';
 import _ from 'lodash';
+import styled from 'styled-components';
 
-const Products = ({ history, match, location }) => {
+const StyledProducts = styled.div`
+	grid-area: p;
+	display: grid;
+	justify-items: center;
+	align-content: flex-start;
+	min-height: 1764px;
+	grid-template-columns: repeat(4, 1fr);
+	grid-row-gap: 5rem;
+	grid-column-gap: 4rem;
+
+	> a {
+		width: 20rem;
+	}
+`;
+
+const Products = ({ history, location }) => {
 	let products = useSelector(state => orderedProductsSelector(state));
-
 	const [ productsShown, setProductsShown ] = useState([]);
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
-	const badKeyword = useSelector(state => badKeywordSelector(state));
-	const [ actualPage, setActualPage ] = useState(queryString.parse(location.search).p || 1);
-
-	// useEffect(
-	// 	() => {
-	// 		setActualPage(parseInt(queryString.parse(location.search).p) || 1);
-	// 	},
-	// 	[ location ]
-	// );
+	console.log(products);
 	useEffect(
 		() => {
 			const page = parseInt(queryString.parse(location.search).page) || 1;
@@ -39,6 +42,7 @@ const Products = ({ history, match, location }) => {
 						discountedPrice={x.discountedPrice}
 						category={x.category}
 						imagesURL={x.imagesURL}
+						reviews={x.reviews}
 					/>
 				));
 				setProductsShown(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));
@@ -61,7 +65,6 @@ const Products = ({ history, match, location }) => {
 	);
 
 	const onPageChangeHanler = e => {
-		// history.push((e.selected + 1).toString());
 		const params = new URLSearchParams(location.search);
 
 		if (e.selected == 0) {
@@ -100,8 +103,6 @@ const Products = ({ history, match, location }) => {
 					containerClassName={'pagination'}
 					pageLinkClassName={'page'}
 					activeLinkClassName={'active'}
-					// pageLinkClassName={'pages'}
-					// activeClassName={'active'}
 				/>
 			</React.Fragment>
 			)

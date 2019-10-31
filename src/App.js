@@ -14,18 +14,35 @@ import useVerification from './hooks/useVerification';
 import { useDispatch } from 'react-redux';
 import isTokenExpired from './helpers/isTokenExpired';
 import { setIsLogged } from './store/Actions/ProductsActions';
+import Banner from './components/Banner/Banner';
+import CategoriesList from './components/Navbar/SecondNavbar/CategoriesDropdown/CategoriesList';
+import Slider from './components/Slider';
+import styled from 'styled-components';
+import PromotionsSlider from './components/PromotionsSlider';
+import { PopUpMessage } from './styles';
+
+const Container = styled.div`
+	display: flex;
+	width: var(--primary-width);
+	margin: auto;
+`;
 
 const App = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		console.log(isTokenExpired('authorization'));
-		if (!isTokenExpired('authorization')) dispatch(setIsLogged(true));
+		if (!isTokenExpired('Authorization')) dispatch(setIsLogged(true));
 	}, []);
 	return (
 		<Router>
 			<div className="App">
 				<Routes />
+				{/* <Container>
+					<CategoriesList position="relative" display="flex" />
+					<Banner />
+				</Container> */}
+				{/* <PromotionsSlider /> */}
+				<PopUpMessage color="green">Ce faci</PopUpMessage>
 			</div>
 		</Router>
 	);

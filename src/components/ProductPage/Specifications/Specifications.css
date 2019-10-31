@@ -2,7 +2,8 @@
 	margin-top: 6rem;
 	display: flex;
 	flex-flow: column wrap;
-	max-height: 100vh;
+	max-height: 80vh;
+	margin-bottom: 10rem;
 }
 .productPage-specs > div {
 	width: 50%;

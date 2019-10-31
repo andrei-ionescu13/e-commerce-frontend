@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
+import Star from './Star';
 
 const StyledRating = styled.div`
 	display: flex;
 	align-items: center;
-	margin-bottom: 2rem;
+	min-height: ${props => props.height};
 `;
 
 const StarButton = styled.button`
-	cursor: pointer;
+	cursor: ${props => props.cursor || undefined};
 	border: none;
 	background: transparent;
 	padding: 0;
@@ -21,22 +21,22 @@ const Message = styled.div`
 	margin-left: 1rem;
 `;
 
-const StyledStarIcon = styled(StarIcon)`
-    width:3rem;
-    fill:${props => props.color}
-`;
-
 const messages = [ 'Nu recomand', 'Slab', 'Acceptabil', 'Bun', 'Excelent' ];
 
-const Rating = ({ value, setValue, count, showEmpty, selectable, showMessage }) => {
+const Rating = ({
+	value,
+	setValue,
+	count,
+	showEmpty = false,
+	selectable = false,
+	showMessage = false,
+	color = '#FFD700',
+	inactiveColor = 'gray',
+	width
+}) => {
 	const [ hovered, setHovered ] = useState(0);
+	inactiveColor = showEmpty ? inactiveColor : 'transparent';
 
-	useEffect(
-		() => {
-			console.log(hovered);
-		},
-		[ hovered ]
-	);
 	const handleClick = e => {
 		e.preventDefault();
 		if (!selectable) return;
@@ -57,9 +57,9 @@ const Rating = ({ value, setValue, count, showEmpty, selectable, showMessage }) 
 
 	const getColor = index => {
 		if (hovered > 0) {
-			if (hovered > index) return '#FFD700';
-		} else if (value > index) return '#FFD700';
-		return 'gray';
+			if (hovered > index) return color;
+		} else if (Math.ceil(value) > index) return color;
+		return inactiveColor;
 	};
 
 	const getMessage = () => {
@@ -79,17 +79,25 @@ const Rating = ({ value, setValue, count, showEmpty, selectable, showMessage }) 
 				value={index + 1}
 				onMouseOver={e => handleMouseOver(e)}
 				onClick={e => handleClick(e)}
+				cursor={selectable ? 'pointer' : undefined}
 			>
-				<StyledStarIcon color={getColor(index)} />
+				<Star
+					width={width}
+					color={getColor(index)}
+					val={hovered > 0 ? hovered : (value - index).toFixed(2)}
+					inactiveColor={inactiveColor}
+				/>
 			</StarButton>
 		);
 	}
 
 	return (
-		<StyledRating onMouseLeave={() => handleMouseLeave()}>
-			{starsRendered}
+		<React.Fragment>
+			<StyledRating height={width} onMouseLeave={() => handleMouseLeave()}>
+				{starsRendered}
+			</StyledRating>
 			{showMessage && <Message>{getMessage()}</Message>}
-		</StyledRating>
+		</React.Fragment>
 	);
 };
 

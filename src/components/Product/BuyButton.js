@@ -6,7 +6,7 @@ const StyledBuyButton = styled.button`
 	cursor: pointer;
 	margin-top: 1.8rem;
 	margin-bottom: 1rem;
-	height: 3.8rem;
+	height: 3rem;
 	width: 80%;
 	border: none;
 	outline: none;

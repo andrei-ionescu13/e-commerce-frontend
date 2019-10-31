@@ -37,6 +37,8 @@ export const resetSchema = Yup.object().shape({
 });
 
 export const reviewSchema = Yup.object().shape({
-	value: Yup.number().required('Nota este obligatorie').min(1, 'Nota este obligatorie'),
+	rating: Yup.number().required('Nota este obligatorie').min(1, 'Nota este obligatorie'),
 	review: Yup.string()
+		.required('Review-ul este obligatoriu')
+		.min(20, 'Review-ul trebuie sa aiba minimum 20 de caractere')
 });

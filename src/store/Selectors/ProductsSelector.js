@@ -67,7 +67,6 @@ export const orderedProductsSelector = createSelector(
 							returnProduct = true;
 					});
 				}
-				// if (value.includes(getByKey(x, key).toString())) returnProduct = true;
 			}
 			return returnProduct;
 		});

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 let message = '';
 
-const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched }) => {
+const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
 	const emailRef = useRef(null);
 	const buttonRef = useRef(null);
 
@@ -30,7 +30,7 @@ const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched 
 					onKeyPress={e => handleKeyPress(e)}
 					onChange={handleChange}
 				/>
-				<button type="submit" ref={buttonRef} className="login-button">
+				<button disabled={isSubmitting} type="submit" ref={buttonRef} className="login-button">
 					Submit
 				</button>
 				<FormResponses>
@@ -46,7 +46,7 @@ export default withFormik({
 	mapPropsToValues({ email }) {
 		return { email: email };
 	},
-	async handleSubmit(values, { resetForm }) {
+	async handleSubmit(values, { resetForm, setSubmitting }) {
 		try {
 			console.log(values);
 			await axios.post('http://localhost:3333/user/recovery', values);
@@ -54,6 +54,8 @@ export default withFormik({
 			resetForm();
 		} catch (err) {
 			console.log(err);
+		} finally {
+			setSubmitting(false);
 		}
 	},
 	validationSchema: recoverySchema,

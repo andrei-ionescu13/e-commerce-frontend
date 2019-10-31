@@ -4,8 +4,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { logInSchema } from '../../validation';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { StyledContainer, StyledUserForm, FormResponses, FormError } from '../../styles';
+import { setIsLogged } from '../../store/Actions/ProductsActions';
 
 const RecoveryLink = styled(Link)`
 	align-self: flex-start;
@@ -35,6 +36,7 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched, isSubmitti
 		emailRef.current.focus();
 	}, []);
 
+	console.log(isSubmitting);
 	const handleKeyPress = e => {
 		const name = e.target.name;
 		const key = e.key;
@@ -84,28 +86,33 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched, isSubmitti
 	);
 };
 
-export default withFormik({
-	mapPropsToValues({ email, password, history }) {
-		return {
-			email: email || '',
-			password: password || '',
-			history: history
-		};
-	},
-	async handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-		try {
-			const response = await axios.post('http://localhost:3333/user/login', {
-				email: values.email,
-				password: values.password
-			});
-			console.log('succes');
-			Cookies.set('authorization', `Bearer ${response.data.token}`);
-			window.location.href = 'http://localhost:3000/';
-		} catch (err) {
-			setErrors({ reqErrors: err.response.data.error });
-			console.log(err.response.data.error);
-		}
-	},
-	validationSchema: logInSchema,
-	validateOnChange: false
-})(LogIn);
+export default withRouter(
+	withFormik({
+		mapPropsToValues({ email, password }) {
+			return {
+				email: email || '',
+				password: password || ''
+			};
+		},
+		async handleSubmit(values, { setErrors, setSubmitting, props }) {
+			const { history, dispatch } = props;
+			try {
+				const response = await axios.post('http://localhost:3333/user/login', {
+					email: values.email,
+					password: values.password
+				});
+				Cookies.set('Authorization', `Bearer ${response.data.token}`);
+				// window.location.href = 'http://localhost:3000/';
+				dispatch(setIsLogged(true));
+				history.push('/');
+			} catch (err) {
+				setErrors({ reqErrors: err.response.data.error });
+				console.log(err.response.data.error);
+			} finally {
+				setSubmitting(false);
+			}
+		},
+		validationSchema: logInSchema,
+		validateOnChange: false
+	})(LogIn)
+);

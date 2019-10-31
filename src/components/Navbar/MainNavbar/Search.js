@@ -32,7 +32,7 @@ const StyledSearchButton = styled.button`
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
-	fill:${props => props.iconColor};
+	fill:${props => props.iconcolor};
 	width: 2.3rem;
 `;
 
@@ -65,7 +65,7 @@ const Search = ({ history }) => {
 			{/* <input className="search-input" {...bindKeyword} /> */}
 			<StyledSearchInput {...bindKeyword} onBlur={handleOnBlur} onFocus={handleOnFocus} />
 			<StyledSearchButton type="submit">
-				<StyledSearchIcon iconColor={iconColor} />
+				<StyledSearchIcon iconcolor={iconColor} />
 			</StyledSearchButton>
 			{/* </form> */}
 		</StyledSearchBar>

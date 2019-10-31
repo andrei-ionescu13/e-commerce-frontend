@@ -1,7 +1,6 @@
 import React from 'react';
 import './Specification.css';
 const Specification = ({ name, pairs }) => {
-	console.log(name, pairs);
 	const specs = [];
 	for (const [ key, value ] of Object.entries(pairs)) {
 		specs.push(

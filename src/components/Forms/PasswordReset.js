@@ -9,7 +9,7 @@ let message = '';
 
 const token = window.location.pathname.split('/')[2];
 
-const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, match }) => {
+const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
 	const passwordRef = useRef(null);
 	const confirmedPasswordRef = useRef(null);
 	const buttonRef = useRef(null);
@@ -44,7 +44,7 @@ const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, ma
 					onKeyPress={e => handleKeyPress(e)}
 					onChange={handleChange}
 				/>
-				<button type="submit" ref={buttonRef} className="login-button">
+				<button disabled={isSubmitting} type="submit" ref={buttonRef} className="login-button">
 					SignIn
 				</button>
 				<FormResponses>
@@ -63,7 +63,7 @@ export default withRouter(
 		mapPropsToValues({ password, confirmedPassword }) {
 			return { password: password || '', confirmedPassword: confirmedPassword || '' };
 		},
-		async handleSubmit(values, { resetForm }) {
+		async handleSubmit(values, { resetForm, setSubmitting }) {
 			try {
 				await axios.post(`http://localhost:3333/user/reset/${token}`, values);
 				message = 'Parola schimbata';
@@ -71,6 +71,8 @@ export default withRouter(
 				resetForm();
 			} catch (error) {
 				console.log(error);
+			} finally {
+				setSubmitting(false);
 			}
 		},
 		validationSchema: resetSchema

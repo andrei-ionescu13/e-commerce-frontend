@@ -7,6 +7,8 @@ export const FormResponses = styled.div`
 `;
 
 export const FormError = styled.div`
+	display: flex;
+	justify-content: center;
 	color: red;
 	margin-top: auto;
 	font-size: 1.5rem;
@@ -16,6 +18,7 @@ export const FormMessage = styled.div`
 	color: green;
 	margin-top: auto;
 	font-size: 1.5rem;
+	align-self: center;
 `;
 
 export const StyledContainer = styled.div`
@@ -75,4 +78,22 @@ export const StyledUserForm = styled.form`
 			box-shadow: 0 0 3pt 1pt rgba(255, 99, 71, 1);
 		}
 	}
+`;
+
+export const PopUpMessage = styled.div`
+	border: 1px solid #d6e9c6;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: .4rem;
+	background: #dff0d8;
+	color: #3c763d;
+	position: fixed;
+	top: 10vh;
+	left: 0;
+	right: 0;
+	width: 20vw;
+	margin: 0 auto;
+	padding: 1rem 0;
 `;

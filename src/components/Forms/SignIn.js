@@ -5,9 +5,7 @@ import { signInSchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
 import _ from 'lodash';
 
-let message = '';
-
-const SignIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
+const SignIn = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting }) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const confirmedPasswordRef = useRef(null);
@@ -24,7 +22,6 @@ const SignIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
 		else if (name === 'password' && key === 'Enter') confirmedPasswordRef.current.focus();
 		else if (name === 'confirmedPassword' && key === 'Enter') buttonRef.current.focus();
 	};
-	console.log(errors);
 	return (
 		<StyledContainer>
 			<StyledUserForm method="post" className="login-form" onSubmit={e => handleSubmit(e)}>
@@ -55,7 +52,7 @@ const SignIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
 					onKeyPress={e => handleKeyPress(e)}
 					onChange={handleChange}
 				/>
-				<button type="submit" ref={buttonRef} className="login-button">
+				<button disabled={isSubmitting} type="submit" ref={buttonRef} className="login-button">
 					SignIn
 				</button>
 				<FormResponses>
@@ -64,7 +61,7 @@ const SignIn = ({ values, handleChange, handleSubmit, errors, touched }) => {
 					{errors.confirmedPassword &&
 					touched.confirmedPassword && <FormError> {errors.confirmedPassword} </FormError>}
 					{errors.reqErrors && <FormError>{errors.reqErrors.error || errors.reqErrors}</FormError>}
-					{message.length > 0 && <FormMessage>{message}</FormMessage>}
+					{status && <FormMessage>{status.succes}</FormMessage>}
 				</FormResponses>
 			</StyledUserForm>
 		</StyledContainer>
@@ -75,16 +72,16 @@ export default withFormik({
 	mapPropsToValues({ email, password, confirmedPassword }) {
 		return { email: email || '', password: password || '', confirmedPassword: confirmedPassword || '' };
 	},
-	async handleSubmit(values, { resetForm, setErrors }) {
+	async handleSubmit(values, { resetForm, setErrors, setStatus, setSubmitting }) {
 		try {
+			setStatus(null);
 			const response = await axios.post('http://localhost:3333/user/signin', values);
-			console.log(response.data);
-			message = 'Un e-mail de confirmare a fost trimis';
 			resetForm();
+			setStatus({ succes: 'Un email de verificare a fost trimis' });
 		} catch (err) {
 			setErrors({ reqErrors: err.response.data.error });
-
-			console.log(err.response.data.error);
+		} finally {
+			setSubmitting(false);
 		}
 	},
 	validationSchema: signInSchema,

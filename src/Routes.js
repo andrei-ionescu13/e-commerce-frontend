@@ -9,7 +9,7 @@ import PasswordRecovery from './components/Forms/PasswordRecovery';
 import PasswordReset from './components/Forms/PasswordReset';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Review from './components/Forms/Review/Review';
+import ProductReview from './components/Forms/ProductReview';
 import Navbar from './components/Navbar/Navbar';
 import PromotionSlideshow from './components/PromotionsSlideshow/PromotionsSlideshow';
 import Brands from './components/Brands/Brands';
@@ -28,12 +28,12 @@ const Routes = () => {
 				<Route path="/cat/:category" component={ProductsSection} />{' '}
 				<Route path="/compare" component={ComparisonPage} />
 				<Route path="/signin" component={SignIn} />
-				<Route path="/login" render={() => <LogIn history={history} />} />
+				<Route path="/login" render={() => <LogIn dispatch={dispatch} />} />
 				<Route path="/recovery" component={PasswordRecovery} />
 				<Route path="/reset/:token" component={PasswordReset} />
-				<Route path="/review" render={() => <Review history={history} />} />
+				<Route path="/review" component={ProductReview} />
 				<Route path="/:productName" component={ProductPage} />
-				<Route path="/" component={Brands} />
+				{/* <Route path="/" component={Brands} /> */}
 				>
 				{/* <Route path="*">
 				<Redirect to="/" />

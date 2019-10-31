@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from './Dropdown/Dropdown';
+import CategoriesDropdown from './CategoriesDropdown/CategoriesDropdown';
 import Wishlist from './Wishlist';
 import styled from 'styled-components';
 
@@ -21,7 +21,7 @@ const SecondNavbar = () => {
 	return (
 		<NavbarContainer>
 			<Navbar>
-				<Dropdown />
+				<CategoriesDropdown />
 				<Wishlist />
 			</Navbar>
 		</NavbarContainer>

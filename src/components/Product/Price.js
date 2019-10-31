@@ -7,7 +7,6 @@ const StyledPrice = styled.div`
 	color: black;
 	font-weight: bold;
 	height: 2rem;
-	margin-bottom: 1rem;
 
 	sup {
 		font-size: 1.5rem;

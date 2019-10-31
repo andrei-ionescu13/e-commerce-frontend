@@ -6,20 +6,20 @@ import Discount from './Discount';
 import CompareButton from './CompareButton';
 import WishlistButton from './WishlistButton';
 import BuyButton from './BuyButton';
-
+import ProductRating from '../Product/ProductRating';
 import styled from 'styled-components';
 
 const StyledProduct = styled.div`
-	width: 20rem;
-	height: 37rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	position: relative;
 
+	a {
+		width: 80%;
+	}
 	img {
-		width: 15rem;
-		height: 15rem;
+		width: 100%;
 		user-select: none;
 	}
 `;
@@ -31,18 +31,23 @@ const FlexContainer = styled.div`
 `;
 
 const Title = styled.div`
-	text-overflow: ellipsis;
 	text-align: center;
 	height: 7rem;
 	font-size: 1.2rem;
 	overflow: hidden;
-	margin: 0 .4rem;
-	margin-top: 2rem;
-	width: 90%;
+	margin-top: 1rem;
 	color: rgb(89, 88, 87);
 `;
 
-const Product = ({ name, price, discountedPrice, _id, category, imagesURL }) => {
+const RatingContainer = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
+	align-self: flex-start;
+	padding-left: 25%;
+`;
+
+const Product = ({ name, price, discountedPrice, _id, category, imagesURL, reviews }) => {
 	const imageURL = `http://localhost:3333/images/${imagesURL[0]}.jpg`;
 
 	return (
@@ -53,7 +58,9 @@ const Product = ({ name, price, discountedPrice, _id, category, imagesURL }) => 
 			<Link style={{ textDecoration: 'none' }} to={`/${name}`}>
 				<Title>{name}</Title>
 			</Link>
-
+			<RatingContainer>
+				<ProductRating reviews={reviews} width="2rem" />
+			</RatingContainer>
 			<ProductPrice price={price} discountedPrice={discountedPrice} />
 			<ProductOldPrice price={price} discountedPrice={discountedPrice} />
 			<BuyButton>Adauga in cos</BuyButton>
