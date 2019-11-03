@@ -12,7 +12,12 @@ const initialState = {
 	productsLoading: false,
 	comparedProducts: [],
 	showComparison: false,
-	isLogged: false
+	isLogged: false,
+	alert: {
+		show: false,
+		message: '',
+		type: null
+	}
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -92,7 +97,12 @@ const reducer = (state = initialState, { type, payload }) => {
 				isLogged: payload
 			};
 		}
-
+		case types.SET_ALERT: {
+			return {
+				...state,
+				alert: payload
+			};
+		}
 		default:
 			return state;
 	}

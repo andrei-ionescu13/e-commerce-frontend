@@ -33,6 +33,7 @@ const Review = styled.div`
 	font-size: 1.5rem;
 	padding: 2rem;
 
+	word-break: break-all;
 	> p {
 		margin-top: 1rem;
 	}

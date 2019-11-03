@@ -80,20 +80,36 @@ export const StyledUserForm = styled.form`
 	}
 `;
 
-export const PopUpMessage = styled.div`
-	border: 1px solid #d6e9c6;
+export const StyledAlert = styled.div`
 	margin: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-radius: .4rem;
-	background: #dff0d8;
-	color: #3c763d;
 	position: fixed;
 	top: 10vh;
 	left: 0;
 	right: 0;
 	width: 20vw;
 	margin: 0 auto;
-	padding: 1rem 0;
+	padding: 2rem;
+	font-size: 1.4rem;
+	z-index: 1;
+	${({ type }) => {
+		switch (type) {
+			case 'succes':
+				return `
+				color: #155724;
+    			background-color: #d4edda;
+    			border-color: #c3e6cb;`;
+
+			case 'error':
+				return `
+				color: #721c24;
+				background-color: #f8d7da;
+				border: 1px solid #f5c6cb;`;
+			default:
+				break;
+		}
+	}};
 `;

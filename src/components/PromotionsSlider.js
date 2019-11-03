@@ -31,6 +31,7 @@ const PromotionsSlider = () => {
 			discountedPrice={x.discountedPrice}
 			category={x.category}
 			imagesURL={x.imagesURL}
+			reviews={x.reviews}
 		/>
 	));
 

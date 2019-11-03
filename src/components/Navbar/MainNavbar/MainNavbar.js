@@ -7,21 +7,7 @@ import { ReactComponent as UserIcon } from '../../../assets/icons/user.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isLoggedSelector } from '../../../store/Selectors/ProductsSelector';
-
-const StyledUserIconContainer = styled.div`
-	margin-right: 2rem;
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	height: 6rem;
-	width: 8rem;
-`;
-
-const StyledUserIcon = styled(UserIcon)`
-	fill:var(--primary-color);
-	width:3.5rem;
-	height:100%;
-`;
+import UserDropdown from './UserDropdown/UserDropdown';
 
 const StyledLink = styled(Link)`	
 	text-decoration:none;
@@ -67,13 +53,14 @@ const MainNavbar = () => {
 				<Logo />
 				<Search />
 				<FlexContainer>
-					{isLogged && (
-						<StyledUserIconContainer>
-							<StyledUserIcon />
-						</StyledUserIconContainer>
+					{isLogged ? (
+						<UserDropdown />
+					) : (
+						<React.Fragment>
+							<StyledLink to="/login">LogIn</StyledLink>
+							<StyledLink to="/signup">SigUp</StyledLink>
+						</React.Fragment>
 					)}
-					{!isLogged && <StyledLink to="/login">LogIn</StyledLink>}
-					{!isLogged && <StyledLink to="/signin">SigIn</StyledLink>}
 					<Cart />
 				</FlexContainer>
 			</Navbar>

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { itemsPerPageSelector } from '../../../../store/Selectors/ProductsSelector';
 import { setItemsPerPage } from '../../../../store/Actions/ProductsActions';
 import './Show.css';
-import { querystring } from 'query-string';
 
 const Show = ({ history, location }) => {
 	const dispatch = useDispatch();
@@ -22,9 +21,9 @@ const Show = ({ history, location }) => {
 		<div className="show">
 			<label>Arata: </label>
 			<select value={itemsPerPage} onChange={e => onChangeHandler(e)} name="show">
+				<option value="4">4</option>
 				<option value="8">8</option>
 				<option value="16">16</option>
-				<option value="4">4</option>
 			</select>
 		</div>
 	);

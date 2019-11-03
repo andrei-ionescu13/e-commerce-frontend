@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
 import { useDispatch } from 'react-redux';
-import { setComparedProducts } from '../../store/Actions/ProductsActions';
+import { setComparedProducts, setAlert } from '../../store/Actions/ProductsActions';
 
 const StyledCompareButton = styled.button`
 	cursor: pointer;
@@ -35,9 +35,45 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 
 		if (comparedProductsInStorage && comparedProductsInStorage.length > 0) {
 			if (comparedProductsInStorage[0].category !== category) {
+				dispatch(
+					setAlert({
+						show: true,
+						message: 'Produsele comparate trebuie sa fie din aceeasi categorie',
+						type: 'error'
+					})
+				);
+
+				setTimeout(() => {
+					dispatch(
+						setAlert({
+							show: false,
+							message: '',
+							type: null
+						})
+					);
+				}, 3000);
 				return;
 			}
-			if (comparedProductsInStorage.length >= 4) return;
+			if (comparedProductsInStorage.length >= 4) {
+				dispatch(
+					setAlert({
+						show: true,
+						message: 'Puteti compara maximum 4 produse',
+						type: 'error'
+					})
+				);
+
+				setTimeout(() => {
+					dispatch(
+						setAlert({
+							show: false,
+							message: '',
+							type: null
+						})
+					);
+				}, 3000);
+				return;
+			}
 			comparedProductsInStorage.forEach(x => {
 				if (x._id === _id) {
 					return;

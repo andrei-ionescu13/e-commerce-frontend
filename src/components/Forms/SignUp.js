@@ -5,7 +5,7 @@ import { signInSchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
 import _ from 'lodash';
 
-const SignIn = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting }) => {
+const SignUp = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting }) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const confirmedPasswordRef = useRef(null);
@@ -53,7 +53,7 @@ const SignIn = ({ values, handleChange, handleSubmit, errors, touched, status, i
 					onChange={handleChange}
 				/>
 				<button disabled={isSubmitting} type="submit" ref={buttonRef} className="login-button">
-					SignIn
+					SignUp
 				</button>
 				<FormResponses>
 					{errors.email && touched.email && <FormError>{errors.email} </FormError>}
@@ -86,4 +86,4 @@ export default withFormik({
 	},
 	validationSchema: signInSchema,
 	validateOnChange: false
-})(SignIn);
+})(SignUp);

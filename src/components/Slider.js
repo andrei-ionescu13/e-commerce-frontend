@@ -8,7 +8,8 @@ const StyledSlider = styled.div`
 	margin: auto;
 	position: relative;
 	display: grid;
-	grid-template-columns: repeat(8, 1fr);
+	grid-template-columns: repeat(6, 1fr);
+	grid-gap: 4rem;
 	/* display: flex;
 	justify-content: flex-start;
 
