@@ -85,3 +85,8 @@ export const setIsLogged = isLogged => ({
 	type: types.SET_IS_LOGGED,
 	payload: isLogged
 });
+
+export const setAlert = alert => ({
+	type: types.SET_ALERT,
+	payload: alert
+});

@@ -12,6 +12,7 @@ export const productsLoadingSelector = state => state.products.productsLoading;
 export const activeFiltersSelector = state => state.products.activeFilters;
 export const comparedProductsSelector = state => state.products.comparedProducts;
 export const isLoggedSelector = state => state.products.isLogged;
+export const alertSelector = state => state.products.alert;
 
 export const orderedProductsSelector = createSelector(
 	productsSelector,

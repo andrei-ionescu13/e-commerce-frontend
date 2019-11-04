@@ -8,6 +8,7 @@ import Product from '../../Product/Product';
 import queryString from 'query-string';
 import _ from 'lodash';
 import styled from 'styled-components';
+import { Alert } from '../../../styles';
 
 const StyledProducts = styled.div`
 	grid-area: p;
@@ -28,7 +29,8 @@ const Products = ({ history, location }) => {
 	let products = useSelector(state => orderedProductsSelector(state));
 	const [ productsShown, setProductsShown ] = useState([]);
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
-	console.log(products);
+	const [ showAlert, setShowAlert ] = useState(false);
+
 	useEffect(
 		() => {
 			const page = parseInt(queryString.parse(location.search).page) || 1;
@@ -64,7 +66,7 @@ const Products = ({ history, location }) => {
 		[ products, location.search ]
 	);
 
-	const onPageChangeHanler = e => {
+	const onPageChangeHandler = e => {
 		const params = new URLSearchParams(location.search);
 
 		if (e.selected == 0) {
@@ -84,27 +86,24 @@ const Products = ({ history, location }) => {
 
 	return (
 		<div className="products-container">
-			<React.Fragment>
-				<div className="products">{productsShown}</div>
-
-				<ReactPaginate
-					previousLabel={'Pagina anterioara'}
-					nextLabel={'Pagina anterioara'}
-					previousLinkClassName={'previous-page'}
-					forcePage={parseInt(queryString.parse(location.search).page) - 1 || 0}
-					disableInitialCallback={true}
-					nextLinkClassName={'next-page'}
-					breakLabel={'...'}
-					breakClassName={'break-me'}
-					pageCount={Math.ceil(products.length / itemsPerPage)}
-					marginPagesDisplayed={2}
-					pageRangeDisplayed={3}
-					onPageChange={e => onPageChangeHanler(e)}
-					containerClassName={'pagination'}
-					pageLinkClassName={'page'}
-					activeLinkClassName={'active'}
-				/>
-			</React.Fragment>
+			<div className="products">{productsShown}</div>
+			<ReactPaginate
+				previousLabel={'Pagina anterioara'}
+				nextLabel={'Pagina anterioara'}
+				previousLinkClassName={'previous-page'}
+				forcePage={parseInt(queryString.parse(location.search).page) - 1 || 0}
+				disableInitialCallback={true}
+				nextLinkClassName={'next-page'}
+				breakLabel={'...'}
+				breakClassName={'break-me'}
+				pageCount={Math.ceil(products.length / itemsPerPage)}
+				marginPagesDisplayed={2}
+				pageRangeDisplayed={3}
+				onPageChange={e => onPageChangeHandler(e)}
+				containerClassName={'pagination'}
+				pageLinkClassName={'page'}
+				activeLinkClassName={'active'}
+			/>
 			)
 		</div>
 	);

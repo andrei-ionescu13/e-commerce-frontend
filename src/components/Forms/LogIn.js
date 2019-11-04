@@ -11,6 +11,7 @@ import { setIsLogged } from '../../store/Actions/ProductsActions';
 const RecoveryLink = styled(Link)`
 	align-self: flex-start;
 	text-decoration:none;
+	color: blue;
 	font-size:1.6rem;
 	
 		&:focus {
@@ -19,7 +20,7 @@ const RecoveryLink = styled(Link)`
 `;
 
 const SignInLink = styled(Link)`
-	margin:1rem;
+	margin:1rem;color: blue;
 	text-decoration:none;
 		&:focus {
 			outline-color: rgba(255, 99, 71, 1);
@@ -81,7 +82,7 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched, isSubmitti
 					{errors.reqErrors && <FormError>{errors.reqErrors.error || errors.reqErrors}</FormError>}
 				</FormResponses>
 			</StyledUserForm>
-			<SignInLink to="/signin">Creare cont</SignInLink>
+			<SignInLink to="/signup">Creare cont</SignInLink>
 		</StyledContainer>
 	);
 };
