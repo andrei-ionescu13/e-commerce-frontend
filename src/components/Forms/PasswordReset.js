@@ -4,12 +4,11 @@ import axios from 'axios';
 import { resetSchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
 import { withRouter } from 'react-router-dom';
-
-let message = '';
+import _ from 'lodash';
 
 const token = window.location.pathname.split('/')[2];
 
-const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
+const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting, status }) => {
 	const passwordRef = useRef(null);
 	const confirmedPasswordRef = useRef(null);
 	const buttonRef = useRef(null);
@@ -51,7 +50,8 @@ const PasswordReset = ({ values, handleChange, handleSubmit, errors, touched, is
 					{errors.password && touched.password && <FormError> {errors.password} </FormError>}
 					{errors.confirmedPassword &&
 					touched.confirmedPassword && <FormError> {errors.confirmedPassword} </FormError>}
-					{message.length > 0 && <FormMessage>{message}</FormMessage>}
+					{errors.reqErrors && <FormError>{errors.reqErrors.error || errors.reqErrors}</FormError>}
+					{_.isEmpty(errors) && status && <FormMessage>{status.succes}</FormMessage>}
 				</FormResponses>
 			</StyledUserForm>
 		</StyledContainer>
@@ -63,18 +63,20 @@ export default withRouter(
 		mapPropsToValues({ password, confirmedPassword }) {
 			return { password: password || '', confirmedPassword: confirmedPassword || '' };
 		},
-		async handleSubmit(values, { resetForm, setSubmitting }) {
+		async handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
 			try {
+				setStatus(null);
 				await axios.post(`http://localhost:3333/user/reset/${token}`, values);
-				message = 'Parola schimbata';
-
 				resetForm();
+				setStatus({ succes: 'Parola schimbata' });
 			} catch (error) {
-				console.log(error);
+				setErrors({ reqErrors: error.response.data.error });
+				console.log(error.response.data);
 			} finally {
 				setSubmitting(false);
 			}
 		},
-		validationSchema: resetSchema
+		validationSchema: resetSchema,
+		validateOnChange: false
 	})(PasswordReset)
 );

@@ -3,10 +3,9 @@ import { withFormik } from 'formik';
 import { recoverySchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
 import axios from 'axios';
+import _ from 'lodash';
 
-let message = '';
-
-const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting }) => {
+const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched, isSubmitting, status }) => {
 	const emailRef = useRef(null);
 	const buttonRef = useRef(null);
 
@@ -17,7 +16,6 @@ const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched,
 	const handleKeyPress = e => {
 		if (e.target.name === 'email' && e.key === 'Enter') buttonRef.current.focus();
 	};
-
 	return (
 		<StyledContainer>
 			<StyledUserForm method="post" className="login-form" onSubmit={handleSubmit}>
@@ -35,7 +33,8 @@ const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched,
 				</button>
 				<FormResponses>
 					{errors.email && touched.email && <FormError>{errors.email} </FormError>}
-					{message.length > 0 && <FormMessage>{message}</FormMessage>}
+					{errors.reqErrors && <FormError>{errors.reqErrors.error || errors.reqErrors}</FormError>}
+					{_.isEmpty(errors) && status && <FormMessage>{status.succes}</FormMessage>}
 				</FormResponses>
 			</StyledUserForm>
 		</StyledContainer>
@@ -44,16 +43,19 @@ const PasswordRecovery = ({ values, handleChange, handleSubmit, errors, touched,
 
 export default withFormik({
 	mapPropsToValues({ email }) {
-		return { email: email };
+		return { email: email || '' };
 	},
-	async handleSubmit(values, { resetForm, setSubmitting }) {
+	async handleSubmit(values, { resetForm, setErrors, setStatus, setSubmitting }) {
 		try {
+			setStatus(null);
 			console.log(values);
 			await axios.post('http://localhost:3333/user/recovery', values);
-			message = 'Un e-mail de resetare a fost trimis';
 			resetForm();
-		} catch (err) {
-			console.log(err);
+			setStatus({ succes: 'Un e-mail de resetare a fost trimis' });
+		} catch (error) {
+			setErrors({ reqErrors: error.response.data.error });
+
+			console.log(error.response.data);
 		} finally {
 			setSubmitting(false);
 		}

@@ -77,8 +77,8 @@ const LogIn = ({ values, handleChange, handleSubmit, errors, touched, isSubmitti
 					LogIn
 				</button>
 				<FormResponses>
-					{errors.email && touched.email && <FormError>{errors.email} </FormError>}
-					{errors.password && touched.password && <FormError> {errors.password} </FormError>}
+					{errors.email && <FormError>{errors.email} </FormError>}
+					{errors.password && <FormError> {errors.password} </FormError>}
 					{errors.reqErrors && <FormError>{errors.reqErrors.error || errors.reqErrors}</FormError>}
 				</FormResponses>
 			</StyledUserForm>
