@@ -1,7 +1,8 @@
 import React from 'react';
 import CategoriesDropdown from './CategoriesDropdown/CategoriesDropdown';
-import Wishlist from './Wishlist';
+import WishlistLink from './WishlistLink';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const NavbarContainer = styled.div`
 	background-color: black;
@@ -17,12 +18,34 @@ const Navbar = styled.div`
 	justify-content: space-between;
 `;
 
+const PromotionsLink = styled(Link)`
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	height:100%;
+	color:white;
+	text-decoration:none;
+	width:10rem;
+	
+	&:hover {
+		background-color: #484848;
+	}
+`;
+
+const FlexContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	/* width: 12%; */
+`;
 const SecondNavbar = () => {
 	return (
 		<NavbarContainer>
 			<Navbar>
-				<CategoriesDropdown />
-				<Wishlist />
+				<FlexContainer>
+					<CategoriesDropdown />
+					<PromotionsLink to="/promotions">Promotii</PromotionsLink>
+				</FlexContainer>
+				<WishlistLink />
 			</Navbar>
 		</NavbarContainer>
 	);

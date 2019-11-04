@@ -46,7 +46,7 @@ const Search = ({ history }) => {
 			resetKeyword();
 			history.push({
 				pathname: '/search',
-				search: `keyword=${keyword}`
+				search: `query=${keyword}`
 			});
 		}
 	};

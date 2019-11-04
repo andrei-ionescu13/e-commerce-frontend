@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './ProductsSection.css';
 import {
@@ -26,22 +26,34 @@ const ProductsSection = ({ location, match }) => {
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const comparedProducts = useSelector(state => comparedProductsSelector(state));
 	const dispatch = useDispatch();
-	const keyword = queryString.parse(location.search).keyword;
+	const query = queryString.parse(location.search).query;
+
 	useEffect(
 		() => {
+			let urlToCall = '';
+			const str = location.pathname.split('/')[1];
 			dispatch(setProductsToEmpty);
 			dispatch(setFiltersToEmpty);
-			if (location.pathname.includes('search')) {
-				const keyword = queryString.parse(location.search).keyword;
-				dispatch(setProductsAndFiltersAsync(`http://localhost:3333/products/search/${keyword}`));
-			} else dispatch(setProductsAndFiltersAsync(`http://localhost:3333/category/${match.params.category}`));
+			switch (str) {
+				case 'search':
+					urlToCall = `http://localhost:3333/products/search/${query}`;
+					break;
 
+				case 'promotions':
+					urlToCall = `http://localhost:3333/products/promotions`;
+					break;
+				default:
+					urlToCall = `http://localhost:3333/category/${match.params.category}`;
+					break;
+			}
+
+			dispatch(setProductsAndFiltersAsync(urlToCall));
 			return function() {
 				dispatch(setProductsToEmpty);
 				dispatch(setFiltersToEmpty);
 			};
 		},
-		[ keyword, match.params.category ]
+		[ query, match.params.category ]
 	);
 
 	useEffect(() => {

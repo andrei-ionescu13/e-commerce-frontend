@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledOldPrice = styled.div`
 	font-size: 1.4rem;
+	margin-top: 1rem;
 	height: 2rem;
 	color: grey;
 	text-decoration: line-through;

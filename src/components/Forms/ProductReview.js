@@ -109,6 +109,12 @@ const ProductReview = () => {
 			reset();
 			setSuccesMessage('Review trimis');
 		} catch (error) {
+			if (error.response.status === 401 || 404);
+			{
+				Cookies.remove('Authorization');
+				dispatch(setIsLogged(false));
+				history.push('/login');
+			}
 			setErrorMessage(error.response.data.error);
 		} finally {
 			setIsSubmitting(false);

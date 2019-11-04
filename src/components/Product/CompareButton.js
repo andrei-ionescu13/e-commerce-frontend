@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setComparedProducts, setAlert } from '../../store/Actions/ProductsActions';
+import { alertSelector } from '../../store/Selectors/ProductsSelector';
 
 const StyledCompareButton = styled.button`
 	cursor: pointer;
@@ -28,6 +29,8 @@ const StyledCompareButton = styled.button`
 
 const CompareButton = ({ _id, category, imageURL, name }) => {
 	const dispatch = useDispatch();
+
+	const alert = useSelector(state => alertSelector(state));
 
 	const handleOnClick = () => {
 		const comparedProducts = [];
@@ -89,7 +92,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 	};
 
 	return (
-		<StyledCompareButton onClick={() => handleOnClick()}>
+		<StyledCompareButton disabled={alert.show} onClick={() => handleOnClick()}>
 			<CompareIcon />
 			<div>Compara</div>
 		</StyledCompareButton>

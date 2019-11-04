@@ -62,8 +62,6 @@ const StyledUserIcon = styled(UserIcon)`
 `;
 
 const UserDropdown = () => {
-	const handleClick = () => {};
-
 	return (
 		<StyledUserDropdown>
 			<StyledUserIconButton>

@@ -29,7 +29,6 @@ const Products = ({ history, location }) => {
 	let products = useSelector(state => orderedProductsSelector(state));
 	const [ productsShown, setProductsShown ] = useState([]);
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
-	const [ showAlert, setShowAlert ] = useState(false);
 
 	useEffect(
 		() => {
@@ -104,7 +103,6 @@ const Products = ({ history, location }) => {
 				pageLinkClassName={'page'}
 				activeLinkClassName={'active'}
 			/>
-			)
 		</div>
 	);
 };

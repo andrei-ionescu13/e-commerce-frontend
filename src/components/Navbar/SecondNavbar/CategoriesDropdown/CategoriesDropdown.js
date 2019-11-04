@@ -9,7 +9,8 @@ const StyledDropdown = styled.div`
 	position: relative;
 	display: block;
 
-	&:hover {
+	&:hover,
+	&:focus-within {
 		> div {
 			display: flex;
 		}

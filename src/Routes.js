@@ -11,9 +11,10 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ProductReview from './components/Forms/ProductReview';
 import Navbar from './components/Navbar/Navbar';
-import PromotionSlideshow from './components/PromotionsSlideshow/PromotionsSlideshow';
 import Brands from './components/Brands/Brands';
 import Newsletter from './components/Newsletter/Newsletter';
+import Promotions from './components/Promotions';
+import Wishlist from './components/Wishlist';
 
 const Routes = () => {
 	const history = useHistory();
@@ -24,14 +25,16 @@ const Routes = () => {
 			<Route path="/" component={Navbar} />
 			{/* <Navbar /> */}
 			<Switch>
-				<Route path="/search" component={ProductsSection} />
-				<Route path="/cat/:category" component={ProductsSection} />{' '}
+				<Route path="/search" component={ProductsSection} />{' '}
+				<Route path="/promotions" component={ProductsSection} />
+				<Route path="/cat/:category" component={ProductsSection} />
 				<Route path="/compare" component={ComparisonPage} />
 				<Route path="/signup" component={SignUp} />
 				<Route path="/login" render={() => <LogIn dispatch={dispatch} />} />
 				<Route path="/recovery" component={PasswordRecovery} />
 				<Route path="/reset/:token" component={PasswordReset} />
 				<Route path="/review" component={ProductReview} />
+				<Route path="/wishlist" component={Wishlist} />
 				<Route path="/:productName" component={ProductPage} />
 				{/* <Route path="/" component={Brands} /> */}
 				>

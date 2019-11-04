@@ -11,6 +11,7 @@ const StyledCategoriesList = styled.div`
 	border-left: .1rem solid rgba(0, 0, 0, .5);
 	border-right: .1rem solid rgba(0, 0, 0, .5);
 	z-index: 1;
+
 	a {
 		display: flex;
 		justify-content: center;

@@ -67,7 +67,7 @@ const Product = ({ name, price, discountedPrice, _id, category, imagesURL, revie
 			<Discount price={price} discountedPrice={discountedPrice} />
 			<FlexContainer>
 				<CompareButton name={name} _id={_id} category={category} imageURL={imagesURL[0]} />
-				<WishlistButton />
+				<WishlistButton productId={_id} />
 			</FlexContainer>
 		</StyledProduct>
 	);

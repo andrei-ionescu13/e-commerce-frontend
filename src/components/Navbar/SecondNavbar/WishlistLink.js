@@ -1,8 +1,9 @@
 import React from 'react';
 import { ReactComponent as HeartIcon } from '../../../assets/icons/heart.svg';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const StyledWishlist = styled.div`
+const StyledLink = styled(Link)`
 	cursor: pointer;
 	display: flex;
 	align-items: center;
@@ -22,13 +23,13 @@ const StyledWishlist = styled.div`
 	}
 `;
 
-const Wishlist = () => {
+const WishlistLink = () => {
 	return (
-		<StyledWishlist className="wishlist">
+		<StyledLink to="/wishlist">
 			<HeartIcon />
 			<div>Wishlist</div>
-		</StyledWishlist>
+		</StyledLink>
 	);
 };
 
-export default Wishlist;
+export default WishlistLink;
