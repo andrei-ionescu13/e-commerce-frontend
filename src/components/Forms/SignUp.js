@@ -5,14 +5,6 @@ import { signInSchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
 import _ from 'lodash';
 
-const areAllValuesTouched = obj => {
-	console.log(Object.entries(obj));
-	for (let [ key, value ] of Object.entries(obj)) {
-		if (!value) return false;
-	}
-	return true;
-};
-
 const SignUp = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting }) => {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
