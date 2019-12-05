@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Comparison.css';
 import { ReactComponent as CheckedIcon } from '../../../assets/icons/checked.svg';
 import { withRouter } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { comparedProductsSelector } from '../../../store/Selectors/ProductsSelector';
+import { setComparedProducts } from '../../../store/Actions/ProductsActions';
 import ComparedItem from './ComparedItem';
 
 const Comparison = ({ history }) => {
+	const dispatch = useDispatch();
 	const comparedProducts = useSelector(state => comparedProductsSelector(state));
 	const comparedProductsRendered = [];
 	comparedProducts.forEach(x => {
@@ -18,13 +20,20 @@ const Comparison = ({ history }) => {
 
 	const compareOnClickHandler = () => history.push('/compare');
 
+	useEffect(() => {
+		const comparedProducts = localStorage.getObject('compared-products');
+		if (comparedProducts) dispatch(setComparedProducts(comparedProducts));
+	}, []);
+
 	return (
-		<div className="compare">
-			{comparedProductsRendered}
-			<button className="compare-button">
-				<CheckedIcon className="compare-icon" onClick={() => compareOnClickHandler()} />
-			</button>
-		</div>
+		comparedProducts.length > 0 && (
+			<div className="compare">
+				{comparedProductsRendered}
+				<button className="compare-button">
+					<CheckedIcon className="compare-icon" onClick={() => compareOnClickHandler()} />
+				</button>
+			</div>
+		)
 	);
 };
 

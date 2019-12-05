@@ -11,6 +11,7 @@ const images = importAll(require.context('../../assets/images/brands', false, /\
 const StyledBrands = styled.div`
 	width: 80vw;
 	margin: auto;
+	margin-bottom: 5rem;
 `;
 
 const StyledTitle = styled.div`
@@ -26,7 +27,7 @@ const Container = styled.div`
 	grid-template-columns: repeat(4, 1fr);
 	grid-column-gap: 2rem;
 	grid-row-gap: 4rem;
-	height: 40vh;
+	height: 40rem;
 
 	a {
 		display: flex;
@@ -47,7 +48,7 @@ const Brands = () => {
 			<StyledTitle>Cele mai bune branduri</StyledTitle>
 			<Container>
 				{images.map((x, index) => (
-					<Link key={index} to={`/search?keyword=${brandNames[index]}`}>
+					<Link key={index} to={`/search?query=${brandNames[index]}`}>
 						<img src={x} />
 					</Link>
 				))}

@@ -4,8 +4,6 @@ import { ReactComponent as RightArrowIcon } from '../assets/icons/right-arrow.sv
 import styled from 'styled-components';
 
 const StyledSlider = styled.div`
-	width: 80vw;
-	margin: auto;
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);

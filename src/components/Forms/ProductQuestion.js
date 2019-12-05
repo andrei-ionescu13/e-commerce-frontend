@@ -7,16 +7,9 @@ import { useDispatch } from 'react-redux';
 import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { useHistory, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { reviewSchema } from '../../validation';
+import { questionSchema } from '../../validation';
 import { FormError } from '../../styles';
 import { FormMessage } from '../../styles';
-
-const Container = styled.div`
-	display: flex;
-	align-items: center;
-	margin-bottom: 2rem;
-	align-self: flex-start;
-`;
 
 const StyledReviewForm = styled.form`
 	padding: 5rem;
@@ -48,9 +41,8 @@ const StyledTextarea = styled.textarea`
 	padding: 1rem;
 `;
 
-const ProductReview = () => {
-	const [ rating, setRating ] = useState(0);
-	const [ review, setReview ] = useState('');
+const ProductQuestion = () => {
+	const [ question, setQuestion ] = useState('');
 	const [ errorMessage, setErrorMessage ] = useState(null);
 	const [ isSubmitting, setIsSubmitting ] = useState(false);
 	const [ succesMessage, setSuccesMessage ] = useState(null);
@@ -60,23 +52,27 @@ const ProductReview = () => {
 	const params = useParams();
 
 	console.log(params);
-	const reviewRef = useRef(null);
+	const questionRef = useRef(null);
 	const buttonRef = useRef(null);
 
 	const handleKeyPress = e => {
 		const name = e.target.name;
 		const key = e.key;
-		if (name === 'review' && key === 'Enter') buttonRef.current.focus();
+
+		if (name === 'question' && key === 'Enter') {
+			e.preventDefault();
+			buttonRef.current.focus();
+		}
 	};
 
 	console.log(isSubmitting);
+
 	const reset = () => {
-		setRating(0);
-		setReview('');
+		setQuestion('');
 	};
 
-	const handleChangeReview = e => {
-		setReview(e.target.value);
+	const handleQuestionChange = e => {
+		setQuestion(e.target.value);
 	};
 
 	const handleSubmit = async e => {
@@ -93,7 +89,7 @@ const ProductReview = () => {
 		setSuccesMessage(null);
 
 		try {
-			await reviewSchema.validate({ rating, review });
+			await questionSchema.validate({ question });
 		} catch (error) {
 			setErrorMessage(error.message);
 			return;
@@ -107,12 +103,12 @@ const ProductReview = () => {
 			const headers = { Authorization: token };
 			console.log(headers);
 			await axios.post(
-				`http://localhost:3333/review/${params.productName}`,
-				{ rating, review },
+				`http://localhost:3333/question/${params.productName}`,
+				{ question },
 				{ headers: headers }
 			);
 			reset();
-			setSuccesMessage('Review trimis');
+			setSuccesMessage('Intrebare trimis');
 		} catch (error) {
 			if (error.response.status === 401 || error.response.status === 404) {
 				Cookies.remove('Authorization');
@@ -127,33 +123,18 @@ const ProductReview = () => {
 
 	return (
 		<StyledReviewForm method="post" onSubmit={e => handleSubmit(e)}>
-			<StyledLabel htmlFor="rating">Rating:</StyledLabel>
-			<Container>
-				<Rating
-					id="rating"
-					value={rating}
-					setValue={setRating}
-					count={5}
-					selectable={true}
-					showEmpty={true}
-					showMessage={true}
-					color="#FFD700"
-					inactiveColor="gray"
-					width="3rem"
-				/>
-			</Container>
-			<StyledLabel htmlFor="review">Review:</StyledLabel>
+			<StyledLabel htmlFor="question">Intrebare:</StyledLabel>
 			<StyledTextarea
-				ref={reviewRef}
-				name="review"
-				value={review}
+				ref={questionRef}
+				name="question"
+				value={question}
+				onChange={e => handleQuestionChange(e)}
 				onKeyPress={e => handleKeyPress(e)}
-				onChange={e => handleChangeReview(e)}
 				rows="12"
 				cols="60"
 			/>
 			<AddReviewButton ref={buttonRef} disabled={isSubmitting} type="submit">
-				Adauga review
+				Submit
 			</AddReviewButton>
 			{errorMessage && <FormError>{errorMessage}</FormError>}
 			{succesMessage && <FormMessage>{succesMessage}</FormMessage>}
@@ -161,4 +142,4 @@ const ProductReview = () => {
 	);
 };
 
-export default ProductReview;
+export default ProductQuestion;

@@ -3,6 +3,7 @@ import { withFormik } from 'formik';
 import axios from 'axios';
 import { signInSchema } from '../../validation';
 import { StyledContainer, StyledUserForm, FormResponses, FormError, FormMessage } from '../../styles';
+import Spinner from '../Spinner/Spinner';
 import _ from 'lodash';
 
 const SignUp = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting }) => {
@@ -17,9 +18,15 @@ const SignUp = ({ values, handleChange, handleSubmit, errors, touched, status, i
 		lastNameRef.current.focus();
 	}, []);
 
-	const handleKeyPress = e => {
-		console.log(status);
+	console.log(isSubmitting);
 
+	const buttonContent = !isSubmitting ? (
+		'SignUp'
+	) : (
+		<Spinner width="3px" height="3px" font="4px" color="rgba(255, 99, 71, 1)" />
+	);
+
+	const handleKeyPress = e => {
 		const name = e.target.name;
 		const key = e.key;
 		if (name === 'lastName' && key === 'Enter') {
@@ -89,7 +96,7 @@ const SignUp = ({ values, handleChange, handleSubmit, errors, touched, status, i
 					onChange={handleChange}
 				/>
 				<button disabled={isSubmitting} type="submit" ref={buttonRef} className="login-button">
-					SignUp
+					{buttonContent}
 				</button>
 				<FormResponses>
 					{/* {errors.lastName && touched.lastName && <FormError>{errors.lastName} </FormError>}

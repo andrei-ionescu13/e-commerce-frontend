@@ -11,7 +11,7 @@ import { setIsLogged } from '../../store/Actions/ProductsActions';
 const RecoveryLink = styled(Link)`
 	align-self: flex-start;
 	text-decoration:none;
-	color: blue;
+	color: #005eb8;
 	font-size:1.6rem;
 	
 		&:focus {
@@ -20,8 +20,10 @@ const RecoveryLink = styled(Link)`
 `;
 
 const SignInLink = styled(Link)`
-	margin:1rem;color: blue;
+	margin:1rem;
+	color: #005eb8;
 	text-decoration:none;
+	
 		&:focus {
 			outline-color: rgba(255, 99, 71, 1);
 		}

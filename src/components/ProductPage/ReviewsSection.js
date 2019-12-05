@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setIsLogged } from '../../store/Actions/ProductsActions';
-
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const UserReview = styled.div`
@@ -17,15 +17,33 @@ const UserReview = styled.div`
 	align-items: center;
 `;
 
+const StyledReviewLinkButton = styled(Link)`
+	text-decoration:none;
+	background:var(--primary-color);
+	color:white;
+	height:4rem;
+	width:13rem;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:1.7rem;
+	margin:auto;
+`;
+
 const User = styled.div`
 	flex-basis: 18%;
 	font-size: 1.5rem;
 	align-self: stretch;
 	display: flex;
+	flex-flow: column;
 	align-items: center;
 	justify-content: center;
 	border-right: 2px solid #f5f5f5;
-	font-weight: 600;
+	width: 20%;
+	div {
+		margin-top: 3rem;
+		font-size: 1.2rem;
+	}
 `;
 
 const Review = styled.div`
@@ -49,19 +67,17 @@ const DeleteButton = styled.button`
 	border: none;
 	cursor: pointer;
 `;
+const StyledHeader = styled.h4`text-align: center;`;
 
-const ReviewsSection = ({ initialReviews, productName }) => {
+const ReviewsSection = ({ reviews, setReviews, productName }) => {
 	let userId;
-
 	const dispatch = useDispatch();
 	const history = useHistory();
+	const token = Cookies.get('Authorization');
 
-	const [ reviews, setReviews ] = useState(initialReviews);
 	if (!isTokenExpired('Authorization')) {
-		userId = decodeToken('Authorization').id;
+		userId = decodeToken(token).id;
 	}
-
-	console.log(reviews);
 
 	const handleDelete = async reviewId => {
 		if (isTokenExpired('Authorization')) {
@@ -69,17 +85,11 @@ const ReviewsSection = ({ initialReviews, productName }) => {
 			dispatch(setIsLogged(false));
 			history.push('/login');
 		}
-		const token = Cookies.get('Authorization');
 
 		try {
 			const headers = { Authorization: token };
 
-			await axios.delete('http://localhost:3333/user/review', {
-				data: {
-					reviewId,
-					productName
-				},
-
+			await axios.delete(`http://localhost:3333/review/${reviewId}`, {
 				headers: headers
 			});
 
@@ -91,7 +101,10 @@ const ReviewsSection = ({ initialReviews, productName }) => {
 
 	const renderedReviews = reviews.map(x => (
 		<UserReview key={x._id}>
-			<User>{`${x.user.lastName} ${x.user.firstName}`}</User>
+			<User>
+				<h3>{`${x.user.lastName} ${x.user.firstName}`}</h3>
+				<div>{new Date(x.date).toLocaleDateString('ro-RO')} </div>
+			</User>
 			<Review>
 				<Rating value={x.rating} count={5} width="2.3rem" />
 				<p> {x.review}</p>
@@ -108,7 +121,12 @@ const ReviewsSection = ({ initialReviews, productName }) => {
 		</UserReview>
 	));
 
-	return renderedReviews;
+	return (
+		<React.Fragment>
+			<StyledReviewLinkButton to={`/review/${productName}`}>Lasa un review</StyledReviewLinkButton>
+			{renderedReviews.length > 0 ? renderedReviews : <StyledHeader>Nu exista review-uri</StyledHeader>}
+		</React.Fragment>
+	);
 };
 
 export default ReviewsSection;

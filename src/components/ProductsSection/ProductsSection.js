@@ -24,7 +24,6 @@ const NoProductsFound = <h1 className="noProducts-message">Nu s-a gasit niciun p
 const ProductsSection = ({ location, match }) => {
 	const badKeyword = useSelector(state => badKeywordSelector(state));
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
-	const comparedProducts = useSelector(state => comparedProductsSelector(state));
 	const dispatch = useDispatch();
 	const query = queryString.parse(location.search).query;
 
@@ -56,11 +55,6 @@ const ProductsSection = ({ location, match }) => {
 		[ query, match.params.category ]
 	);
 
-	useEffect(() => {
-		const comparedProducts = localStorage.getObject('compared-products');
-		if (comparedProducts) dispatch(setComparedProducts(comparedProducts));
-	}, []);
-
 	return badKeyword ? (
 		NoProductsFound
 	) : (
@@ -68,7 +62,7 @@ const ProductsSection = ({ location, match }) => {
 			{productsLoading ? <Spinner /> : <Products />}
 			<Filters />
 			<DisplayCriteria />
-			{comparedProducts.length > 0 && <Comparison />}
+			<Comparison />
 		</div>
 	);
 };

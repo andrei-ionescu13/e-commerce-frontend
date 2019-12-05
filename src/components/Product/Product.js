@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ProductOldPrice from './OldPrice';
-import ProductPrice from './Price';
+import OldPrice from './OldPrice';
+import Price from './Price';
 import Discount from './Discount';
 import CompareButton from './CompareButton';
 import WishlistButton from './WishlistButton';
 import BuyButton from './BuyButton';
 import ProductRating from '../Product/ProductRating';
 import styled from 'styled-components';
+import { DeleteButton } from './DeleteButton';
 
 const StyledProduct = styled.div`
 	display: flex;
@@ -47,7 +48,18 @@ const RatingContainer = styled.div`
 	padding-left: 25%;
 `;
 
-const Product = ({ name, price, discountedPrice, _id, category, imagesURL, reviews }) => {
+const Product = ({
+	name,
+	price,
+	discountedPrice,
+	_id,
+	category,
+	imagesURL,
+	reviews,
+	showWishlist = true,
+	showDelete = false,
+	deleteFunction
+}) => {
 	const imageURL = `http://localhost:3333/images/${imagesURL[0]}.jpg`;
 
 	return (
@@ -61,13 +73,14 @@ const Product = ({ name, price, discountedPrice, _id, category, imagesURL, revie
 			<RatingContainer>
 				<ProductRating reviews={reviews} width="2rem" />
 			</RatingContainer>
-			<ProductPrice price={price} discountedPrice={discountedPrice} />
-			<ProductOldPrice price={price} discountedPrice={discountedPrice} />
+			<Price price={price} discountedPrice={discountedPrice} />
+			<OldPrice price={price} discountedPrice={discountedPrice} />
 			<BuyButton>Adauga in cos</BuyButton>
 			<Discount price={price} discountedPrice={discountedPrice} />
 			<FlexContainer>
 				<CompareButton name={name} _id={_id} category={category} imageURL={imagesURL[0]} />
-				<WishlistButton productId={_id} />
+				{showWishlist && <WishlistButton productId={_id} />}
+				{showDelete && <DeleteButton onClick={deleteFunction} />}
 			</FlexContainer>
 		</StyledProduct>
 	);

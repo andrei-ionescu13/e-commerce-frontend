@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import getPercentage from '../../../helpers/getPercentage';
+import Discount from '../../Product/Discount';
 
 import './Slideshow.css';
 const Slideshow = ({ imagesURL, productName, price, discountedPrice }) => {
@@ -12,11 +13,7 @@ const Slideshow = ({ imagesURL, productName, price, discountedPrice }) => {
 
 	return (
 		<div className="productPage-product-slideshow">
-			{discountedPrice && (
-				<div className="slideshow-discount">{`${Math.floor(
-					100 - getPercentage(discountedPrice, price)
-				)}%`}</div>
-			)}
+			<Discount price={price} discountedPrice={discountedPrice} />
 			<img className="main-image" src={mainImage} alt={productName} />
 			<div className="secondary-images">
 				{images.map((x, index) => (

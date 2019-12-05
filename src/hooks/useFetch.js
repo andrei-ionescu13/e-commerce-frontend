@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useFetch = url => {
 	const [ data, setData ] = useState();
 	const [ loading, setLoading ] = useState(true);
-
+	console.log(url);
 	const fetchData = async () => {
 		try {
 			setLoading(true);

@@ -43,6 +43,7 @@ const WishlistButton = ({ productId }) => {
 			history.push('/login');
 		}
 		const token = Cookies.get('Authorization');
+
 		try {
 			const headers = { Authorization: token };
 			const response = await axios.post(
@@ -66,7 +67,7 @@ const WishlistButton = ({ productId }) => {
 						type: null
 					})
 				);
-			}, 1500);
+			}, 1000);
 		} catch (error) {
 			if (error.response.status === 405) {
 				dispatch(
@@ -84,7 +85,10 @@ const WishlistButton = ({ productId }) => {
 							type: null
 						})
 					);
-				}, 2000);
+				}, 1000);
+			} else if (error.response.status === 401 || 404) {
+				dispatch(setIsLogged(false));
+				history.push('/login');
 			}
 		}
 	};

@@ -1,46 +1,59 @@
 import React from 'react';
 import Slider from './Slider';
-import { useSelector } from 'react-redux';
-import { productsSelector } from '../store/Selectors/ProductsSelector';
 import Product from './Product/Product';
 import styled from 'styled-components';
+import useFetch from '../hooks/useFetch';
+import { Link } from 'react-router-dom';
+
+const Container = styled.div`
+	width: 80vw;
+	margin: 0 auto 10rem auto;
+`;
 
 const StyledTitle = styled.div`
-	width: 80vw;
 	margin: 0 auto 4rem auto;
 	display: flex;
+	flex-flow: column;
 	justify-content: center;
 	align-items: center;
 	background-color: var(--primary-color);
-	height: 4rem;
+	padding: .5rem 0;
+
+	a {
+		font-size: 1.5rem;
+		color: #005eb8;
+	}
 `;
 
-const items = [];
-for (let index = 0; index < 10; index++) {
-	items.push(<div style={{ background: 'green' }}>index</div>);
-}
+const PromotionsSlider = ({ itemsPerSlide, numberOfItems }) => {
+	const [ products, loading ] = useFetch(`http://localhost:3333/products/promotions/${numberOfItems}`);
+	console.log(products);
+	let productsRendered = [];
+	if (!loading) {
+		productsRendered = products.map(x => (
+			<Product
+				key={x._id}
+				_id={x._id}
+				name={x.name}
+				price={x.price}
+				discountedPrice={x.discountedPrice}
+				category={x.category}
+				imagesURL={x.imagesURL}
+				reviews={x.reviews}
+			/>
+		));
+	}
 
-const PromotionsSlider = () => {
-	let products = useSelector(state => productsSelector(state));
-	const Rendered = products.map(x => (
-		<Product
-			key={x._id}
-			_id={x._id}
-			name={x.name}
-			price={x.price}
-			discountedPrice={x.discountedPrice}
-			category={x.category}
-			imagesURL={x.imagesURL}
-			reviews={x.reviews}
-		/>
-	));
-
-	console.log(Rendered);
 	return (
-		<React.Fragment>
-			<StyledTitle>Promotii</StyledTitle>
-			<Slider items={Rendered} itemsPerSlide={6} />
-		</React.Fragment>
+		!loading && (
+			<Container>
+				<StyledTitle>
+					<div>Promotii</div>
+					<Link to="/promotions">(Click pentru a vedea toate promotiile)</Link>
+				</StyledTitle>
+				<Slider items={productsRendered} itemsPerSlide={itemsPerSlide} />
+			</Container>
+		)
 	);
 };
 

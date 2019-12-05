@@ -38,20 +38,23 @@ export const StyledUserForm = styled.form`
 	flex-flow: column;
 	align-items: center;
 	padding: 12rem 2rem 0 2rem;
-	/* border-radius: .5rem; */
 
 	input {
-		border-radius: .5rem;
 		margin-bottom: 1.5rem;
 		width: 100%;
 		height: 4rem;
-		border: 2px solid lightgray;
+		border: none;
+		border-bottom: 2px solid lightgray;
 		padding-left: 1rem;
 		font-size: 1.7rem;
-
+		outline: none;
 		&:focus {
-			outline-color: rgba(255, 99, 71, 1);
-			box-shadow: 0 0 3pt 1pt rgba(255, 99, 71, 1);
+			border-bottom: 2px solid rgba(255, 99, 71, 1);
+
+			&::placeholder {
+				color: rgba(255, 99, 71, 1);
+				opacity: 1; /* Firefox */
+			}
 		}
 	}
 
@@ -60,7 +63,6 @@ export const StyledUserForm = styled.form`
 		height: 4rem;
 		color: rgba(255, 99, 71, 1);
 		font-size: 2.2rem;
-		background-color: whitesmoke;
 		border: 2px solid rgba(255, 99, 71, 1);
 		cursor: pointer;
 		margin-top: 4rem;

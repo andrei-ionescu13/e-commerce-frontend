@@ -12,7 +12,7 @@ const initialState = {
 	productsLoading: false,
 	comparedProducts: [],
 	showComparison: false,
-	isLogged: false,
+	isLogged: null,
 	alert: {
 		show: false,
 		message: '',

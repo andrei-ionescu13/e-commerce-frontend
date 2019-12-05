@@ -8,7 +8,7 @@ const StyledLink = styled(Link)`
 	display: flex;
 	align-items: center;
 	padding: 0 .5rem;
-
+	text-decoration:none;
 	&:hover {
 		background-color: #484848;
 	}

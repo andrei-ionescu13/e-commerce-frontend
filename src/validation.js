@@ -43,4 +43,41 @@ export const reviewSchema = Yup.object().shape({
 	review: Yup.string()
 		.required('Review-ul este obligatoriu')
 		.min(20, 'Review-ul trebuie sa aiba minimum 20 de caractere')
+		.max(255, 'Review-ul poate avea maxim 255 de caractere')
+});
+
+export const questionSchema = Yup.object().shape({
+	question: Yup.string()
+		.required('Intrebarea este obligatorie')
+		.max(255, 'Intrebarea poate avea maxim 255 de caractere')
+});
+
+export const answerSchema = Yup.object().shape({
+	answer: Yup.string().required('Raspunsul este obligatoriu').max(255, 'Raspunsul poate avea maxim 255 de caractere')
+});
+
+export const userDataSchema = Yup.object().shape({
+	lastName: Yup.string().required('Numele este obligatoriu '),
+	firstName: Yup.string().required('Prenumele este obligatoriu '),
+	phone: Yup.string()
+		.matches(
+			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+			'Numarul de telefon nu este in formatul corespunzator'
+		)
+		.required('Numarul de telefon este obligatoriu'),
+	dateOfBirth: Yup.date('Data nasterii nu este in formatul corespunzator').nullable()
+});
+
+export const AdressSchema = Yup.object().shape({
+	lastName: Yup.string().required('Numele este obligatoriu '),
+	firstName: Yup.string().required('Prenumele este obligatoriu '),
+	phone: Yup.string()
+		.matches(
+			/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+			'Numarul de telefon nu este in formatul corespunzator'
+		)
+		.required('Numarul de telefon este obligatoriu'),
+	county: Yup.string().required('Judetul este obligatoriu'),
+	city: Yup.string().required('Orasul este obligatoriu'),
+	adress: Yup.string().notOneOf([ '' ], 'Adresa este obligatorie').required('Adresa este obligatorie')
 });

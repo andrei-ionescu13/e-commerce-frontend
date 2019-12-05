@@ -16,13 +16,13 @@ const StyledOldPrice = styled.div`
 	}
 `;
 
-const ProductOldPrice = ({ price, discountedPrice }) => {
+const OldPrice = ({ price, discountedPrice }) => {
 	return (
 		<StyledOldPrice>
 			{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}
-			<sup>{discountedPrice && price.toString().split('.')[1]}</sup>
+			<sup>{discountedPrice && parseFloat(price).toFixed(2).toString().split('.')[1]}</sup>
 		</StyledOldPrice>
 	);
 };
 
-export default ProductOldPrice;
+export default OldPrice;

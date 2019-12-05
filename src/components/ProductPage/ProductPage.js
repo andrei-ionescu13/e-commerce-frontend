@@ -10,18 +10,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ProductRating from '../Product/ProductRating';
 import ReviewsSection from './ReviewsSection';
-
-const StyledReviewLinkButton = styled(Link)`
-	text-decoration:none;
-	background:var(--primary-color);
-	color:white;
-	height:4rem;
-	width:18%;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	font-size:1.7rem;
-`;
+import Price from '../Product/Price';
+import OldPrice from '../Product/OldPrice';
+import { setProductsAndFiltersAsync } from '../../store/Actions/ProductsActions';
+import QuestionsSection from './QuestionsSection';
 
 const RatingContainer = styled.div`
 	display: flex;
@@ -30,22 +22,67 @@ const RatingContainer = styled.div`
 	margin-bottom: 1rem;
 `;
 
+const StyledButton = styled.button`
+	cursor: pointer;
+	text-decoration: none;
+	background: var(--primary-color);
+	color: ${props => (props.active ? 'white' : '#6c6c6c')};
+	border: none;
+	height: 4rem;
+	width: 13rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.7rem;
+`;
+const StyledLine = styled.div`
+	background: #6c6c6c;
+	width: 2px;
+`;
+
+const FlexContainer = styled.div`
+	display: flex;
+	margin-bottom: 5rem;
+`;
+
 const ProductPage = ({ location }) => {
 	const [ loading, setLoading ] = useState(true);
-	const productName = location.pathname.substring(1);
 	const [ product, setProduct ] = useState({});
-	const [ actualPrice, setActualPrice ] = useState();
+	const [ showReviews, setShowReviews ] = useState(true);
+	const [ showQuestions, setShowQuestions ] = useState(false);
+
+	const productName = location.pathname.substring(1);
+
+	console.log(product);
 
 	useEffect(() => {
 		axios
 			.get(`http://localhost:3333/products/${productName}`)
 			.then(result => {
 				setProduct(result.data);
-				setActualPrice((result.data.discountedPrice || result.data.price).toString());
+				// setActualPrice((result.data.discountedPrice || result.data.price).toString());
 				setLoading(false);
 			})
 			.catch(err => console.log(err));
 	}, []);
+
+	const handleReviewsClick = () => {
+		setShowReviews(true);
+		setShowQuestions(false);
+	};
+
+	const handleQuestionsClick = () => {
+		setShowReviews(false);
+		setShowQuestions(true);
+	};
+
+	const setReviews = reviews => {
+		setProduct(product => ({ ...product, reviews }));
+	};
+
+	const setQuestions = questions => {
+		setProduct(product => ({ ...product, questions }));
+	};
 
 	return (
 		!loading && (
@@ -62,15 +99,9 @@ const ProductPage = ({ location }) => {
 						<RatingContainer>
 							<ProductRating reviews={product.reviews} width="2rem" />
 						</RatingContainer>
-						<div className="productPage-product-price">
-							{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
-							<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
-						</div>
-						<div className="productPage-product-oldPrice">
-							{product.discountedPrice &&
-								insertCharacterFromEnd(product.price.toString().split('.')[0], '.', 3)}
-							<sup>{product.discountedPrice && product.price.toString().split('.')[1]}</sup>
-						</div>
+						<Price price={product.price} discountedPrice={product.discountedPrice} />
+
+						<OldPrice price={product.price} discountedPrice={product.discountedPrice} />
 						<button className="productPage-product-buyButton"> Adauga in cos</button>
 						<div />
 						<div className="productPage-flex-container">
@@ -86,8 +117,25 @@ const ProductPage = ({ location }) => {
 					</div>
 				</div>
 				<Specifications specs={product.informations} />
-				<StyledReviewLinkButton to={`/review/${product.name}`}>Lasa un review</StyledReviewLinkButton>
-				<ReviewsSection initialReviews={product.reviews} productName={product.name} />
+				<FlexContainer>
+					<StyledButton active={showReviews} onClick={handleReviewsClick}>
+						Review-uri
+					</StyledButton>
+					<StyledLine />
+					<StyledButton active={showQuestions} onClick={handleQuestionsClick}>
+						Intrebari
+					</StyledButton>
+				</FlexContainer>
+				{showReviews && (
+					<ReviewsSection reviews={product.reviews} setReviews={setReviews} productName={product.name} />
+				)}
+				{showQuestions && (
+					<QuestionsSection
+						questions={product.questions}
+						setQuestions={setQuestions}
+						productName={product.name}
+					/>
+				)}
 			</div>
 		)
 	);

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setIsLogged } from '../store/Actions/ProductsActions';
 import isTokenExpired from '../helpers/isTokenExpired';
 import { useHistory } from 'react-router-dom';
+import Comparison from './ProductsSection/Comparison/Comparison';
 
 const Container = styled.div`
 	width: 70%;
@@ -49,6 +50,10 @@ const Wishlist = () => {
 	const dispatch = useDispatch();
 
 	const fetchData = async () => {
+		if (isTokenExpired('Authorization')) {
+			dispatch(setIsLogged(false));
+			history.push('/login');
+		}
 		const token = Cookies.get('Authorization');
 		setLoading(true);
 		const headers = { Authorization: token };
@@ -56,43 +61,70 @@ const Wishlist = () => {
 			const response = await axios.get('http://localhost:3333/user/wishlist', { headers: headers });
 			setProducts(response.data);
 		} catch (error) {
-			console.log(error);
+			if (error.response.status === 404) {
+				dispatch(setIsLogged(false));
+				history.push('/login');
+			}
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		if (isTokenExpired('Authorization')) {
-			dispatch(setIsLogged(false));
-			history.push('/login');
-		}
 		fetchData();
 	}, []);
 
+	const deleteProduct = async productId => {
+		const token = Cookies.get('Authorization');
+		const headers = { Authorization: token };
+
+		try {
+			const response = await axios.put(
+				'http://localhost:3333/user/wishlist',
+				{ productId: productId },
+				{ headers: headers }
+			);
+			setProducts(products.filter(x => x._id != productId));
+		} catch (error) {
+			console.log(error);
+			if (error.response.status === 401 || 404);
+			{
+				Cookies.remove('Authorization');
+				dispatch(setIsLogged(false));
+				history.push('/login');
+			}
+		}
+	};
+
 	return (
 		!loading && (
-			<Container>
-				<WishlistTitle>Wishlist</WishlistTitle>
-				{products.length > 0 ? (
-					<Grid>
-						{products.map(x => (
-							<Product
-								key={x._id}
-								_id={x._id}
-								name={x.name}
-								price={x.price}
-								discountedPrice={x.discountedPrice}
-								category={x.category}
-								imagesURL={x.imagesURL}
-								reviews={x.reviews}
-							/>
-						))}
-					</Grid>
-				) : (
-					<NoProductsMessage>Nu aveti produse in wishlist</NoProductsMessage>
-				)}
-			</Container>
+			<React.Fragment>
+				<Container>
+					<WishlistTitle>Wishlist</WishlistTitle>
+					{products.length > 0 ? (
+						<Grid>
+							{products.map(x => (
+								<Product
+									key={x._id}
+									_id={x._id}
+									name={x.name}
+									price={x.price}
+									discountedPrice={x.discountedPrice}
+									category={x.category}
+									imagesURL={x.imagesURL}
+									reviews={x.reviews}
+									showWishlist={false}
+									showDelete={true}
+									deleteFunction={() => deleteProduct(x._id)}
+								/>
+							))}
+						</Grid>
+					) : (
+						<NoProductsMessage>Nu aveti produse in wishlist</NoProductsMessage>
+					)}
+				</Container>
+				<Comparison />
+			</React.Fragment>
 		)
 	);
 };

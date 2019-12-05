@@ -13,8 +13,10 @@ import ProductReview from './components/Forms/ProductReview';
 import Navbar from './components/Navbar/Navbar';
 import Brands from './components/Brands/Brands';
 import Newsletter from './components/Newsletter/Newsletter';
-import Promotions from './components/Promotions';
 import Wishlist from './components/Wishlist';
+import PromotionsSlider from './components/PromotionsSlider';
+import UserInfo from './components/UserInfo/UserInfo';
+import ProductQuestion from './components/Forms/ProductQuestion';
 
 const Routes = () => {
 	const history = useHistory();
@@ -24,6 +26,7 @@ const Routes = () => {
 		<React.Fragment>
 			<Route path="/" component={Navbar} />
 			{/* <Navbar /> */}
+
 			<Switch>
 				<Route path="/search" component={ProductsSection} />{' '}
 				<Route path="/promotions" component={ProductsSection} />
@@ -33,15 +36,20 @@ const Routes = () => {
 				<Route path="/login" render={() => <LogIn dispatch={dispatch} />} />
 				<Route path="/recovery" component={PasswordRecovery} />
 				<Route path="/reset/:token" component={PasswordReset} />
-				<Route path="/review" component={ProductReview} />
+				<Route path="/review/:productName" component={ProductReview} />
+				<Route path="/question/:productName" component={ProductQuestion} />
 				<Route path="/wishlist" component={Wishlist} />
+				<Route path="/info" render={() => <UserInfo dispatch={dispatch} history={history} />} />
 				<Route path="/:productName" component={ProductPage} />
-				{/* <Route path="/" component={Brands} /> */}
-				>
-				{/* <Route path="*">
-				<Redirect to="/" />
-			</Route>
-			<Route component={NotFoundRedirect} /> */}
+				<Route
+					path="/"
+					render={() => (
+						<React.Fragment>
+							<PromotionsSlider itemsPerSlide={6} numberOfItems={20} />
+							<Brands />
+						</React.Fragment>
+					)}
+				/>
 			</Switch>
 		</React.Fragment>
 	);

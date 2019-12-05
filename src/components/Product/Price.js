@@ -13,15 +13,15 @@ const StyledPrice = styled.div`
 	}
 `;
 
-const ProductPrice = ({ price, discountedPrice }) => {
+const Price = ({ price, discountedPrice }) => {
 	const actualPrice = (discountedPrice || price).toString();
 
 	return (
 		<StyledPrice>
 			{insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}
-			<sup>{Number.isInteger(parseFloat(actualPrice)) ? '00' : actualPrice.split('.')[1]}</sup>
+			<sup>{parseFloat(actualPrice).toFixed(2).toString().split('.')[1]}</sup>
 		</StyledPrice>
 	);
 };
 
-export default ProductPrice;
+export default Price;

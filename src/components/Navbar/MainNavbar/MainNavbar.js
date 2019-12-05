@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isLoggedSelector } from '../../../store/Selectors/ProductsSelector';
 import UserDropdown from './UserDropdown/UserDropdown';
+import { isLoop } from '@babel/types';
 
 const StyledLink = styled(Link)`	
 	text-decoration:none;
@@ -46,16 +47,16 @@ const FlexContainer = styled.div`
 `;
 const MainNavbar = () => {
 	const isLogged = useSelector(state => isLoggedSelector(state));
-
+	console.log(isLogged);
 	return (
 		<NavbarContainer>
 			<Navbar>
 				<Logo />
 				<Search />
 				<FlexContainer>
-					{isLogged ? (
-						<UserDropdown />
-					) : (
+					{isLogged  && <UserDropdown />}
+
+					{!isLogged  && (
 						<React.Fragment>
 							<StyledLink to="/login">LogIn</StyledLink>
 							<StyledLink to="/signup">SigUp</StyledLink>

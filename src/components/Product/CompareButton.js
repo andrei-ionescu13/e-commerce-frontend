@@ -11,7 +11,7 @@ const StyledCompareButton = styled.button`
 	align-items: center;
 	background: transparent;
 	border: none;
-
+	padding: 0;
 	svg {
 		width: 1rem;
 	}
@@ -54,7 +54,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
-				}, 3000);
+				}, 1500);
 				return;
 			}
 			if (comparedProductsInStorage.length >= 4) {
@@ -74,7 +74,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
-				}, 3000);
+				}, 1500);
 				return;
 			}
 			comparedProductsInStorage.forEach(x => {
