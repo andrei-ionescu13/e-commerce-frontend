@@ -1,5 +1,6 @@
 import Cookie from 'js-cookie';
 import jwt_decode from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
 
 const isTokenExpired = tokenName => {
 	const token = Cookie.get(tokenName);

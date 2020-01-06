@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
-const FilterItem = ({ value, occurrence, onClickHandler, location, filterName }) => {
+const FilterItem = ({ value, occurrence, onClickHandler, filterName }) => {
+	const location = useLocation();
+
 	const verifyChecked = () => {
 		let values = queryString.parse(location.search)[filterName];
 		if (Array.isArray(values) && values.includes(value)) {
@@ -30,4 +32,4 @@ const FilterItem = ({ value, occurrence, onClickHandler, location, filterName })
 	);
 };
 
-export default withRouter(FilterItem);
+export default FilterItem;

@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import UserDataForm from './UserDataForm';
 import styled from 'styled-components';
 import axios from 'axios';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import Cookies from 'js-cookie';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { decodeToken } from '../../helpers/decodeToken';
-import AdressForm from './AdressForm';
+import AddressForm from './AddressForm';
 import { PortalWithState } from 'react-portal';
 import Modal from '../Modal';
-import Adress from './Adress';
+import Address from './Address';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const Container = styled.div`
 	padding: 0 20rem;
@@ -23,7 +21,7 @@ const Container = styled.div`
 	border-radius: 1rem;
 `;
 
-const AddAdressButton = styled.button`
+const AddAddressButton = styled.button`
 	height: 3.5rem;
 	width: 11rem;
 	border: 2px solid var(--primary-color);
@@ -38,7 +36,7 @@ const AddAdressButton = styled.button`
 	}
 `;
 
-const AdressesContainer = styled.div`
+const AddressesContainer = styled.div`
 	width: 100%;
 	border: 1px solid lightgray;
 	padding: 2rem;
@@ -52,18 +50,18 @@ const UserInfo = () => {
 	const [ lastName, setLastName ] = useState('');
 	const [ phone, setPhone ] = useState('');
 	const [ dateOfBirth, setDateOfBirth ] = useState(null);
-	const [ adresses, setAdresses ] = useState([]);
-	const history = useHistory();
-	const dispatch = useDispatch();
+	const [ addresses, setAddresses ] = useState([]);
+
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
 
 	useEffect(() => {
 		const fetchData = async () => {
-			if (isTokenExpired('Authorization')) {
-				Cookies.remove('Authorization');
-				dispatch(setIsLogged(false));
-				history.push('/login');
+			if (!isAuthenticated) {
+				redirectToLogin();
 			}
-			const token = Cookies.get('Authorization');
+
+			  
+ 
 			try {
 				const headers = { Authorization: token };
 				const response = await axios.get('http://localhost:3333/user/data', { headers: headers });
@@ -72,7 +70,7 @@ const UserInfo = () => {
 				setLastName(user.lastName);
 				setPhone(user.phone);
 				setDateOfBirth(user.dateOfBirth);
-				setAdresses(user.deliveryAdresses);
+				setAddresses(user.deliveryAddresses);
 			} catch (error) {}
 		};
 		fetchData();
@@ -82,13 +80,13 @@ const UserInfo = () => {
 		<Container>
 			<UserDataForm firstName={firstName} lastName={lastName} phone={phone} dateOfBirth={dateOfBirth} />
 			<h3>Adrese</h3>
-			<AdressesContainer>
-				{adresses.length === 0 ? (
+			<AddressesContainer>
+				{addresses.length === 0 ? (
 					<h5>Nu aveti nici o adresa</h5>
 				) : (
-					adresses.map(x => (
-						<Adress
-							setAdresses={setAdresses}
+					addresses.map(x => (
+						<Address
+							setAddresses={setAddresses}
 							key={x._id}
 							id={x._id}
 							firstName={x.firstName}
@@ -96,28 +94,23 @@ const UserInfo = () => {
 							phone={x.phone}
 							county={x.county}
 							city={x.city}
-							adress={x.adress}
+							address={x.address}
 						/>
 					))
 				)}
 				<PortalWithState closeOnOutsideClick closeOnEsc>
 					{({ openPortal, closePortal, isOpen, portal }) => (
 						<React.Fragment>
-							<AddAdressButton onClick={openPortal}>Adauga adresa</AddAdressButton>
+							<AddAddressButton onClick={openPortal}>Adauga adresa</AddAddressButton>
 							{portal(
 								<Modal close={closePortal}>
-									<AdressForm
-										setAdresses={setAdresses}
-										closePortal={closePortal}
-										history={history}
-										dispatch={dispatch}
-									/>
+									<AddressForm setAddresses={setAddresses} closePortal={closePortal} />
 								</Modal>
 							)}
 						</React.Fragment>
 					)}
 				</PortalWithState>
-			</AdressesContainer>
+			</AddressesContainer>
 		</Container>
 	);
 };

@@ -2,13 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import Modal from '../Modal';
 import { PortalWithState } from 'react-portal';
-import AdressForm from './AdressForm';
+import AddressForm from './AddressForm';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const StyledButton = styled.button`
 	border: 2px solid var(--primary-color);
@@ -38,31 +37,33 @@ const StyledLine = styled.div`
 	margin: 2rem 0;
 `;
 
-const StyledAdressInfo = styled.div`
+const StyledAddressInfo = styled.div`
+	word-wrap: break-word;
 	line-height: 1.7;
 	margin: 0;
 	padding: 0;
+	max-width: 70%;
 `;
 
 const Bold = styled.span`font-weight: bold;`;
 
-const Adress = ({ setAdresses, id, firstName, lastName, phone, county, city, adress }) => {
+const Address = ({ setAddresses, id, firstName, lastName, phone, county, city, address }) => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const deleteAdressHandler = async () => {
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
+	const deleteAddressHandler = async () => {
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
-		const token = Cookies.get('Authorization');
-		try {
+		  
+ 		try {
 			const headers = { Authorization: token };
-			const response = await axios.delete(`http://localhost:3333/user/adress/${id}`, { headers: headers });
-			const adressId = response.data.id;
-			console.log(adressId);
-			setAdresses(adresses => adresses.filter(x => x._id != adressId));
+			const response = await axios.delete(`http://localhost:3333/user/address/${id}`, { headers: headers });
+			const addressId = response.data.id;
+			console.log(addressId);
+			setAddresses(addresses => addresses.filter(x => x._id != addressId));
 		} catch (error) {
 			console.log(error);
 		}
@@ -71,23 +72,23 @@ const Adress = ({ setAdresses, id, firstName, lastName, phone, county, city, adr
 	return (
 		<React.Fragment>
 			<FlexContainer>
-				<StyledAdressInfo>
+				<StyledAddressInfo>
 					<Bold> {`${lastName} ${firstName} - ${phone}`}</Bold>
 					<br />
-					{adress}
+					{address}
 					<br />
-					{`${county} ${city}`}
-				</StyledAdressInfo>
+					{`${county}, ${city}`}
+				</StyledAddressInfo>
 				<div>
-					<StyledButton onClick={deleteAdressHandler}>Sterge</StyledButton>
+					<StyledButton onClick={deleteAddressHandler}>Sterge</StyledButton>
 					<PortalWithState closeOnOutsideClick closeOnEsc>
 						{({ openPortal, closePortal, isOpen, portal }) => (
 							<React.Fragment>
 								<StyledButton onClick={openPortal}>Modifica</StyledButton>
 								{portal(
 									<Modal close={closePortal}>
-										<AdressForm
-											setAdresses={setAdresses}
+										<AddressForm
+											setAddresses={setAddresses}
 											closePortal={closePortal}
 											history={history}
 											dispatch={dispatch}
@@ -96,7 +97,7 @@ const Adress = ({ setAdresses, id, firstName, lastName, phone, county, city, adr
 											phone={phone}
 											county={county}
 											city={city}
-											adress={adress}
+											address={address}
 											id={id}
 										/>
 									</Modal>
@@ -111,4 +112,4 @@ const Adress = ({ setAdresses, id, firstName, lastName, phone, county, city, adr
 	);
 };
 
-export default Adress;
+export default Address;

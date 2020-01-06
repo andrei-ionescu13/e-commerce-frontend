@@ -1,13 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
 import axios from 'axios';
-import isTokenExpired from '../../helpers/isTokenExpired';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsLogged, setAlert } from '../../store/Actions/ProductsActions';
+import { setAlert } from '../../store/Actions/ProductsActions';
 import { alertSelector } from '../../store/Selectors/ProductsSelector';
 import Cookies from 'js-cookie';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const StyledWishlistButton = styled.button`
 	cursor: pointer;
@@ -32,25 +31,27 @@ const StyledWishlistButton = styled.button`
 `;
 
 const WishlistButton = ({ productId }) => {
-	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const alert = useSelector(state => alertSelector(state));
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ disabled, setDisabled ] = useState(false);
 
 	const handleClick = async () => {
-		if (isTokenExpired('Authorization')) {
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
-		const token = Cookies.get('Authorization');
+
+		dispatch(
+			setAlert({
+				show: false,
+				message: '',
+				type: null
+			})
+		);
 
 		try {
 			const headers = { Authorization: token };
-			const response = await axios.post(
-				'http://localhost:3333/user/wishlist',
-				{ productId },
-				{ headers: headers }
-			);
+			await axios.post('http://localhost:3333/user/wishlist', { productId }, { headers: headers });
 			dispatch(
 				setAlert({
 					show: true,
@@ -58,6 +59,7 @@ const WishlistButton = ({ productId }) => {
 					type: 'succes'
 				})
 			);
+			setDisabled(true);
 
 			setTimeout(() => {
 				dispatch(
@@ -67,6 +69,7 @@ const WishlistButton = ({ productId }) => {
 						type: null
 					})
 				);
+				setDisabled(false);
 			}, 1000);
 		} catch (error) {
 			if (error.response.status === 405) {
@@ -77,6 +80,8 @@ const WishlistButton = ({ productId }) => {
 						type: 'error'
 					})
 				);
+				setDisabled(true);
+
 				setTimeout(() => {
 					dispatch(
 						setAlert({
@@ -85,15 +90,15 @@ const WishlistButton = ({ productId }) => {
 							type: null
 						})
 					);
+					setDisabled(false);
 				}, 1000);
-			} else if (error.response.status === 401 || 404) {
-				dispatch(setIsLogged(false));
-				history.push('/login');
+			} else if (error.response.status === 401) {
+				redirectToLogin();
 			}
 		}
 	};
 	return (
-		<StyledWishlistButton disabled={alert.show} onClick={() => handleClick()}>
+		<StyledWishlistButton disabled={disabled} onClick={() => handleClick()}>
 			<EmptyHeartIcon />
 			<div>Wishlist</div>
 		</StyledWishlistButton>

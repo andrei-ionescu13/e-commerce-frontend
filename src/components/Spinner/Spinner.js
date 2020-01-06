@@ -4,7 +4,10 @@ import styled from 'styled-components';
 const StyledSpinner = styled.div`
 	color: ${props => props.color || 'var(--primary-color)'};
 	font-size: ${props => props.font || '2rem'};
+
 	margin: 0 auto;
+	margin-top: ${props => props.top};
+
 	width: ${props => props.width || '1rem'};
 	height: ${props => props.width || '1rem'};
 	border-radius: 50%;
@@ -53,9 +56,9 @@ const StyledSpinner = styled.div`
 	}
 `;
 
-const Spinner = ({ width, height, font, color }) => {
+const Spinner = ({ width, height, font, color, top }) => {
 	return (
-		<StyledSpinner width={width} height={height} font={font} color={color}>
+		<StyledSpinner width={width} height={height} font={font} color={color} top={top}>
 			Loading...
 		</StyledSpinner>
 	);

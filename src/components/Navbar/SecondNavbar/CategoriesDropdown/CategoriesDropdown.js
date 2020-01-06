@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Banner from '../../../Banner/Banner';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import CategoriesList from './CategoriesList';
 
@@ -9,8 +8,7 @@ const StyledDropdown = styled.div`
 	position: relative;
 	display: block;
 
-	&:hover,
-	&:focus-within {
+	&:hover {
 		> div {
 			display: flex;
 		}

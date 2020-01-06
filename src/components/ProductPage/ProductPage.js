@@ -14,6 +14,7 @@ import Price from '../Product/Price';
 import OldPrice from '../Product/OldPrice';
 import { setProductsAndFiltersAsync } from '../../store/Actions/ProductsActions';
 import QuestionsSection from './QuestionsSection';
+import { useHistory } from 'react-router-dom';
 
 const RatingContainer = styled.div`
 	display: flex;
@@ -25,19 +26,15 @@ const RatingContainer = styled.div`
 const StyledButton = styled.button`
 	cursor: pointer;
 	text-decoration: none;
-	background: var(--primary-color);
-	color: ${props => (props.active ? 'white' : '#6c6c6c')};
-	border: none;
+	background: ${props => (props.active ? 'var(--primary-color)' : 'white')};
+	color: ${props => (props.active ? 'white' : 'var(--primary-color)')};
+	border: ${props => (props.active ? 'white' : '2px solid var(--primary-color)')};
 	height: 4rem;
 	width: 13rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	font-size: 1.7rem;
-`;
-const StyledLine = styled.div`
-	background: #6c6c6c;
-	width: 2px;
 `;
 
 const FlexContainer = styled.div`
@@ -51,20 +48,27 @@ const ProductPage = ({ location }) => {
 	const [ showReviews, setShowReviews ] = useState(true);
 	const [ showQuestions, setShowQuestions ] = useState(false);
 
+	const history = useHistory();
+
 	const productName = location.pathname.substring(1);
 
-	console.log(product);
-
-	useEffect(() => {
-		axios
-			.get(`http://localhost:3333/products/${productName}`)
-			.then(result => {
-				setProduct(result.data);
-				// setActualPrice((result.data.discountedPrice || result.data.price).toString());
-				setLoading(false);
-			})
-			.catch(err => console.log(err));
-	}, []);
+	useEffect(
+		() => {
+			axios
+				.get(`http://localhost:3333/products/${productName}`)
+				.then(result => {
+					if (!result.data) {
+						history.push('/');
+						return;
+					}
+					setProduct(result.data);
+					// setActualPrice((result.data.discountedPrice || result.data.price).toString());
+					setLoading(false);
+				})
+				.catch(err => console.log(err));
+		},
+		[ productName ]
+	);
 
 	const handleReviewsClick = () => {
 		setShowReviews(true);
@@ -121,7 +125,6 @@ const ProductPage = ({ location }) => {
 					<StyledButton active={showReviews} onClick={handleReviewsClick}>
 						Review-uri
 					</StyledButton>
-					<StyledLine />
 					<StyledButton active={showQuestions} onClick={handleQuestionsClick}>
 						Intrebari
 					</StyledButton>

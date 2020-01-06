@@ -3,7 +3,7 @@ import './Products.css';
 import { useSelector } from 'react-redux';
 import { orderedProductsSelector, itemsPerPageSelector } from '../../../store/Selectors/ProductsSelector';
 import ReactPaginate from 'react-paginate';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Product from '../../Product/Product';
 import queryString from 'query-string';
 import _ from 'lodash';
@@ -25,10 +25,13 @@ const StyledProducts = styled.div`
 	}
 `;
 
-const Products = ({ history, location }) => {
+const Products = () => {
 	let products = useSelector(state => orderedProductsSelector(state));
 	const [ productsShown, setProductsShown ] = useState([]);
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
+
+	const history = useHistory();
+	const location = useLocation();
 
 	useEffect(
 		() => {
@@ -107,4 +110,4 @@ const Products = ({ history, location }) => {
 	);
 };
 
-export default withRouter(Products);
+export default Products;

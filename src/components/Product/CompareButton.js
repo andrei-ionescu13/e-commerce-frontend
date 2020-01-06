@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ const StyledCompareButton = styled.button`
 const CompareButton = ({ _id, category, imageURL, name }) => {
 	const dispatch = useDispatch();
 
-	const alert = useSelector(state => alertSelector(state));
+	const [ disabled, setDisabled ] = useState(false);
 
 	const handleOnClick = () => {
 		const comparedProducts = [];
@@ -45,6 +45,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 						type: 'error'
 					})
 				);
+				setDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -54,6 +55,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
+					setDisabled(false);
 				}, 1500);
 				return;
 			}
@@ -65,6 +67,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 						type: 'error'
 					})
 				);
+				setDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -74,6 +77,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
+					setDisabled(false);
 				}, 1500);
 				return;
 			}
@@ -92,7 +96,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 	};
 
 	return (
-		<StyledCompareButton disabled={alert.show} onClick={() => handleOnClick()}>
+		<StyledCompareButton disabled={disabled} onClick={() => handleOnClick()}>
 			<CompareIcon />
 			<div>Compara</div>
 		</StyledCompareButton>

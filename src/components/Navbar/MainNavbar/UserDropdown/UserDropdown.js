@@ -7,7 +7,6 @@ import LogoutButton from './LogoutButton';
 const StyledUserDropdown = styled.div`
 	position: relative;
 	display: flex;
-	flex-flow: center;
 	justify-content: center;
 	&:hover {
 		> div {
@@ -43,7 +42,7 @@ const StyledContent = styled.div`
 	}
 `;
 
-const StyledUserIconButton = styled.button`
+const StyledUserIconLink = styled(Link)`
 	margin-right: 2rem;
 	cursor: pointer;
 	display: flex;
@@ -64,9 +63,9 @@ const StyledUserIcon = styled(UserIcon)`
 const UserDropdown = () => {
 	return (
 		<StyledUserDropdown>
-			<StyledUserIconButton>
+			<StyledUserIconLink to="/info">
 				<StyledUserIcon />
-			</StyledUserIconButton>
+			</StyledUserIconLink>
 			<StyledContent>
 				<Link to="/info">Date Personale</Link>
 				<Link to="/reviews">Review-urile mele</Link>

@@ -2,14 +2,13 @@ import React, { useState, useRef } from 'react';
 import Rating from '../Rating/Rating';
 import styled from 'styled-components';
 import axios from 'axios';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import { useDispatch } from 'react-redux';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { useHistory, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { reviewSchema } from '../../validation';
 import { FormError } from '../../styles';
 import { FormMessage } from '../../styles';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const Container = styled.div`
 	display: flex;
@@ -55,21 +54,12 @@ const ProductReview = () => {
 	const [ isSubmitting, setIsSubmitting ] = useState(false);
 	const [ succesMessage, setSuccesMessage ] = useState(null);
 
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const params = useParams();
 
-	console.log(params);
-	const reviewRef = useRef(null);
-	const buttonRef = useRef(null);
-
-	const handleKeyPress = e => {
-		const name = e.target.name;
-		const key = e.key;
-		if (name === 'review' && key === 'Enter') buttonRef.current.focus();
-	};
-
-	console.log(isSubmitting);
 	const reset = () => {
 		setRating(0);
 		setReview('');
@@ -83,10 +73,8 @@ const ProductReview = () => {
 		e.preventDefault();
 		setIsSubmitting(true);
 
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		setErrorMessage(null);
@@ -101,8 +89,6 @@ const ProductReview = () => {
 			setIsSubmitting(false);
 		}
 
-		const token = Cookies.get('Authorization');
-
 		try {
 			const headers = { Authorization: token };
 			console.log(headers);
@@ -115,9 +101,7 @@ const ProductReview = () => {
 			setSuccesMessage('Review trimis');
 		} catch (error) {
 			if (error.response.status === 401 || error.response.status === 404) {
-				Cookies.remove('Authorization');
-				dispatch(setIsLogged(false));
-				history.push('/login');
+				redirectToLogin();
 			}
 			setErrorMessage(error.response.data.error);
 		} finally {
@@ -143,16 +127,8 @@ const ProductReview = () => {
 				/>
 			</Container>
 			<StyledLabel htmlFor="review">Review:</StyledLabel>
-			<StyledTextarea
-				ref={reviewRef}
-				name="review"
-				value={review}
-				onKeyPress={e => handleKeyPress(e)}
-				onChange={e => handleChangeReview(e)}
-				rows="12"
-				cols="60"
-			/>
-			<AddReviewButton ref={buttonRef} disabled={isSubmitting} type="submit">
+			<StyledTextarea name="review" value={review} onChange={e => handleChangeReview(e)} rows="12" cols="60" />
+			<AddReviewButton disabled={isSubmitting} type="submit">
 				Adauga review
 			</AddReviewButton>
 			{errorMessage && <FormError>{errorMessage}</FormError>}

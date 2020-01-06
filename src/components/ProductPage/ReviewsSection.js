@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Rating from '../Rating/Rating';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import decodeToken from '../../helpers/decodeToken';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
@@ -9,12 +8,12 @@ import { useDispatch } from 'react-redux';
 import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const UserReview = styled.div`
 	display: flex;
 	min-height: 10rem;
 	border-top: 2px solid #f5f5f5;
-	align-items: center;
 `;
 
 const StyledReviewLinkButton = styled(Link)`
@@ -67,23 +66,21 @@ const DeleteButton = styled.button`
 	border: none;
 	cursor: pointer;
 `;
+
 const StyledHeader = styled.h4`text-align: center;`;
 
 const ReviewsSection = ({ reviews, setReviews, productName }) => {
 	let userId;
-	const dispatch = useDispatch();
-	const history = useHistory();
-	const token = Cookies.get('Authorization');
 
-	if (!isTokenExpired('Authorization')) {
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
+	if (isAuthenticated) {
 		userId = decodeToken(token).id;
 	}
 
 	const handleDelete = async reviewId => {
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		try {

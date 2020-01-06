@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { orderBySelector } from '../../../../store/Selectors/ProductsSelector';
 import { setOrderBy } from '../../../../store/Actions/ProductsActions';
 import './OrderBy.css';
 import queryString from 'query-string';
 
-const OrderBy = ({ history, location }) => {
+const OrderBy = () => {
 	const dispatch = useDispatch();
 	const orderBy = useSelector(state => orderBySelector(state));
+
+	const history = useHistory();
+	const location = useLocation();
 
 	useEffect(
 		() => {
@@ -43,4 +46,4 @@ const OrderBy = ({ history, location }) => {
 	);
 };
 
-export default withRouter(OrderBy);
+export default OrderBy;

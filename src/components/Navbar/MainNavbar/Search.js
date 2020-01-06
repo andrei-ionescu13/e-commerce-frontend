@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ReactComponent as SearchIcon } from '../../../assets/icons/search.svg';
 import useInput from '../../../hooks/useInput';
 import styled from 'styled-components';
@@ -36,9 +36,11 @@ const StyledSearchIcon = styled(SearchIcon)`
 	width: 2.3rem;
 `;
 
-const Search = ({ history }) => {
+const Search = () => {
 	const [ keyword, bindKeyword, resetKeyword ] = useInput('');
 	const [ iconColor, setIconColor ] = useState('Azure');
+
+	const history = useHistory();
 
 	const submit = e => {
 		e.preventDefault();
@@ -72,4 +74,4 @@ const Search = ({ history }) => {
 	);
 };
 
-export default withRouter(Search);
+export default Search;

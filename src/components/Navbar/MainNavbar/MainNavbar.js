@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Logo from './Logo';
 import Search from './Search';
-import Cart from './Cart';
+import Cart from './Cart/Cart';
 import { ReactComponent as UserIcon } from '../../../assets/icons/user.svg';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isLoggedSelector } from '../../../store/Selectors/ProductsSelector';
 import UserDropdown from './UserDropdown/UserDropdown';
 import { isLoop } from '@babel/types';
+import useIsAuthenticated from '../../../hooks/useIsAuthenticated';
 
 const StyledLink = styled(Link)`	
 	text-decoration:none;
@@ -46,17 +47,17 @@ const FlexContainer = styled.div`
 	/* width: 12%; */
 `;
 const MainNavbar = () => {
-	const isLogged = useSelector(state => isLoggedSelector(state));
-	console.log(isLogged);
+	// const isLogged = useSelector(state => isLoggedSelector(state));
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
 	return (
 		<NavbarContainer>
 			<Navbar>
 				<Logo />
 				<Search />
 				<FlexContainer>
-					{isLogged  && <UserDropdown />}
+					{isAuthenticated && <UserDropdown />}
 
-					{!isLogged  && (
+					{!isAuthenticated && (
 						<React.Fragment>
 							<StyledLink to="/login">LogIn</StyledLink>
 							<StyledLink to="/signup">SigUp</StyledLink>

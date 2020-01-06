@@ -12,3 +12,4 @@ export const SET_PRODUCT = 'SET_PRODUCT';
 export const SET_COMPARED_PRODUCTS = 'SET_COMPARED_PRODUCTS';
 export const SET_IS_LOGGED = 'SET_IS_LOGGED';
 export const SET_ALERT = 'SET_ALERT';
+export const SET_CART = 'SET_CART';

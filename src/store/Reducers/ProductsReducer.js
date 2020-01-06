@@ -17,7 +17,8 @@ const initialState = {
 		show: false,
 		message: '',
 		type: null
-	}
+	},
+	cart: null
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -101,6 +102,12 @@ const reducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				alert: payload
+			};
+		}
+		case types.SET_CART: {
+			return {
+				...state,
+				cart: payload
 			};
 		}
 		default:

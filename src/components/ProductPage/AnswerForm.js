@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import isTokenExpired from '../../helpers/isTokenExpired';
-import { useDispatch } from 'react-redux';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
-import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { answerSchema } from '../../validation';
 import { FormError } from '../../styles';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const StyledButton = styled.button`
 	font-weight: 600;
@@ -43,8 +40,7 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 
 	const answerRef = useRef(null);
 
-	const dispatch = useDispatch();
-	const history = useHistory();
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
 
 	const handleAnswerChange = e => {
 		setAnswer(e.target.value);
@@ -58,10 +54,8 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 		e.preventDefault();
 		setIsSubmitting(true);
 
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		setErrorMessage(null);
@@ -75,8 +69,8 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 			setIsSubmitting(false);
 		}
 
-		const token = Cookies.get('Authorization');
-
+		  
+ 
 		try {
 			const headers = { Authorization: token };
 			const result = await axios.post(
@@ -93,9 +87,7 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 		} catch (error) {
 			console.log(error);
 			if (error.response.status === 401) {
-				Cookies.remove('Authorization');
-				dispatch(setIsLogged(false));
-				history.push('/login');
+				redirectToLogin();
 			}
 			setErrorMessage(error.response.data.error);
 		} finally {

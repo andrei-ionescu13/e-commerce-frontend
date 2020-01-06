@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import './Comparison.css';
 import { ReactComponent as CheckedIcon } from '../../../assets/icons/checked.svg';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { comparedProductsSelector } from '../../../store/Selectors/ProductsSelector';
 import { setComparedProducts } from '../../../store/Actions/ProductsActions';
 import ComparedItem from './ComparedItem';
 
-const Comparison = ({ history }) => {
-	const dispatch = useDispatch();
+const Comparison = () => {
 	const comparedProducts = useSelector(state => comparedProductsSelector(state));
 	const comparedProductsRendered = [];
+
+	const history = useHistory();
+	const dispatch = useDispatch();
+
 	comparedProducts.forEach(x => {
 		comparedProductsRendered.push(<ComparedItem key={x._id} name={x.name} _id={x._id} imageURL={x.imageURL} />);
 	});
@@ -37,4 +40,4 @@ const Comparison = ({ history }) => {
 	);
 };
 
-export default withRouter(Comparison);
+export default Comparison;

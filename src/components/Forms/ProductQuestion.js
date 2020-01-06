@@ -1,15 +1,12 @@
-import React, { useState, useRef } from 'react';
-import Rating from '../Rating/Rating';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import isTokenExpired from '../../helpers/isTokenExpired';
-import { useDispatch } from 'react-redux';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { questionSchema } from '../../validation';
 import { FormError } from '../../styles';
 import { FormMessage } from '../../styles';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const StyledReviewForm = styled.form`
 	padding: 5rem;
@@ -47,25 +44,9 @@ const ProductQuestion = () => {
 	const [ isSubmitting, setIsSubmitting ] = useState(false);
 	const [ succesMessage, setSuccesMessage ] = useState(null);
 
-	const dispatch = useDispatch();
-	const history = useHistory();
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
 	const params = useParams();
-
-	console.log(params);
-	const questionRef = useRef(null);
-	const buttonRef = useRef(null);
-
-	const handleKeyPress = e => {
-		const name = e.target.name;
-		const key = e.key;
-
-		if (name === 'question' && key === 'Enter') {
-			e.preventDefault();
-			buttonRef.current.focus();
-		}
-	};
-
-	console.log(isSubmitting);
 
 	const reset = () => {
 		setQuestion('');
@@ -79,10 +60,8 @@ const ProductQuestion = () => {
 		e.preventDefault();
 		setIsSubmitting(true);
 
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		setErrorMessage(null);
@@ -97,8 +76,6 @@ const ProductQuestion = () => {
 			setIsSubmitting(false);
 		}
 
-		const token = Cookies.get('Authorization');
-
 		try {
 			const headers = { Authorization: token };
 			console.log(headers);
@@ -108,12 +85,10 @@ const ProductQuestion = () => {
 				{ headers: headers }
 			);
 			reset();
-			setSuccesMessage('Intrebare trimis');
+			setSuccesMessage('Intrebarea a fost trimisa');
 		} catch (error) {
 			if (error.response.status === 401 || error.response.status === 404) {
-				Cookies.remove('Authorization');
-				dispatch(setIsLogged(false));
-				history.push('/login');
+				redirectToLogin();
 			}
 			setErrorMessage(error.response.data.error);
 		} finally {
@@ -125,15 +100,13 @@ const ProductQuestion = () => {
 		<StyledReviewForm method="post" onSubmit={e => handleSubmit(e)}>
 			<StyledLabel htmlFor="question">Intrebare:</StyledLabel>
 			<StyledTextarea
-				ref={questionRef}
 				name="question"
 				value={question}
 				onChange={e => handleQuestionChange(e)}
-				onKeyPress={e => handleKeyPress(e)}
 				rows="12"
 				cols="60"
 			/>
-			<AddReviewButton ref={buttonRef} disabled={isSubmitting} type="submit">
+			<AddReviewButton disabled={isSubmitting} type="submit">
 				Submit
 			</AddReviewButton>
 			{errorMessage && <FormError>{errorMessage}</FormError>}

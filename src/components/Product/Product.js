@@ -75,7 +75,7 @@ const Product = ({
 			</RatingContainer>
 			<Price price={price} discountedPrice={discountedPrice} />
 			<OldPrice price={price} discountedPrice={discountedPrice} />
-			<BuyButton>Adauga in cos</BuyButton>
+			<BuyButton productId={_id}>Adauga in cos</BuyButton>
 			<Discount price={price} discountedPrice={discountedPrice} />
 			<FlexContainer>
 				<CompareButton name={name} _id={_id} category={category} imageURL={imagesURL[0]} />

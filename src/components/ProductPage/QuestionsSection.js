@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Rating from '../Rating/Rating';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import decodeToken from '../../helpers/decodeToken';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AnswerForm from './AnswerForm';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const QuestionLinkButton = styled(Link)`
 	text-decoration:none;
@@ -32,16 +30,15 @@ const Question = styled.div`
 
 const QuestionUser = styled.div`
 	flex: 1;
+	font-size: 1.5rem;
 	align-self: stretch;
 	display: flex;
 	flex-flow: column;
 	align-items: center;
 	justify-content: center;
-	position: relative;
-
+	width: 20%;
 	div {
-		bottom: 1rem;
-		left: 1rem;
+		margin-top: 3rem;
 		font-size: 1.2rem;
 	}
 `;
@@ -93,12 +90,9 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 
 	const [ showAnswerForm, setShowAnswerForm ] = useState(false);
 
-	const dispatch = useDispatch();
-	const history = useHistory();
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
 
-	const token = Cookies.get('Authorization');
-
-	if (!isTokenExpired('Authorization')) {
+	if (isAuthenticated) {
 		userId = decodeToken(token).id;
 	}
 
@@ -107,10 +101,8 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 	};
 
 	const handleDeleteQuestion = async questionId => {
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		try {
@@ -127,10 +119,8 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 	};
 
 	const handleDeleteAnswer = async (questionId, answerId) => {
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
 
 		try {
@@ -156,7 +146,7 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 		<React.Fragment>
 			<Question key={question._id}>
 				<QuestionUser>
-					<h5>{`${question.user.lastName} ${question.user.firstName}`}</h5>
+					<h3>{`${question.user.lastName} ${question.user.firstName}`}</h3>
 					<div>{new Date(question.date).toLocaleDateString('ro-RO')} </div>
 				</QuestionUser>
 				<QuestionContent>

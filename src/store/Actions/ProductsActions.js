@@ -90,3 +90,14 @@ export const setAlert = alert => ({
 	type: types.SET_ALERT,
 	payload: alert
 });
+
+export const setCart = cart => ({
+	type: types.SET_CART,
+	payload: cart
+});
+
+export const setCartAsync = (url, config) => async dispatch => {
+	const response = await axios.get(url, config);
+	const { _id, ...cart } = response.data;
+	dispatch(setCart({ ...cart, set: true }));
+};

@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import getPercentage from '../../../helpers/getPercentage';
+import React, { useState, useEffect } from 'react';
 import Discount from '../../Product/Discount';
 
 import './Slideshow.css';
 const Slideshow = ({ imagesURL, productName, price, discountedPrice }) => {
 	const images = imagesURL.map(x => 'http://localhost:3333/images/' + x + '.jpg');
-	const [ mainImage, setMainImage ] = useState(images[0]);
+	const [ mainImage, setMainImage ] = useState();
+
+	useEffect(
+		() => {
+			setMainImage(images[0]);
+		},
+		[ productName ]
+	);
 
 	const onClickHandler = e => {
 		setMainImage(e.target.src);

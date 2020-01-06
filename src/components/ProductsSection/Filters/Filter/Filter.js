@@ -2,15 +2,19 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setActiveFilters } from '../../../../store/Actions/ProductsActions';
 import './Filter.css';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import FilterItem from './FilterItem/FilterItem';
 
-const Filter = ({ filterName, filterValues, history, location }) => {
+const Filter = ({ filterName, filterValues }) => {
 	const filterValuesMapped = [];
+
+	const history = useHistory();
+	const location = useLocation();
+
 	const keys = Object.keys(filterValues).sort((a, b) => {
 		if (a.includes('Sub')) return -1;
-		if (b.includes('Peste')) return 1;
+		// if (b.includes('Peste')) return 1;
 		if (a.includes(' - ') || b.includes(' - ')) {
 			return parseFloat(a.match(/\d+/)) < parseFloat(b.match(/\d+/)) ? -1 : 1;
 		}
@@ -58,4 +62,4 @@ const Filter = ({ filterName, filterValues, history, location }) => {
 	);
 };
 
-export default withRouter(Filter);
+export default Filter;

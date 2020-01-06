@@ -12,15 +12,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import getByKey from '../../../helpers/getByKey';
 import _ from 'lodash';
 import queryString from 'query-string';
-import { withRouter } from 'react-router-dom';
-
 import Filter from './Filter/Filter';
-const Filters = ({ location }) => {
-	const dispatch = useDispatch();
+import { useLocation } from 'react-router-dom';
+
+const Filters = () => {
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
 	const filters = useSelector(state => filtersSelector(state));
 	const products = useSelector(state => productsSelector(state));
 	const badKeyword = useSelector(state => badKeywordSelector(state));
+
+	const dispatch = useDispatch();
+	const location = useLocation();
+
 	let array = [];
 
 	if (products.length > 0 && filters.length > 0 && !productsLoading) {
@@ -39,6 +42,9 @@ const Filters = ({ location }) => {
 					array[0].push(`Peste ${prices[i]}`);
 				}
 			}
+
+			console.log(array[0]);
+
 			for (let index2 = 0; index2 < otherFilters.length; index2++) {
 				let value = getByKey(products[index], otherFilters[index2]);
 				if (typeof value === 'undefined') continue;
@@ -81,4 +87,4 @@ const Filters = ({ location }) => {
 	);
 };
 
-export default withRouter(Filters);
+export default Filters;

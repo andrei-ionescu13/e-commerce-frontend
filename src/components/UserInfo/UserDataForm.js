@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import { registerLocale } from 'react-datepicker';
-import { withFormik } from 'formik';
+import { Formik } from 'formik';
 import axios from 'axios';
 import ro from 'date-fns/locale/ro';
 import 'react-datepicker/dist/react-datepicker.css';
 import { userDataSchema } from '../../validation';
 import _ from 'lodash';
 import { FormError, FormMessage } from '../../styles';
-import isTokenExpired from '../../helpers/isTokenExpired';
 import Cookies from 'js-cookie';
-import { setIsLogged } from '../../store/Actions/ProductsActions';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
+
 const StyledForm = styled.form`
 	display: flex;
 	flex-flow: column;
@@ -81,8 +81,6 @@ const DatePickerWrapper = styled.div`
 	}
 `;
 
-registerLocale('ro', ro);
-
 const StyledButton = styled.button`
 	display: block;
 	width: 30%;
@@ -106,86 +104,91 @@ const StyledButton = styled.button`
 	}
 `;
 
-const UserDataForm = ({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting, setFieldValue }) => {
+registerLocale('ro', ro);
+
+const UserDataForm = ({ firstName, lastName, phone, dateOfBirth }) => {
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
 	const lastMonth = new Date();
 	lastMonth.setMonth(lastMonth.getMonth() - 168);
 
 	return (
-		<StyledForm onSubmit={handleSubmit}>
-			<FlexRowContainer>
-				<FlexColumnContainer>
-					<label>
-						Nume<span>*</span>:
-					</label>
-					<input name="lastName" type="text" value={values.lastName} onChange={handleChange} />
-				</FlexColumnContainer>
+		<Formik
+			enableReinitialize={true}
+			initialValues={{
+				firstName: firstName || '',
+				lastName: lastName || '',
+				phone: phone || '',
+				dateOfBirth: new Date(dateOfBirth) || null
+			}}
+			validationSchema={userDataSchema}
+			validateOnChange={false}
+			onSubmit={async (values, { resetForm, setErrors, setStatus, setSubmitting }) => {
+				setStatus(null);
 
-				<FlexColumnContainer>
-					<label>
-						Prenume<span>*</span>:
-					</label>
-					<input name="firstName" type="text" value={values.firstName} onChange={handleChange} />
-				</FlexColumnContainer>
-			</FlexRowContainer>
-			<FlexColumnContainer>
-				<label>
-					Numar telefon<span>*</span>:
-				</label>
-				<input name="phone" type="text" value={values.phone} onChange={handleChange} />
-			</FlexColumnContainer>
-			<FlexColumnContainer>
-				<label>Data nasterii:</label>
-				<DatePickerWrapper>
-					<DatePicker
-						autcomplete="off"
-						name="dateOfBirth"
-						locale="ro"
-						maxDate={lastMonth}
-						selected={values.dateOfBirth}
-						value={values.dateOfBirth}
-						onChange={e => setFieldValue('dateOfBirth', e)}
-					/>
-				</DatePickerWrapper>
-			</FlexColumnContainer>
-			<StyledButton>Submit</StyledButton>
-			{!_.isEmpty(errors) && <FormError>{Object.values(errors)[0]} </FormError>}
-			{_.isEmpty(errors) && status && <FormMessage>{status.succes}</FormMessage>}
-		</StyledForm>
+				if (!isAuthenticated) {
+					redirectToLogin();
+				}
+				  
+ 
+				try {
+					const headers = { Authorization: token };
+					console.log(values);
+					await axios.post('http://localhost:3333/user/data', values, { headers: headers });
+					setStatus({ succes: 'Datele au fost salvate' });
+				} catch (err) {
+					setErrors({ serverErrors: err.response.data.error });
+				} finally {
+					setSubmitting(false);
+				}
+			}}
+		>
+			{({ values, handleChange, handleSubmit, errors, touched, status, isSubmitting, setFieldValue }) => (
+				<StyledForm onSubmit={handleSubmit}>
+					<FlexRowContainer>
+						<FlexColumnContainer>
+							<label>
+								Nume<span> *</span>:
+							</label>
+							<input name="lastName" type="text" value={values.lastName} onChange={handleChange} />
+						</FlexColumnContainer>
+
+						<FlexColumnContainer>
+							<label>
+								Prenume<span> *</span>:
+							</label>
+							<input name="firstName" type="text" value={values.firstName} onChange={handleChange} />
+						</FlexColumnContainer>
+					</FlexRowContainer>
+					<FlexColumnContainer>
+						<label>
+							Numar telefon<span> *</span>:
+						</label>
+						<input name="phone" type="text" value={values.phone} onChange={handleChange} />
+					</FlexColumnContainer>
+					<FlexColumnContainer>
+						<label>Data nasterii:</label>
+						<DatePickerWrapper>
+							<DatePicker
+								autcomplete="off"
+								name="dateOfBirth"
+								locale="ro"
+								maxDate={lastMonth}
+								selected={values.dateOfBirth}
+								value={values.dateOfBirth}
+								onChange={e => setFieldValue('dateOfBirth', e)}
+							/>
+						</DatePickerWrapper>
+					</FlexColumnContainer>
+					<StyledButton disabled={isSubmitting} type="submit">
+						Submit
+					</StyledButton>
+					{!_.isEmpty(errors) && <FormError>{Object.values(errors)[0]} </FormError>}
+					{_.isEmpty(errors) && status && <FormMessage>{status.succes}</FormMessage>}
+				</StyledForm>
+			)}
+		</Formik>
 	);
 };
 
-export default withFormik({
-	enableReinitialize: true,
-	mapPropsToValues({ firstName, lastName, phone, dateOfBirth }) {
-		return {
-			firstName: firstName || '',
-			lastName: lastName || '',
-			phone: phone || '',
-			dateOfBirth: new Date(dateOfBirth) || null
-		};
-	},
-	async handleSubmit(values, { resetForm, setErrors, setStatus, setSubmitting, props }) {
-		const { history, dispatch } = props;
-		setStatus(null);
-
-		if (isTokenExpired('Authorization')) {
-			Cookies.remove('Authorization');
-			dispatch(setIsLogged(false));
-			history.push('/login');
-		}
-		const token = Cookies.get('Authorization');
-
-		try {
-			const headers = { Authorization: token };
-			console.log(values);
-			await axios.post('http://localhost:3333/user/data', values, { headers: headers });
-			setStatus({ succes: 'Datele au fost salvate' });
-		} catch (err) {
-			setErrors({ serverErrors: err.response.data.error });
-		} finally {
-			setSubmitting(false);
-		}
-	},
-	validationSchema: userDataSchema,
-	validateOnChange: false
-})(UserDataForm);
+export default UserDataForm;

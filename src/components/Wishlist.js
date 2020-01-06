@@ -5,9 +5,9 @@ import Product from './Product/Product';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { setIsLogged } from '../store/Actions/ProductsActions';
-import isTokenExpired from '../helpers/isTokenExpired';
 import { useHistory } from 'react-router-dom';
 import Comparison from './ProductsSection/Comparison/Comparison';
+import useIsAuthenticated from '../hooks/useIsAuthenticated';
 
 const Container = styled.div`
 	width: 70%;
@@ -46,24 +46,24 @@ const Wishlist = () => {
 	const [ products, setProducts ] = useState();
 	const [ loading, setLoading ] = useState(true);
 
+	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+
 	const history = useHistory();
 	const dispatch = useDispatch();
 
 	const fetchData = async () => {
-		if (isTokenExpired('Authorization')) {
-			dispatch(setIsLogged(false));
-			history.push('/login');
+		if (!isAuthenticated) {
+			redirectToLogin();
 		}
-		const token = Cookies.get('Authorization');
-		setLoading(true);
+		  
+ 		setLoading(true);
 		const headers = { Authorization: token };
 		try {
 			const response = await axios.get('http://localhost:3333/user/wishlist', { headers: headers });
 			setProducts(response.data);
 		} catch (error) {
 			if (error.response.status === 404) {
-				dispatch(setIsLogged(false));
-				history.push('/login');
+				redirectToLogin();
 			}
 		} finally {
 			setLoading(false);
@@ -75,8 +75,11 @@ const Wishlist = () => {
 	}, []);
 
 	const deleteProduct = async productId => {
-		const token = Cookies.get('Authorization');
-		const headers = { Authorization: token };
+		if (!isAuthenticated) {
+			redirectToLogin();
+		}
+		  
+ 		const headers = { Authorization: token };
 
 		try {
 			const response = await axios.put(
@@ -89,9 +92,7 @@ const Wishlist = () => {
 			console.log(error);
 			if (error.response.status === 401 || 404);
 			{
-				Cookies.remove('Authorization');
-				dispatch(setIsLogged(false));
-				history.push('/login');
+				redirectToLogin();
 			}
 		}
 	};

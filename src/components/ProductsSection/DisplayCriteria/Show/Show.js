@@ -1,12 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsPerPageSelector } from '../../../../store/Selectors/ProductsSelector';
 import { setItemsPerPage } from '../../../../store/Actions/ProductsActions';
 import './Show.css';
 
-const Show = ({ history, location }) => {
+const Show = () => {
 	const dispatch = useDispatch();
+	const history = useHistory();
+	const location = useLocation();
+
 	const itemsPerPage = useSelector(state => itemsPerPageSelector(state));
 
 	const onChangeHandler = e => {
@@ -17,6 +20,7 @@ const Show = ({ history, location }) => {
 			search: params.toString()
 		});
 	};
+
 	return (
 		<div className="show">
 			<label>Arata: </label>
@@ -29,4 +33,4 @@ const Show = ({ history, location }) => {
 	);
 };
 
-export default withRouter(Show);
+export default Show;

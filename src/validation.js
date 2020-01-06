@@ -68,7 +68,7 @@ export const userDataSchema = Yup.object().shape({
 	dateOfBirth: Yup.date('Data nasterii nu este in formatul corespunzator').nullable()
 });
 
-export const AdressSchema = Yup.object().shape({
+export const AddressSchema = Yup.object().shape({
 	lastName: Yup.string().required('Numele este obligatoriu '),
 	firstName: Yup.string().required('Prenumele este obligatoriu '),
 	phone: Yup.string()
@@ -79,5 +79,5 @@ export const AdressSchema = Yup.object().shape({
 		.required('Numarul de telefon este obligatoriu'),
 	county: Yup.string().required('Judetul este obligatoriu'),
 	city: Yup.string().required('Orasul este obligatoriu'),
-	adress: Yup.string().notOneOf([ '' ], 'Adresa este obligatorie').required('Adresa este obligatorie')
+	address: Yup.string().notOneOf([ '' ], 'Adresa este obligatorie').required('Adresa este obligatorie')
 });
