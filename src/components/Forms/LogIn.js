@@ -65,14 +65,13 @@ const LogIn = ({ email, password }) => {
 				}}
 				validationSchema={logInSchema}
 				validateOnChange={false}
-				onSubmit={async (values, { setErrors, setSubmitting, props }) => {
+				onSubmit={async (values, { setErrors, setSubmitting }) => {
 					try {
 						const response = await axios.post('http://localhost:3333/user/login', {
 							email: values.email,
 							password: values.password
 						});
 						Cookies.set('Authorization', `Bearer ${response.data.token}`);
-						// window.location.href = 'http://localhost:3000/';
 						dispatch(setIsLogged(true));
 						history.push('/');
 					} catch (err) {

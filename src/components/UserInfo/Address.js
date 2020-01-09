@@ -28,6 +28,9 @@ const FlexContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	border-bottom: 1px solid #888;
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
 `;
 
 const StyledLine = styled.div`
@@ -57,8 +60,8 @@ const Address = ({ setAddresses, id, firstName, lastName, phone, county, city, a
 		if (!isAuthenticated) {
 			redirectToLogin();
 		}
-		  
- 		try {
+
+		try {
 			const headers = { Authorization: token };
 			const response = await axios.delete(`http://localhost:3333/user/address/${id}`, { headers: headers });
 			const addressId = response.data.id;
@@ -70,45 +73,42 @@ const Address = ({ setAddresses, id, firstName, lastName, phone, county, city, a
 	};
 
 	return (
-		<React.Fragment>
-			<FlexContainer>
-				<StyledAddressInfo>
-					<Bold> {`${lastName} ${firstName} - ${phone}`}</Bold>
-					<br />
-					{address}
-					<br />
-					{`${county}, ${city}`}
-				</StyledAddressInfo>
-				<div>
-					<StyledButton onClick={deleteAddressHandler}>Sterge</StyledButton>
-					<PortalWithState closeOnOutsideClick closeOnEsc>
-						{({ openPortal, closePortal, isOpen, portal }) => (
-							<React.Fragment>
-								<StyledButton onClick={openPortal}>Modifica</StyledButton>
-								{portal(
-									<Modal close={closePortal}>
-										<AddressForm
-											setAddresses={setAddresses}
-											closePortal={closePortal}
-											history={history}
-											dispatch={dispatch}
-											firstName={firstName}
-											lastName={lastName}
-											phone={phone}
-											county={county}
-											city={city}
-											address={address}
-											id={id}
-										/>
-									</Modal>
-								)}
-							</React.Fragment>
-						)}
-					</PortalWithState>
-				</div>
-			</FlexContainer>
-			<StyledLine />
-		</React.Fragment>
+		<FlexContainer>
+			<StyledAddressInfo>
+				<Bold> {`${lastName} ${firstName} - ${phone}`}</Bold>
+				<br />
+				{address}
+				<br />
+				{`${county}, ${city}`}
+			</StyledAddressInfo>
+			<div>
+				<StyledButton onClick={deleteAddressHandler}>Sterge</StyledButton>
+				<PortalWithState closeOnOutsideClick closeOnEsc>
+					{({ openPortal, closePortal, isOpen, portal }) => (
+						<React.Fragment>
+							<StyledButton onClick={openPortal}>Modifica</StyledButton>
+							{portal(
+								<Modal close={closePortal}>
+									<AddressForm
+										setAddresses={setAddresses}
+										closePortal={closePortal}
+										history={history}
+										dispatch={dispatch}
+										firstName={firstName}
+										lastName={lastName}
+										phone={phone}
+										county={county}
+										city={city}
+										address={address}
+										id={id}
+									/>
+								</Modal>
+							)}
+						</React.Fragment>
+					)}
+				</PortalWithState>
+			</div>
+		</FlexContainer>
 	);
 };
 

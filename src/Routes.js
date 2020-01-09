@@ -19,6 +19,7 @@ import UserInfo from './components/UserInfo/UserInfo';
 import ProductQuestion from './components/Forms/ProductQuestion';
 import UserReviews from './components/UserReviews';
 import UserQuestions from './components/UserQuestions';
+import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 
 const Routes = () => {
 	const history = useHistory();
@@ -32,6 +33,7 @@ const Routes = () => {
 				<Route path="/search" component={ProductsSection} />
 				<Route path="/promotions" component={ProductsSection} />
 				<Route path="/reviews" component={UserReviews} />
+				<Route path="/cart" component={ShoppingCart} />
 				<Route path="/questions" component={UserQuestions} />
 				<Route path="/cat/:category" component={ProductsSection} />
 				<Route path="/compare" component={ComparisonPage} />

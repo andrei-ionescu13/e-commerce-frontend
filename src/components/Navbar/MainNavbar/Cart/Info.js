@@ -44,6 +44,7 @@ const Info = () => {
 			<StyledProducts>
 				{cart.products.map(x => (
 					<Product
+						key={x._id}
 						name={x.product.name}
 						price={x.product.discountedPrice || x.product.price}
 						quantity={x.quantity}
@@ -54,7 +55,7 @@ const Info = () => {
 
 			<StyledSummary>
 				<div>{`TOTAL: ${cart.totalQuantity} produse`}</div>
-				<div>{cart.totalPrice}</div>
+				<div>{`${cart.totalPrice} lei`}</div>
 			</StyledSummary>
 		</Container>
 	);

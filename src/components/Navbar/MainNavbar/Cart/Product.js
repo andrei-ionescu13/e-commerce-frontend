@@ -28,7 +28,7 @@ const Product = ({ name, price, quantity, imgUrl }) => {
 			<img src={imgUrl} />
 			<StyledName>{name}</StyledName>
 			<div>{`x${quantity}`}</div>
-			<div>{price}</div>
+			<div>{`${price} lei`}</div>
 		</StyledProduct>
 	);
 };

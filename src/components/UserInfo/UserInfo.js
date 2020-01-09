@@ -60,8 +60,6 @@ const UserInfo = () => {
 				redirectToLogin();
 			}
 
-			  
- 
 			try {
 				const headers = { Authorization: token };
 				const response = await axios.get('http://localhost:3333/user/data', { headers: headers });
@@ -82,7 +80,7 @@ const UserInfo = () => {
 			<h3>Adrese</h3>
 			<AddressesContainer>
 				{addresses.length === 0 ? (
-					<h5>Nu aveti nici o adresa</h5>
+					<h5>Nu aveti nici o adresa salvata</h5>
 				) : (
 					addresses.map(x => (
 						<Address

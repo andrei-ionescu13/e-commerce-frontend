@@ -81,3 +81,5 @@ export const AddressSchema = Yup.object().shape({
 	city: Yup.string().required('Orasul este obligatoriu'),
 	address: Yup.string().notOneOf([ '' ], 'Adresa este obligatorie').required('Adresa este obligatorie')
 });
+
+export const OrderSchema = Yup.object().shape({});

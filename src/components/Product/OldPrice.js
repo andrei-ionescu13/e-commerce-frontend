@@ -7,20 +7,24 @@ const StyledOldPrice = styled.div`
 	margin-top: 1rem;
 	height: 2rem;
 	color: grey;
-	text-decoration: line-through;
 
 	sup {
 		display: inline-block;
 		font-size: 1rem;
 		text-decoration: none;
 	}
+
+	span {
+		text-decoration: line-through;
+	}
 `;
 
 const OldPrice = ({ price, discountedPrice }) => {
 	return (
 		<StyledOldPrice>
-			{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}
+			<span>{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}</span>
 			<sup>{discountedPrice && parseFloat(price).toFixed(2).toString().split('.')[1]}</sup>
+			{discountedPrice && ' lei'}
 		</StyledOldPrice>
 	);
 };
