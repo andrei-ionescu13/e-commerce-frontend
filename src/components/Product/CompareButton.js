@@ -6,12 +6,14 @@ import { setComparedProducts, setAlert } from '../../store/Actions/ProductsActio
 import { alertSelector } from '../../store/Selectors/ProductsSelector';
 
 const StyledCompareButton = styled.button`
-	cursor: pointer;
+	cursor: ${props => (props.disabledStyle ? 'auto' : 'pointer')};
 	display: flex;
 	align-items: center;
 	background: transparent;
 	border: none;
 	padding: 0;
+	opacity: ${props => props.disabledStyle && '.5'};
+
 	svg {
 		width: 1rem;
 	}
@@ -22,15 +24,15 @@ const StyledCompareButton = styled.button`
 	}
 
 	&:hover {
-		color: var(--primary-color);
-		fill: var(--primary-color);
+		color: ${props => (props.disabledStyle ? 'inherit' : 'var(--primary-color)')};
+		fill: ${props => (props.disabledStyle ? 'inherit' : 'var(--primary-color)')};
 	}
 `;
 
-const CompareButton = ({ _id, category, imageURL, name }) => {
+const CompareButton = ({ _id, category, imageURL, name, opacity, disabled }) => {
 	const dispatch = useDispatch();
 
-	const [ disabled, setDisabled ] = useState(false);
+	const [ isDisabled, setIsDisabled ] = useState(disabled);
 
 	const handleOnClick = () => {
 		const comparedProducts = [];
@@ -45,7 +47,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 						type: 'error'
 					})
 				);
-				setDisabled(true);
+				setIsDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -55,7 +57,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
-					setDisabled(false);
+					setIsDisabled(false);
 				}, 1500);
 				return;
 			}
@@ -67,7 +69,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 						type: 'error'
 					})
 				);
-				setDisabled(true);
+				setIsDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -77,7 +79,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 							type: null
 						})
 					);
-					setDisabled(false);
+					setIsDisabled(false);
 				}, 1500);
 				return;
 			}
@@ -96,7 +98,7 @@ const CompareButton = ({ _id, category, imageURL, name }) => {
 	};
 
 	return (
-		<StyledCompareButton disabled={disabled} onClick={() => handleOnClick()}>
+		<StyledCompareButton disabledStyle={disabled} disabled={isDisabled} onClick={() => handleOnClick()}>
 			<CompareIcon />
 			<div>Compara</div>
 		</StyledCompareButton>

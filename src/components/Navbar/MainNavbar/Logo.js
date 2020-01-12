@@ -6,7 +6,12 @@ const StyledLogo = styled(Link)`
 	font-size: 4.5rem;
 	color: var(--primary-color);
 	text-decoration: none;
-	user-select: none;`;
+	user-select: none;
+
+	@media (max-width: 700px) {
+		font-size: 3.3rem;
+	}
+`;
 
 const Logo = () => <StyledLogo to="/">PCEXPRESS</StyledLogo>;
 

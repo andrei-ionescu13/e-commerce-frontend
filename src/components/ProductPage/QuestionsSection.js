@@ -11,7 +11,8 @@ import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const QuestionLinkButton = styled(Link)`
 	text-decoration:none;
-	background:var(--primary-color);
+	background:  var(--primary-color)
+ ;
 	color:white;
 	height:4rem;
 	width:13rem;
@@ -22,13 +23,18 @@ const QuestionLinkButton = styled(Link)`
 	margin:auto;
 `;
 
-const Question = styled.div`
+const UserQuestion = styled.div`
 	display: flex;
 	min-height: 10rem;
 	border-top: 2px solid #f5f5f5;
+
+	@media (max-width: 720px) {
+		flex-flow: column;
+		padding-top: 1rem;
+	}
 `;
 
-const QuestionUser = styled.div`
+const User = styled.div`
 	flex: 1;
 	font-size: 1.5rem;
 	align-self: stretch;
@@ -37,13 +43,26 @@ const QuestionUser = styled.div`
 	align-items: center;
 	justify-content: center;
 	width: 20%;
+
+	h3 {
+		margin: 0;
+
+		padding: 0;
+	}
 	div {
 		margin-top: 3rem;
 		font-size: 1.2rem;
 	}
+
+	@media (max-width: 720px) {
+		width: 40%;
+		padding: 0 1rem;
+		align-items: flex-start;
+		border: none;
+	}
 `;
 
-const QuestionContent = styled.div`
+const Question = styled.div`
 	width: 82%;
 	font-size: 1.5rem;
 	word-break: break-all;
@@ -52,6 +71,10 @@ const QuestionContent = styled.div`
 	/* > p {
 		margin: 2rem;
 	} */
+
+	@media (max-width: 720px) {
+		padding: 1rem;
+	}
 `;
 
 const StyledButton = styled.button`
@@ -80,6 +103,11 @@ const Answer = styled.div`
 	}
 	> p {
 		font-size: 1.5rem;
+	}
+
+	@media (max-width: 720px) {
+		width: 98%;
+		border: none;
 	}
 `;
 
@@ -144,12 +172,12 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 
 	const renderedReviews = questions.map(question => (
 		<React.Fragment>
-			<Question key={question._id}>
-				<QuestionUser>
+			<UserQuestion key={question._id}>
+				<User>
 					<h3>{`${question.user.lastName} ${question.user.firstName}`}</h3>
 					<div>{new Date(question.date).toLocaleDateString('ro-RO')} </div>
-				</QuestionUser>
-				<QuestionContent>
+				</User>
+				<Question>
 					<p> {question.content}</p>
 					{userId === question.user._id ? (
 						<StyledButton
@@ -172,8 +200,8 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 							Adauga raspuns
 						</StyledButton>
 					)}
-				</QuestionContent>
-			</Question>
+				</Question>
+			</UserQuestion>
 			{question.answers.map(answer => (
 				<Answer>
 					<h6>{`${answer.user.lastName} ${answer.user.firstName} - ${new Date(answer.date).toLocaleDateString(

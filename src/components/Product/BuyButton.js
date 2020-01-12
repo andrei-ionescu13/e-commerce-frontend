@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 const StyledBuyButton = styled.button`
 	user-select: none;
-	cursor: pointer;
+	cursor: ${props => (props.disabledStyle ? 'auto' : 'pointer')};
 	margin-top: 1.8rem;
 	margin-bottom: 1rem;
 	height: 3rem;
@@ -17,14 +17,20 @@ const StyledBuyButton = styled.button`
 	background-color: var(--primary-color);
 	border-radius: .8rem;
 	color: #f8f8ff;
+	white-space: nowrap;
+	opacity: ${props => props.disabledStyle && '.5'};
 
+	/* @media (max-width: 800px) {
+		font-size: 1.2rem;
+	} */
 	&:hover {
-		background-color: #fe7f01;
+		background-color: ${props => (props.disabledStyle ? ' var(--primary-color)' : ' #fe7f01')};
 	}
 `;
-const BuyButton = ({ productId }) => {
+const BuyButton = ({ productId, opacity, disabled }) => {
 	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
-	const [ disabled, setDisabled ] = useState(false);
+
+	const [ isDisabled, setIsDisabled ] = useState(disabled);
 
 	const dispatch = useDispatch();
 
@@ -49,7 +55,7 @@ const BuyButton = ({ productId }) => {
 						type: 'error'
 					})
 				);
-				setDisabled(true);
+				setIsDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -59,7 +65,7 @@ const BuyButton = ({ productId }) => {
 							type: null
 						})
 					);
-					setDisabled(false);
+					setIsDisabled(false);
 				}, 1500);
 
 				return;
@@ -68,7 +74,7 @@ const BuyButton = ({ productId }) => {
 	};
 
 	return (
-		<StyledBuyButton disabled={disabled} onClick={handleClick}>
+		<StyledBuyButton disabledStyle={disabled} disabled={isDisabled} onClick={handleClick}>
 			Adauga in cos
 		</StyledBuyButton>
 	);

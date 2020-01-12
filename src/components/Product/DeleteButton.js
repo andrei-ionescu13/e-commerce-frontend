@@ -11,4 +11,8 @@ const StyledDeleteButton = styled.button`
 	cursor: pointer;
 `;
 
-export const DeleteButton = ({ onClick }) => <StyledDeleteButton onClick={onClick}>Sterge</StyledDeleteButton>;
+export const DeleteButton = ({ onClick, disabled }) => (
+	<StyledDeleteButton disabled={disabled} onClick={onClick}>
+		Sterge
+	</StyledDeleteButton>
+);

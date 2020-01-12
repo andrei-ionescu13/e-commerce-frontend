@@ -15,14 +15,16 @@ const StyledLink = styled(Link)`
 	text-decoration:none;
 	user-select: none;
 	cursor: pointer;
-	border: none;
-	outline: none;
 	background-color: Transparent;
-	color: var(--primary-color);
+	color:var(--primary-color);
 	font-size: 2rem;
 	padding: 0;
 	margin-right: 1.2rem;
 	font-weight: bold;
+
+	@media (max-width: 700px) {
+		font-size: 1.7rem;
+	}
 `;
 
 const NavbarContainer = styled.div`

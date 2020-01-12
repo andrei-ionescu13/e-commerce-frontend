@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './ComparisonPage.css';
 import { Link } from 'react-router-dom';
 import Price from '../Product/Price';
 import OldPrice from '../Product/OldPrice';
@@ -11,8 +10,11 @@ import styled from 'styled-components';
 import ProductRating from '../Product/ProductRating';
 
 const StyledTitleLink = styled(Link)`
+	display:block;
 	text-decoration:none;
 	margin-top:1.5rem;
+	height: 10rem;
+
 `;
 
 const StyledImageLink = styled(Link)`
@@ -26,6 +28,7 @@ const RatingContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 1rem;
+	height: 6rem;
 `;
 
 const getAllSpecs = comparedProducts => {
@@ -42,6 +45,67 @@ const getAllSpecs = comparedProducts => {
 	});
 	return productsSpecs;
 };
+
+const StyledProduct = styled.div`
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	padding-left: 0;
+	padding-bottom: 1rem;
+	position: relative;
+`;
+
+const StyledProductTitle = styled.div`
+	text-align: center;
+	height: 5rem;
+	color: black;
+`;
+
+const StyledHeader = styled.th`
+	font-size: 2rem;
+	background-color: var(--primary-color);
+`;
+
+const PaddedLeft = styled.td`padding: 0 2rem;`;
+
+const StyledComparison = styled.table`
+	width: var(--primary-width);
+	margin: auto;
+	border-collapse: collapse;
+	margin-bottom: 5rem;
+	table-layout: fixed;
+	font-size: 1.4rem;
+	color: #484848;
+
+	th {
+		border: 1px solid lightgray;
+		padding: .6rem;
+	}
+
+	td {
+		border: 1px solid lightgray;
+	}
+
+	tr:nth-child(even) {
+		background-color: #f5f5f5;
+	}
+
+	img {
+		width: 100%;
+	}
+`;
+
+const StyledPrice = styled(Price)`
+
+	@media (max-width: 750px) {
+		font-size:1.6rem;
+
+	sup{
+		font-size:1rem;
+
+	}
+}
+`;
 
 const ComparisonPage = () => {
 	const [ comparedProducts, setComparedProducts ] = useState();
@@ -67,22 +131,22 @@ const ComparisonPage = () => {
 		!loading &&
 		comparedProducts.map(x => (
 			<td key={x._id}>
-				<div className="comparison-product">
+				<StyledProduct>
 					<StyledImageLink to={`/${x.name}`}>
 						<img src={`http://localhost:3333/images/${x.imagesURL[0]}.jpg`} alt="" />
 					</StyledImageLink>
 					<StyledTitleLink to={`/${x.name}`}>
-						<div className="comparison-product-title">{x.name}</div>
+						<StyledProductTitle>{x.name}</StyledProductTitle>
 					</StyledTitleLink>
 					<RatingContainer>
 						<ProductRating reviews={x.reviews} width="2rem" />
 					</RatingContainer>
-					<Price price={x.price} discountedPrice={x.discountedPrice} />
+					<StyledPrice price={x.discountedPrice || x.price} />
 					<OldPrice price={x.price} discountedPrice={x.discountedPrice} />
 					<BuyButton />
 					<WishlistButton />
 					<Discount price={x.price} discountedPrice={x.discountedPrice} />
-				</div>
+				</StyledProduct>
 			</td>
 		));
 
@@ -91,9 +155,7 @@ const ComparisonPage = () => {
 		for (const [ key, value ] of Object.entries(productsSpecs)) {
 			tableContent.push(
 				<tr key={key}>
-					<th className="header-section" colSpan={comparedProducts.length + 1}>
-						{key}
-					</th>
+					<StyledHeader colSpan={comparedProducts.length + 1}>{key}</StyledHeader>
 				</tr>
 			);
 			value.forEach(x => {
@@ -101,9 +163,9 @@ const ComparisonPage = () => {
 					<tr key={x}>
 						<th>{x}</th>
 						{comparedProducts.map(x2 => (
-							<td key={x2._id} className="table-pad-left" key={x2._id}>
+							<PaddedLeft key={x2._id} key={x2._id}>
 								{x2.informations[key] ? x2.informations[key][x] || ' - ' : ' - '}
-							</td>
+							</PaddedLeft>
 						))}
 					</tr>
 				);
@@ -113,7 +175,7 @@ const ComparisonPage = () => {
 
 	return (
 		!loading && (
-			<table className="comparison">
+			<StyledComparison>
 				<tbody>
 					<tr>
 						<th>Produse</th>
@@ -121,15 +183,11 @@ const ComparisonPage = () => {
 					</tr>
 					<tr>
 						<th>Brand</th>
-						{comparedProducts.map(x2 => (
-							<td key={x2._id} className="table-pad-left">
-								{x2.brand || ' - '}
-							</td>
-						))}
+						{comparedProducts.map(x2 => <PaddedLeft key={x2._id}>{x2.brand || ' - '}</PaddedLeft>)}
 					</tr>
 					{tableContent}
 				</tbody>
-			</table>
+			</StyledComparison>
 		)
 	);
 	// return <h1>a</h1>;

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './Filters.css';
+import React, { useEffect } from 'react';
 import { setActiveFilters } from '../../../store/Actions/ProductsActions';
-
 import {
 	filtersSelector,
 	productsSelector,
@@ -12,8 +10,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import getByKey from '../../../helpers/getByKey';
 import _ from 'lodash';
 import queryString from 'query-string';
-import Filter from './Filter/Filter';
+import Filter from './Filter';
 import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledFilters = styled.div`
+	border: 2px solid var(--primary-color);
+	grid-area: f;
+	min-height: 90vh;
+	min-width: 25.2rem;
+
+	@media (max-width: 700px) {
+		display: none;
+	}
+`;
 
 const Filters = () => {
 	const productsLoading = useSelector(state => productsLoadingSelector(state));
@@ -42,8 +52,6 @@ const Filters = () => {
 					array[0].push(`Peste ${prices[i]}`);
 				}
 			}
-
-			console.log(array[0]);
 
 			for (let index2 = 0; index2 < otherFilters.length; index2++) {
 				let value = getByKey(products[index], otherFilters[index2]);
@@ -75,7 +83,7 @@ const Filters = () => {
 		[ location.search, filters ]
 	);
 	return (
-		<div className="filters">
+		<StyledFilters>
 			{array.map((x, index) => (
 				<Filter
 					key={index}
@@ -83,7 +91,7 @@ const Filters = () => {
 					filterValues={array[index]}
 				/>
 			))}
-		</div>
+		</StyledFilters>
 	);
 };
 

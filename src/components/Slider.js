@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { ReactComponent as LeftArrowIcon } from '../assets/icons/left-arrow.svg';
 import { ReactComponent as RightArrowIcon } from '../assets/icons/right-arrow.svg';
 import styled from 'styled-components';
+import useWindowDimensions from '../hooks/useWindowSize';
 
 const StyledSlider = styled.div`
 	position: relative;
 	display: grid;
 	grid-template-columns: repeat(6, 1fr);
 	grid-gap: 4rem;
+
+	@media (max-width: 1200px) {
+		grid-template-columns: repeat(5, 1fr);
+	}
+	@media (max-width: 1000px) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+	@media (max-width: 750px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
 	/* display: flex;
 	justify-content: flex-start;
 
@@ -27,10 +38,15 @@ const StyledLeftArrow = styled.button`
 	outline: none;
 	background-color: transparent;
 	border: .2rem solid var(--primary-color);
-	left: -6rem;
+	z-index: 1;
+	left: 0;
 
 	&:hover {
 		background-color: var(--primary-color);
+	}
+
+	@media (max-width: 1200px) {
+		left: 0;
 	}
 `;
 
@@ -50,12 +66,30 @@ const StyledRightArrow = styled.button`
 	&:hover {
 		background-color: var(--primary-color);
 	}
+
+	@media (max-width: 1200px) {
+		right: 0;
+	}
 `;
 
-const Slider = ({ items, itemsPerSlide }) => {
+const Slider = ({ items, initialItemsPerSlide }) => {
 	const [ slide, setSlide ] = useState(0);
 	const [ showPrevious, setShowPrevious ] = useState(false);
 	const [ showNext, setShowNext ] = useState(false);
+	const [ itemsPerSlide, setItemsPerSlide ] = useState(initialItemsPerSlide);
+
+	const { width } = useWindowDimensions();
+	console.log(width);
+
+	useEffect(
+		() => {
+			if (width < 750) setItemsPerSlide(initialItemsPerSlide - 3);
+			else if (width < 1000) setItemsPerSlide(initialItemsPerSlide - 2);
+			else if (width < 1200) setItemsPerSlide(initialItemsPerSlide - 1);
+			else setItemsPerSlide(initialItemsPerSlide);
+		},
+		[ width ]
+	);
 
 	const handleClickNext = () => {
 		setSlide(slide => slide + 1);

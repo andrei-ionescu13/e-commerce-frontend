@@ -9,7 +9,7 @@ function importAll(r) {
 const images = importAll(require.context('../../assets/images/brands', false, /\.(png|jpe?g|svg)$/));
 
 const StyledBrands = styled.div`
-	width: 80vw;
+	width: var(--primary-width);
 	margin: auto;
 	margin-bottom: 5rem;
 `;
@@ -25,8 +25,7 @@ const StyledTitle = styled.div`
 const Container = styled.div`
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	grid-column-gap: 2rem;
-	grid-row-gap: 4rem;
+
 	height: 40rem;
 
 	a {
@@ -36,7 +35,13 @@ const Container = styled.div`
 	}
 
 	img {
-		max-width: 50%;
+		width: 50%;
+	}
+
+	@media (max-width: 850px) {
+		img {
+			width: 70%;
+		}
 	}
 `;
 

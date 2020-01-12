@@ -15,7 +15,6 @@ import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 const StyledForm = styled.form`
 	display: flex;
 	flex-flow: column;
-	width: 100%;
 	height: 60rem;
 	border: 1px solid lightgray;
 	padding: 2.5rem;
@@ -23,6 +22,7 @@ const StyledForm = styled.form`
 	-webkit-box-shadow: 2px -2px 5px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 2px -2px 5px 0px rgba(0, 0, 0, 0.75);
 	background-color: white;
+
 	label {
 		font-size: 1.7rem;
 		margin: 1rem 0;
@@ -51,6 +51,10 @@ const FlexColumnContainer = styled.div`
 const FlexRowContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
+
+	@media (max-width: 710px) {
+		display: block;
+	}
 `;
 
 const DatePickerWrapper = styled.div`
@@ -102,6 +106,10 @@ const StyledButton = styled.button`
 		background: var(--primary-color);
 		box-shadow: 0 0 3pt 1pt var(--primary-color);
 	}
+
+	@media (max-width: 710px) {
+		font-size: 1.7rem;
+	}
 `;
 
 registerLocale('ro', ro);
@@ -129,8 +137,7 @@ const UserDataForm = ({ firstName, lastName, phone, dateOfBirth }) => {
 				if (!isAuthenticated) {
 					redirectToLogin();
 				}
-				  
- 
+
 				try {
 					const headers = { Authorization: token };
 					console.log(values);

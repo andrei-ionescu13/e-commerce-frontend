@@ -15,6 +15,7 @@ const StyledProduct = styled(Link)`
 	img {
 		height: 80%;
 	}
+	
 `;
 
 const StyledName = styled.p`

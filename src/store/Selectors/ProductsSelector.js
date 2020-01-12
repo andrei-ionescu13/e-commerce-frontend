@@ -104,6 +104,26 @@ export const orderedProductsSelector = createSelector(
 					})
 					.concat(filteredProducts.filter(x => !x.discountedPrice));
 
+			case 'rating':
+				return filteredProducts.sort(
+					(a, b) =>
+						(a.reviews.length > 0
+							? a.reviews.reduce((total, x) => total + x.rating, 0) / a.reviews.length
+							: 0) >
+						(b.reviews.length > 0
+							? b.reviews.reduce((total, x) => total + x.rating, 0) / b.reviews.length
+							: 0)
+							? -1
+							: 1
+				);
+			case 'reviews-number':
+				return filteredProducts.sort(
+					(a, b) =>
+						a.reviews.reduce((total, x) => total + 1, 0) > b.reviews.reduce((total, x) => total + 1, 0)
+							? -1
+							: 1
+				);
+
 			default:
 				break;
 		}

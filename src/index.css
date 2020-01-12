@@ -25,3 +25,14 @@ html {
 	--primary-hover-color: #f9812a;
 	--primary-width: 1536px;
 }
+
+@media (max-width: 1536px) {
+	:root {
+		--primary-width: 1200px;
+	}
+}
+@media (max-width: 1200px) {
+	:root {
+		--primary-width: 100vw;
+	}
+}

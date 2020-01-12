@@ -6,7 +6,7 @@ import useFetch from '../hooks/useFetch';
 import { Link } from 'react-router-dom';
 
 const Container = styled.div`
-	width: 80vw;
+	width: var(--primary-width);
 	margin: 0 auto 10rem auto;
 `;
 
@@ -18,7 +18,6 @@ const StyledTitle = styled.div`
 	align-items: center;
 	background-color: var(--primary-color);
 	padding: .5rem 0;
-
 	a {
 		font-size: 1.5rem;
 		color: #005eb8;
@@ -51,7 +50,7 @@ const PromotionsSlider = ({ itemsPerSlide, numberOfItems }) => {
 					<div>Promotii</div>
 					<Link to="/promotions">(Click pentru a vedea toate promotiile)</Link>
 				</StyledTitle>
-				<Slider items={productsRendered} itemsPerSlide={itemsPerSlide} />
+				<Slider items={productsRendered} initialItemsPerSlide={itemsPerSlide} />
 			</Container>
 		)
 	);

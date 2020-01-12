@@ -1,9 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { showAsSelector } from '../../../../store/Selectors/ProductsSelector';
-import { setShowAs } from '../../../../store/Actions/ProductsActions';
-
-import './ShowAs.css';
+import { showAsSelector } from '../../../store/Selectors/ProductsSelector';
+import { setShowAs } from '../../../store/Actions/ProductsActions';
 
 const ShowAs = () => {
 	const dispatch = useDispatch();

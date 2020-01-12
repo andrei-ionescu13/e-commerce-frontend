@@ -33,13 +33,6 @@ const FlexContainer = styled.div`
 	padding-bottom: 2rem;
 `;
 
-const StyledLine = styled.div`
-	height: 1px;
-	background: gray;
-	width: 100%;
-	margin: 2rem 0;
-`;
-
 const StyledAddressInfo = styled.div`
 	word-wrap: break-word;
 	line-height: 1.7;
@@ -82,11 +75,15 @@ const Address = ({ setAddresses, id, firstName, lastName, phone, county, city, a
 				{`${county}, ${city}`}
 			</StyledAddressInfo>
 			<div>
-				<StyledButton onClick={deleteAddressHandler}>Sterge</StyledButton>
+				<StyledButton type="button" onClick={deleteAddressHandler}>
+					Sterge
+				</StyledButton>
 				<PortalWithState closeOnOutsideClick closeOnEsc>
 					{({ openPortal, closePortal, isOpen, portal }) => (
 						<React.Fragment>
-							<StyledButton onClick={openPortal}>Modifica</StyledButton>
+							<StyledButton type="button" onClick={openPortal}>
+								Modifica
+							</StyledButton>
 							{portal(
 								<Modal close={closePortal}>
 									<AddressForm

@@ -22,12 +22,38 @@ const StyledButton = styled.button`
 	width: 10rem;
 	font-size: 2rem;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	@media (max-width: 700px) {
+		width: 5rem;
+	}
 `;
 
+const HamburgerIcon = styled.div`
+	display: none;
+	> div {
+		width: 3rem;
+		height: .2rem;
+		background-color: black;
+		margin: 6px 0;
+	}
+	@media (max-width: 700px) {
+		display: block;
+	}
+`;
+
+const StyledName = styled.div`@media (max-width: 700px) {display: none;}`;
 const CategoriesDropdown = () => {
 	return (
 		<StyledDropdown>
-			<StyledButton>Categorii</StyledButton>
+			<StyledButton>
+				<StyledName>Categorii</StyledName>
+				<HamburgerIcon>
+					<div />
+					<div />
+					<div />
+				</HamburgerIcon>
+			</StyledButton>
 			<CategoriesList display="none" position="absolute" />
 			{/* <Banner /> */}
 		</StyledDropdown>

@@ -36,7 +36,7 @@ const StyledSearchIcon = styled(SearchIcon)`
 	width: 2.3rem;
 `;
 
-const Search = () => {
+const Search = ({ theme }) => {
 	const [ keyword, bindKeyword, resetKeyword ] = useInput('');
 	const [ iconColor, setIconColor ] = useState('Azure');
 
@@ -54,7 +54,7 @@ const Search = () => {
 	};
 
 	const handleOnFocus = () => {
-		setIconColor('var(--primary-color)');
+		setIconColor('#ff9801');
 	};
 
 	const handleOnBlur = () => {

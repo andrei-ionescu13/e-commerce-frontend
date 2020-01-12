@@ -30,6 +30,10 @@ const PromotionsLink = styled(Link)`
 	&:hover {
 		background-color: #484848;
 	}
+
+	@media (max-width: 700px) {
+		font-size: 1.8rem;
+	}
 `;
 
 const FlexContainer = styled.div`

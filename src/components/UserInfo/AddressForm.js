@@ -103,8 +103,7 @@ const AddressForm = ({ setAddresses, closePortal, id, firstName, lastName, phone
 				if (!isAuthenticated) {
 					redirectToLogin();
 				}
-				  
- 
+
 				try {
 					const headers = { Authorization: token };
 					if (id === undefined) {
@@ -142,33 +141,63 @@ const AddressForm = ({ setAddresses, closePortal, id, firstName, lastName, phone
 				setFieldValue,
 				setRefresh
 			}) => (
-				<StyledForm onSubmit={handleSubmit}>
+				<StyledForm name="adressForm" id="adressForm" onSubmit={handleSubmit}>
 					<FlexRowContainer>
 						<FlexColumnContainer width="45%">
 							<label>Nume:</label>
-							<input name="lastName" type="text" value={values.lastName} onChange={handleChange} />
+							<input
+								form="adressForm"
+								name="lastName"
+								type="text"
+								value={values.lastName}
+								onChange={handleChange}
+							/>
 						</FlexColumnContainer>
 
 						<FlexColumnContainer width="45%">
 							<label>Prenume:</label>
-							<input name="firstName" type="text" value={values.firstName} onChange={handleChange} />
+							<input
+								form="adressForm"
+								name="firstName"
+								type="text"
+								value={values.firstName}
+								onChange={handleChange}
+							/>
 						</FlexColumnContainer>
 					</FlexRowContainer>
 					<FlexColumnContainer>
 						<label>Numar telefon:</label>
-						<input name="phone" type="text" value={values.phone} onChange={handleChange} />
+						<input
+							form="adressForm"
+							name="phone"
+							type="text"
+							value={values.phone}
+							onChange={handleChange}
+						/>
 					</FlexColumnContainer>
 					<FlexRowContainer>
 						<FlexColumnContainer width="45%">
 							<label>Judet:</label>
-							<select name="county" type="text" value={values.county} onChange={handleChange}>
+							<select
+								form="adressForm"
+								name="county"
+								type="text"
+								value={values.county}
+								onChange={handleChange}
+							>
 								<option value={''} label={''} />
 								{Object.keys(regions).map(x => <option value={x} label={x} />)}
 							</select>
 						</FlexColumnContainer>
 						<FlexColumnContainer width="45%">
 							<label>Oras:</label>
-							<select name="city" type="text" value={values.city} onChange={handleChange}>
+							<select
+								form="adressForm"
+								name="city"
+								type="text"
+								value={values.city}
+								onChange={handleChange}
+							>
 								<option value={''} label={''} />
 								{values.county !== '' &&
 									regions[values.county].map(x => <option value={x.name} label={x.name} />)}
@@ -177,13 +206,25 @@ const AddressForm = ({ setAddresses, closePortal, id, firstName, lastName, phone
 					</FlexRowContainer>
 					<FlexColumnContainer>
 						<label>Adresa:</label>
-						<input name="address" type="text" value={values.address} onChange={handleChange} />
+						<input
+							form="adressForm"
+							name="address"
+							type="text"
+							value={values.address}
+							onChange={handleChange}
+						/>
 					</FlexColumnContainer>
 					<ButtonsWrapper>
 						<StyledCancelButton type="button" onClick={closePortal}>
 							Cancel
 						</StyledCancelButton>
-						<StyledSubmitButton disabled={isSubmitting} type="submit">
+						<StyledSubmitButton
+							disabled={isSubmitting}
+							form="adressForm"
+							name="button1"
+							value="buttonVal1"
+							type="submit"
+						>
 							Submit
 						</StyledSubmitButton>
 					</ButtonsWrapper>

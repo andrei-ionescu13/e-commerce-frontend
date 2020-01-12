@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 import ProductReview from './components/Forms/ProductReview';
 import Navbar from './components/Navbar/Navbar';
 import Brands from './components/Brands/Brands';
-import Newsletter from './components/Newsletter/Newsletter';
 import Wishlist from './components/Wishlist';
 import PromotionsSlider from './components/PromotionsSlider';
 import UserInfo from './components/UserInfo/UserInfo';
@@ -20,6 +19,8 @@ import ProductQuestion from './components/Forms/ProductQuestion';
 import UserReviews from './components/UserReviews';
 import UserQuestions from './components/UserQuestions';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
+import Orders from './components/UserInfo/Orders';
+import Order from './components/UserInfo/Order';
 
 const Routes = () => {
 	const history = useHistory();
@@ -32,6 +33,8 @@ const Routes = () => {
 			<Switch>
 				<Route path="/search" component={ProductsSection} />
 				<Route path="/promotions" component={ProductsSection} />
+				<Route path="/orders/:id" component={Order} />
+				<Route path="/orders" component={Orders} />
 				<Route path="/reviews" component={UserReviews} />
 				<Route path="/cart" component={ShoppingCart} />
 				<Route path="/questions" component={UserQuestions} />

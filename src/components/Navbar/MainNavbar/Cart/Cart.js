@@ -17,6 +17,9 @@ const Dropdown = styled.div`
 		> div {
 			display: flex;
 			flex-flow: column;
+			@media (max-width: 700px) {
+				display: none;
+			}
 		}
 	}
 `;

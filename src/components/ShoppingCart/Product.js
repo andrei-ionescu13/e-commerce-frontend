@@ -15,7 +15,6 @@ const StyledProduct = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	height: 11rem;
-
 	a {
 		display: flex;
 		align-items: center;
@@ -83,7 +82,6 @@ const Product = ({ imgURL, name, price, discountedPrice, quantity, productId, pr
 			if (checkInteger(quantitySelected) === false && quantitySelected !== '') setQuantitySelected(1);
 			else if (quantitySelected > 10) setQuantitySelected(10);
 			else if (quantitySelected < 0) setQuantitySelected(1);
-			else if (productQuantity < quantitySelected) setQuantitySelected(productQuantity);
 		},
 		[ quantitySelected ]
 	);
@@ -120,11 +118,11 @@ const Product = ({ imgURL, name, price, discountedPrice, quantity, productId, pr
 			<StyledPricing>
 				{/* {discountedPrice && <div>{discountedPrice}</div>} */}
 				{/* <div>{price}</div> */}
-				<Price primarySize="1.5rem" secondarySize="1.2rem" price={price} discountedPrice={discountedPrice} />
+				<Price primarySize="1.5rem" secondarySize="1.2rem" price={discountedPrice || price} />
 				<OldPrice price={price} discountedPrice={discountedPrice} />
 			</StyledPricing>
 
-			<DeleteProductButton productId={productId} />
+			<DeleteProductButton type="button" productId={productId} />
 		</StyledProduct>
 	);
 };

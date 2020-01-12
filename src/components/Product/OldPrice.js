@@ -7,6 +7,7 @@ const StyledOldPrice = styled.div`
 	margin-top: 1rem;
 	height: 2rem;
 	color: grey;
+	opacity: ${props => props.opacity};
 
 	sup {
 		display: inline-block;
@@ -19,9 +20,9 @@ const StyledOldPrice = styled.div`
 	}
 `;
 
-const OldPrice = ({ price, discountedPrice }) => {
+const OldPrice = ({ price, discountedPrice, opacity }) => {
 	return (
-		<StyledOldPrice>
+		<StyledOldPrice opacity={opacity}>
 			<span>{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}</span>
 			<sup>{discountedPrice && parseFloat(price).toFixed(2).toString().split('.')[1]}</sup>
 			{discountedPrice && ' lei'}

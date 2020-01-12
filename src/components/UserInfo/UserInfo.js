@@ -12,13 +12,20 @@ import Address from './Address';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const Container = styled.div`
-	padding: 0 20rem;
+	padding: 3rem 20rem;
 	align-items: center;
 	background-color: #fdad5c;
 	width: 100rem;
 	margin: 3rem auto 0 auto;
-	padding-top: 3rem;
 	border-radius: 1rem;
+
+	@media (max-width: 920px) {
+		padding: 3rem 10vw;
+	}
+
+	@media (max-width: 1050px) {
+		width: 95vw;
+	}
 `;
 
 const AddAddressButton = styled.button`

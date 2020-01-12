@@ -10,7 +10,7 @@ const StyledComparedItem = styled.div`
 	height: 4rem;
 	border: 1px solid lightgray;
 	position: relative;
-
+	background: white;
 	img {
 		max-width: 100%;
 	}
@@ -58,7 +58,7 @@ const ComparedItem = ({ _id, name, imageURL }) => {
 			</Link>
 		</StyledComparedItem>
 	) : (
-		<div className="compare-item" />
+		<StyledComparedItem />
 	);
 };
 

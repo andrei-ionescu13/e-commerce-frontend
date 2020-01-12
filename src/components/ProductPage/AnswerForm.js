@@ -69,8 +69,6 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 			setIsSubmitting(false);
 		}
 
-		  
- 
 		try {
 			const headers = { Authorization: token };
 			const result = await axios.post(

@@ -12,6 +12,9 @@ const StyledUserDropdown = styled.div`
 		> div {
 			display: flex;
 			flex-flow: column;
+			@media (max-width: 700px) {
+				display: none;
+			}
 		}
 	}
 `;
@@ -54,10 +57,12 @@ const StyledUserIconLink = styled(Link)`
 `;
 
 const StyledUserIcon = styled(UserIcon)`
-	fill:var(--primary-color);
+	fill:  var(--primary-color);
 	width:3.5rem;
 	height:100%;
-    
+    @media (max-width: 700px) {
+				width:3rem;
+			}
 `;
 
 const UserDropdown = () => {
@@ -68,6 +73,7 @@ const UserDropdown = () => {
 			</StyledUserIconLink>
 			<StyledContent>
 				<Link to="/info">Date Personale</Link>
+				<Link to="/orders">Istoric comenzi</Link>
 				<Link to="/reviews">Review-urile mele</Link>
 				<Link to="/questions">Intrebarile mele</Link>
 				<Link to="/wishlist">Wishlist</Link>

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import Navbar from './components/Navbar/Navbar';
 import Brands from './components/Brands/Brands';
-import Newsletter from './components/Newsletter/Newsletter';
 import ProductsSection from './components/ProductsSection/ProductsSection';
 import ProductPage from './components/ProductPage/ProductPage';
 import Routes from './Routes';
@@ -19,12 +18,7 @@ import styled from 'styled-components';
 import PromotionsSlider from './components/PromotionsSlider';
 import Alert from './components/Alert';
 import { alertSelector } from './store/Selectors/ProductsSelector';
-
-const Container = styled.div`
-	display: flex;
-	width: var(--primary-width);
-	margin: auto;
-`;
+import { ThemeProvider } from 'styled-components';
 
 const App = () => {
 	const dispatch = useDispatch();

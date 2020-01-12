@@ -21,6 +21,12 @@ const StyledLink = styled(Link)`
 		margin-left: .5rem;
 		color: white;
 	}
+	@media (max-width: 700px) {
+		font-size: 1.8rem;
+		svg{
+			width:2.3rem;
+		}
+	}
 `;
 
 const WishlistLink = () => {

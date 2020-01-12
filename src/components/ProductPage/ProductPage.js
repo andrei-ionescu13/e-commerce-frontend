@@ -1,20 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import './ProductPage.css';
 import axios from 'axios';
-import insertCharacterFromEnd from '../../helpers/insertCharacterFromEnd';
-import Slideshow from './Slideshow/Slideshow';
-import { ReactComponent as EmptyHeartIcon } from '../../assets/icons/empty-heart.svg';
-import { ReactComponent as CompareIcon } from '../../assets/icons/compare.svg';
+import Slideshow from './Slideshow';
 import Specifications from './Specifications/Specifications';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ProductRating from '../Product/ProductRating';
 import ReviewsSection from './ReviewsSection';
 import Price from '../Product/Price';
 import OldPrice from '../Product/OldPrice';
-import { setProductsAndFiltersAsync } from '../../store/Actions/ProductsActions';
 import QuestionsSection from './QuestionsSection';
 import { useHistory } from 'react-router-dom';
+import BuyButton from '../Product/BuyButton';
+import CompareButton from '../Product/CompareButton';
+import WishlistButton from '../Product/WishlistButton';
+
+const StyledProductPage = styled.div`
+	width: var(--primary-width);
+	margin: auto;
+`;
+
+const StyledProduct = styled.div`
+	margin: auto;
+	display: grid;
+	grid-template-areas: 't t t t t t' 's s s s r r';
+	border-bottom: 1px solid lightgray;
+`;
+
+const StyledProductTitle = styled.div`
+	grid-area: t;
+	font-size: 3rem;
+	text-align: center;
+	margin: 2rem 0;
+
+	@media (max-width: 850px) {
+		font-size: 2rem;
+	}
+`;
+
+const StyledRight = styled.div`
+	grid-area: r;
+	border-left: 1px solid lightgray;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 10rem;
+`;
 
 const RatingContainer = styled.div`
 	display: flex;
@@ -28,7 +57,7 @@ const StyledButton = styled.button`
 	text-decoration: none;
 	background: ${props => (props.active ? 'var(--primary-color)' : 'white')};
 	color: ${props => (props.active ? 'white' : 'var(--primary-color)')};
-	border: ${props => (props.active ? 'white' : '2px solid var(--primary-color)')};
+	border: ${props => (props.active ? 'white' : `2px solid  var(--primary-color)`)};
 	height: 4rem;
 	width: 13rem;
 	display: flex;
@@ -39,8 +68,15 @@ const StyledButton = styled.button`
 
 const FlexContainer = styled.div`
 	display: flex;
-	margin-bottom: 5rem;
+	width: ${props => props.width};
+	justify-content: ${props => props.justifyContent};
+
+	@media (max-width: 850px) {
+		width: 15rem;
+	}
 `;
+
+const OutOfStockMessage = styled.h2`color: red;`;
 
 const ProductPage = ({ location }) => {
 	const [ loading, setLoading ] = useState(true);
@@ -62,12 +98,30 @@ const ProductPage = ({ location }) => {
 						return;
 					}
 					setProduct(result.data);
-					// setActualPrice((result.data.discountedPrice || result.data.price).toString());
 					setLoading(false);
 				})
 				.catch(err => console.log(err));
 		},
 		[ productName ]
+	);
+
+	useEffect(
+		() => {
+			if (!loading) {
+				let viewedProducts = localStorage.getObject('viewed-products');
+				if (!viewedProducts) localStorage.setObject('viewed-products', [ product._id ]);
+				else {
+					if (viewedProducts.includes(product._id)) return;
+					if (viewedProducts.length > 23) {
+						viewedProducts = viewedProducts.slice(viewedProducts.length - 23);
+					}
+					viewedProducts.push(product._id);
+
+					localStorage.setObject('viewed-products', viewedProducts);
+				}
+			}
+		},
+		[ productName, loading ]
 	);
 
 	const handleReviewsClick = () => {
@@ -90,36 +144,35 @@ const ProductPage = ({ location }) => {
 
 	return (
 		!loading && (
-			<div className="productPage">
-				<div className="productPage-product">
-					<div className="productPage-product-title">{product.name}</div>
+			<StyledProductPage>
+				<StyledProduct>
+					<StyledProductTitle>{product.name}</StyledProductTitle>
 					<Slideshow
 						imagesURL={product.imagesURL}
 						productName={product.name}
 						price={product.price}
 						discountedPrice={product.discountedPrice}
 					/>
-					<div className="productPage-product-rightSide">
+					<StyledRight>
+						<OutOfStockMessage>Stoc epuizat</OutOfStockMessage>
 						<RatingContainer>
 							<ProductRating reviews={product.reviews} width="2rem" />
 						</RatingContainer>
-						<Price price={product.price} discountedPrice={product.discountedPrice} />
+						<Price price={product.discountedPrice || product.price} />
 
 						<OldPrice price={product.price} discountedPrice={product.discountedPrice} />
-						<button className="productPage-product-buyButton"> Adauga in cos</button>
-						<div />
-						<div className="productPage-flex-container">
-							<div className="productPage-product-compare">
-								<CompareIcon className="productPage-product-compare-icon" />
-								<div className="productPage-product-compare-text">Compara</div>
-							</div>
-							<div className="productPage-product-wishlist">
-								<EmptyHeartIcon className="productPage-product-wishlist-icon" />
-								<div className="productPage-product-wishlist-text">Wishlist</div>
-							</div>
-						</div>
-					</div>
-				</div>
+						<BuyButton productId={product._id} />
+						<FlexContainer width="18rem" justifyContent="space-between">
+							<CompareButton
+								name={product.name}
+								_id={product._id}
+								category={product.category}
+								imageURL={product.imagesURL[0]}
+							/>
+							<WishlistButton productId={product._id} />
+						</FlexContainer>
+					</StyledRight>
+				</StyledProduct>
 				<Specifications specs={product.informations} />
 				<FlexContainer>
 					<StyledButton active={showReviews} onClick={handleReviewsClick}>
@@ -139,7 +192,7 @@ const ProductPage = ({ location }) => {
 						productName={product.name}
 					/>
 				)}
-			</div>
+			</StyledProductPage>
 		)
 	);
 };

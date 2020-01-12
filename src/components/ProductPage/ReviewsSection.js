@@ -14,11 +14,16 @@ const UserReview = styled.div`
 	display: flex;
 	min-height: 10rem;
 	border-top: 2px solid #f5f5f5;
+
+	@media (max-width: 720px) {
+		flex-flow: column;
+		padding-top: 1rem;
+	}
 `;
 
 const StyledReviewLinkButton = styled(Link)`
 	text-decoration:none;
-	background:var(--primary-color);
+	background:  var(--primary-color);
 	color:white;
 	height:4rem;
 	width:13rem;
@@ -39,9 +44,22 @@ const User = styled.div`
 	justify-content: center;
 	border-right: 2px solid #f5f5f5;
 	width: 20%;
+
+	h3 {
+		margin: 0;
+		padding: 0;
+	}
+
 	div {
 		margin-top: 3rem;
 		font-size: 1.2rem;
+	}
+
+	@media (max-width: 720px) {
+		width: 40%;
+		padding: 0 1rem;
+		align-items: flex-start;
+		border: none;
 	}
 `;
 
@@ -50,9 +68,12 @@ const Review = styled.div`
 	font-size: 1.5rem;
 	padding: 2rem;
 
-	word-break: break-all;
 	> p {
 		margin-top: 1rem;
+	}
+
+	@media (max-width: 720px) {
+		padding: 1rem;
 	}
 `;
 

@@ -7,7 +7,7 @@ import { useHistory, Link } from 'react-router-dom';
 import Spinner from './Spinner/Spinner';
 import useIsAuthenticated from '../hooks/useIsAuthenticated';
 const Container = styled.div`
-	width: 80vw;
+	width: var(--primary-width);
 	margin: auto;
 `;
 
@@ -18,6 +18,11 @@ const UserReview = styled.div`
 	min-height: 10rem;
 	border-top: 2px solid #f5f5f5;
 	align-items: center;
+
+	@media (max-width: 720px) {
+		flex-flow: column;
+		padding-top: 1rem;
+	}
 `;
 
 const Product = styled(Link)`
@@ -37,6 +42,19 @@ const Product = styled(Link)`
 		padding-top: 1rem;
 		max-width: 20%;
 	}
+	
+	img {
+		padding-top: 1rem;
+		width: 30%;
+ 		min-width:8rem;
+	}
+
+	@media (max-width: 720px) {
+	width: 40%;
+	padding: 0 1rem;
+	align-items: flex-start;
+	border:none;
+	}
 `;
 
 const Question = styled.div`
@@ -51,7 +69,7 @@ const Question = styled.div`
 
 const StyledDate = styled.div`
 	font-size: 1.3rem;
-	margin: 1rem 0 0 1rem;
+	margin-top: 1rem;
 `;
 
 const DeleteButton = styled.button`
@@ -77,8 +95,7 @@ const UserQuestions = () => {
 				redirectToLogin();
 			}
 
-			  
- 			setLoading(true);
+			setLoading(true);
 			const headers = { Authorization: token };
 			try {
 				const response = await axios.get('http://localhost:3333/user/questions', { headers: headers });
@@ -101,8 +118,7 @@ const UserQuestions = () => {
 		}
 
 		try {
-			  
- 			const headers = { Authorization: token };
+			const headers = { Authorization: token };
 
 			await axios.delete(`http://localhost:3333/question/${questionId}`, {
 				headers: headers

@@ -1,10 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setActiveFilters } from '../../../../store/Actions/ProductsActions';
-import './Filter.css';
+import { setActiveFilters } from '../../../store/Actions/ProductsActions';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import FilterItem from './FilterItem/FilterItem';
+import FilterItem from './FilterItem';
+import styled from 'styled-components';
+
+const StyledFilter = styled.div`
+	margin: 2rem 0 0 1rem;
+
+	> label {
+		text-transform: capitalize;
+		font-size: 2rem;
+	}
+`;
 
 const Filter = ({ filterName, filterValues }) => {
 	const filterValuesMapped = [];
@@ -55,10 +64,10 @@ const Filter = ({ filterName, filterValues }) => {
 	});
 
 	return (
-		<div className="filter">
+		<StyledFilter>
 			<label>{filterName}</label>
 			{filterValuesMapped}
-		</div>
+		</StyledFilter>
 	);
 };
 

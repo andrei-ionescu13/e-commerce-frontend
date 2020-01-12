@@ -4,20 +4,27 @@ import styled from 'styled-components';
 
 const StyledPrice = styled.div`
 	font-size: ${props => props.primarySize || '2.4rem'};
-	color: black;
+	color: ${props => props.color || 'black'};
 	font-weight: bold;
 	height: 2rem;
-
+	white-space: nowrap;
 	sup {
 		font-size: ${props => props.secondarySize || '1.5rem'};
 	}
+	opacity: ${props => props.opacity};
 `;
 
-const Price = ({ price, discountedPrice, primarySize, secondarySize }) => {
-	const actualPrice = (discountedPrice || price).toString();
+const Price = ({ price, primarySize, secondarySize, color, className, opacity }) => {
+	const actualPrice = price.toString();
 
 	return (
-		<StyledPrice primarySize={primarySize} secondarySize={secondarySize}>
+		<StyledPrice
+			opacity={opacity}
+			className={className}
+			primarySize={primarySize}
+			secondarySize={secondarySize}
+			color={color}
+		>
 			{`${insertCharacterFromEnd(actualPrice.split('.')[0], '.', 3)}`}
 			<sup>{`${parseFloat(actualPrice).toFixed(2).toString().split('.')[1]} `}</sup> lei
 		</StyledPrice>

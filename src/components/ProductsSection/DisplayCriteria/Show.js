@@ -1,9 +1,8 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { itemsPerPageSelector } from '../../../../store/Selectors/ProductsSelector';
-import { setItemsPerPage } from '../../../../store/Actions/ProductsActions';
-import './Show.css';
+import { itemsPerPageSelector } from '../../../store/Selectors/ProductsSelector';
+import { setItemsPerPage } from '../../../store/Actions/ProductsActions';
 
 const Show = () => {
 	const dispatch = useDispatch();

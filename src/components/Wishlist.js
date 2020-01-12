@@ -10,7 +10,7 @@ import Comparison from './ProductsSection/Comparison/Comparison';
 import useIsAuthenticated from '../hooks/useIsAuthenticated';
 
 const Container = styled.div`
-	width: 70%;
+	width: var(--primary-width);
 	margin: auto;
 	margin-top: 2rem;
 `;
@@ -27,9 +27,9 @@ const WishlistTitle = styled.div`
 
 const Grid = styled.div`
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);
 	grid-column-gap: 2rem;
 	grid-row-gap: 5rem;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 `;
 
 const NoProductsMessage = styled.div`
@@ -55,8 +55,8 @@ const Wishlist = () => {
 		if (!isAuthenticated) {
 			redirectToLogin();
 		}
-		  
- 		setLoading(true);
+
+		setLoading(true);
 		const headers = { Authorization: token };
 		try {
 			const response = await axios.get('http://localhost:3333/user/wishlist', { headers: headers });
@@ -78,8 +78,8 @@ const Wishlist = () => {
 		if (!isAuthenticated) {
 			redirectToLogin();
 		}
-		  
- 		const headers = { Authorization: token };
+
+		const headers = { Authorization: token };
 
 		try {
 			const response = await axios.put(

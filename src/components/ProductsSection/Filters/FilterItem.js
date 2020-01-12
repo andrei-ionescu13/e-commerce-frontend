@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledFilterItem = styled.div`
+	display: flex;
+	align-items: center;
+	margin: .5rem 0;
+	font-size: 1.6rem;
+`;
 
 const FilterItem = ({ value, occurrence, onClickHandler, filterName }) => {
 	const location = useLocation();
@@ -24,11 +32,11 @@ const FilterItem = ({ value, occurrence, onClickHandler, filterName }) => {
 		[ location.search ]
 	);
 	return (
-		<div className="filter-item">
+		<StyledFilterItem>
 			<input type="checkbox" checked={checked} onChange={e => onClickHandler(e)} value={value} />
 			<label>{`${value} (${occurrence})`}</label>
 			<br />
-		</div>
+		</StyledFilterItem>
 	);
 };
 

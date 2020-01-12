@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-
-import { orderBySelector } from '../../../../store/Selectors/ProductsSelector';
-import { setOrderBy } from '../../../../store/Actions/ProductsActions';
-import './OrderBy.css';
+import { orderBySelector } from '../../../store/Selectors/ProductsSelector';
+import { setOrderBy } from '../../../store/Actions/ProductsActions';
 import queryString from 'query-string';
 
 const OrderBy = () => {
@@ -41,6 +39,8 @@ const OrderBy = () => {
 				<option value="price-asc">Pret crescator</option>
 				<option value="price-desc">Pret descrescator</option>
 				<option value="discount">Cel mai mare discount</option>
+				<option value="rating">Rating</option>
+				<option value="reviews-number">Nr. review-uri</option>
 			</select>
 		</div>
 	);

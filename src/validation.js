@@ -82,4 +82,6 @@ export const AddressSchema = Yup.object().shape({
 	address: Yup.string().notOneOf([ '' ], 'Adresa este obligatorie').required('Adresa este obligatorie')
 });
 
-export const OrderSchema = Yup.object().shape({});
+export const orderSchema = Yup.object().shape({
+	observation: Yup.string().max(255, 'Obseratia poate avea maximum 255 de caractere')
+});

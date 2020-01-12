@@ -9,12 +9,12 @@ import Cookies from 'js-cookie';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const StyledWishlistButton = styled.button`
-	cursor: pointer;
+	cursor: ${props => (props.disabledStyle ? 'auto' : 'pointer')};
 	display: flex;
 	align-items: center;
 	background: transparent;
 	border: none;
-
+	opacity: ${props => props.disabledStyle && '.5'};
 	svg {
 		width: 1rem;
 	}
@@ -25,16 +25,17 @@ const StyledWishlistButton = styled.button`
 	}
 
 	&:hover {
-		color: var(--primary-color);
-		fill: var(--primary-color);
+		color: ${props => (props.disabledStyle ? 'inherit' : 'var(--primary-color)')};
+		fill: ${props => (props.disabledStyle ? 'inherit' : 'var(--primary-color)')};
 	}
 `;
 
-const WishlistButton = ({ productId }) => {
+const WishlistButton = ({ productId, disabled }) => {
 	const dispatch = useDispatch();
 
+	const [ isDisabled, setIsDisabled ] = useState(disabled);
+
 	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
-	const [ disabled, setDisabled ] = useState(false);
 
 	const handleClick = async () => {
 		if (!isAuthenticated) {
@@ -59,7 +60,7 @@ const WishlistButton = ({ productId }) => {
 					type: 'succes'
 				})
 			);
-			setDisabled(true);
+			setIsDisabled(true);
 
 			setTimeout(() => {
 				dispatch(
@@ -69,7 +70,7 @@ const WishlistButton = ({ productId }) => {
 						type: null
 					})
 				);
-				setDisabled(false);
+				setIsDisabled(false);
 			}, 1000);
 		} catch (error) {
 			if (error.response.status === 405) {
@@ -80,7 +81,7 @@ const WishlistButton = ({ productId }) => {
 						type: 'error'
 					})
 				);
-				setDisabled(true);
+				setIsDisabled(true);
 
 				setTimeout(() => {
 					dispatch(
@@ -90,7 +91,7 @@ const WishlistButton = ({ productId }) => {
 							type: null
 						})
 					);
-					setDisabled(false);
+					setIsDisabled(false);
 				}, 1000);
 			} else if (error.response.status === 401) {
 				redirectToLogin();
@@ -98,7 +99,7 @@ const WishlistButton = ({ productId }) => {
 		}
 	};
 	return (
-		<StyledWishlistButton disabled={disabled} onClick={() => handleClick()}>
+		<StyledWishlistButton disabledStyle={disabled} disabled={isDisabled} onClick={handleClick}>
 			<EmptyHeartIcon />
 			<div>Wishlist</div>
 		</StyledWishlistButton>

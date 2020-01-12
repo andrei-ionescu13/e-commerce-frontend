@@ -9,7 +9,7 @@ import Spinner from './Spinner/Spinner';
 import useIsAuthenticated from '../hooks/useIsAuthenticated';
 
 const Container = styled.div`
-	width: 80vw;
+	width: var(--primary-width);
 	margin: auto;
 `;
 
@@ -19,8 +19,20 @@ const UserReview = styled.div`
 	display: flex;
 	min-height: 10rem;
 	border-top: 2px solid #f5f5f5;
-	align-items: center;
+
+	@media (max-width: 720px) {
+		flex-flow: column;
+		padding-top: 1rem;
+	}
 `;
+
+// const UserReview = styled.div`
+// 	display: flex;
+// 	flex-flow: column;
+// 	min-height: 10rem;
+// 	border-top: 2px solid #f5f5f5;
+// 	align-items: center;
+// `;
 
 const Product = styled(Link)`
     text-decoration:none;
@@ -37,10 +49,37 @@ const Product = styled(Link)`
 
 	img {
 		padding-top: 1rem;
-		max-width: 20%;
+		width: 30%;
+ 		min-width:8rem;
+	}
+
+	@media (max-width: 720px) {
+	width: 40%;
+	padding: 0 1rem;
+	align-items: flex-start;
+	border:none;
 	}
 `;
 
+// const Product = styled(Link)`
+//     text-decoration:none;
+// 	/* flex-basis: 18%; */
+// 	font-size: 1.3rem;
+// 	align-self: stretch;
+// 	display: flex;
+// 	flex-flow: column;
+// 	align-items: flex-start;
+// 	justify-content: center;
+// 	border-right: 2px solid #f5f5f5;
+// 	width: 40%;
+// 	padding: 0 1rem;
+
+// 	img {
+// 		/* padding-top: 1rem; */
+// 		width: 30%;
+// 		min-width:8rem;
+// 	}
+// `;
 const Review = styled.div`
 	flex: 1;
 	font-size: 1.5rem;
@@ -53,7 +92,7 @@ const Review = styled.div`
 
 const StyledDate = styled.div`
 	font-size: 1.3rem;
-	margin: 1rem 0 0 1rem;
+	margin-top: 1rem;
 `;
 
 const DeleteButton = styled.button`
@@ -78,8 +117,8 @@ const UserReviews = () => {
 			if (!isAuthenticated) {
 				redirectToLogin();
 			}
-			  
- 			setLoading(true);
+
+			setLoading(true);
 			const headers = { Authorization: token };
 			try {
 				const response = await axios.get('http://localhost:3333/user/reviews', { headers: headers });
@@ -102,8 +141,6 @@ const UserReviews = () => {
 		}
 
 		try {
-			  
- 
 			const headers = { Authorization: token };
 
 			await axios.delete(`http://localhost:3333/review/${reviewId}`, {
