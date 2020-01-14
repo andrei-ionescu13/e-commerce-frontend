@@ -26,6 +26,10 @@ const StyledCategoriesList = styled.div`
 			background-color: var(--primary-color);
 		}
 	}
+
+	@media (max-width: 900px) {
+		display: none;
+	}
 `;
 
 const CategoriesList = ({ display, position }) => {

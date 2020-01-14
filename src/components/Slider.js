@@ -39,7 +39,7 @@ const StyledLeftArrow = styled.button`
 	background-color: transparent;
 	border: .2rem solid var(--primary-color);
 	z-index: 1;
-	left: 0;
+	left: -6rem;
 
 	&:hover {
 		background-color: var(--primary-color);
@@ -79,7 +79,6 @@ const Slider = ({ items, initialItemsPerSlide }) => {
 	const [ itemsPerSlide, setItemsPerSlide ] = useState(initialItemsPerSlide);
 
 	const { width } = useWindowDimensions();
-	console.log(width);
 
 	useEffect(
 		() => {

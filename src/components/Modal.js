@@ -2,19 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledModal = styled.div`
-	display: flex; /* Hidden by default */
+	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	position: fixed;
+	z-index: 3;
+	padding-top: 100px;
 	left: 0;
 	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	width: 100%;
+	height: 100%;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
 `;
 const Modal = ({ children, close }) => {
 	const handleClick = e => {

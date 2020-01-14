@@ -17,10 +17,7 @@ const StyledButton = styled.button`
 	background: transparent;
 	font-size: 1.7rem;
 	cursor: pointer;
-	&:hover,
-	&:focus {
-		color: var(--primary-color);
-	}
+	color: var(--primary-color);
 `;
 
 const LogoutButton = () => {

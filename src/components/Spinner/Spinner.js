@@ -18,7 +18,7 @@ const StyledSpinner = styled.div`
 	-webkit-transform: translateZ(0);
 	-ms-transform: translateZ(0);
 	transform: translateZ(0);
-
+	z-index: 2;
 	@keyframes load4 {
 		0%,
 		100% {
@@ -56,9 +56,9 @@ const StyledSpinner = styled.div`
 	}
 `;
 
-const Spinner = ({ width, height, font, color, top }) => {
+const Spinner = ({ width, height, font, color, top, className }) => {
 	return (
-		<StyledSpinner width={width} height={height} font={font} color={color} top={top}>
+		<StyledSpinner className={className} width={width} height={height} font={font} color={color} top={top}>
 			Loading...
 		</StyledSpinner>
 	);

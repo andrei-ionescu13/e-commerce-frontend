@@ -19,6 +19,10 @@ const StyledSearchInput = styled.input`
 	padding-left: 2rem;
 	font-size: 1.6rem;
 	outline: none;
+	@media (max-width: 650px) {
+		min-height: .9rem;
+		width: 30vw;
+	}
 `;
 
 const StyledSearchButton = styled.button`

@@ -47,7 +47,18 @@ const StyledCart = styled(Link)`
 		width: 2.5rem;
 		fill: var(--primary-color);
 	}
+
+	
 }
+
+@media (max-width: 650px) {
+	>div	{width: 4rem;
+		svg {
+		width: 1.6rem;
+	}
+	}
+}
+
 `;
 
 const StyledPrice = styled.div`
@@ -55,6 +66,11 @@ const StyledPrice = styled.div`
 	color: white;
 	white-space: nowrap;
 	min-height: 1.4rem;
+
+	@media (max-width: 650px) {
+		min-height: .9rem;
+		font-size: .9rem;
+	}
 `;
 
 const StyledCircle = styled.div`
@@ -71,6 +87,13 @@ const StyledCircle = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	@media (max-width: 700px) {
+		width: 1.3rem;
+		height: 1.3rem;
+		left: -.7rem;
+		font-size: .9rem;
+	}
 `;
 
 const Cart = () => {

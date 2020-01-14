@@ -115,3 +115,24 @@ export const StyledAlert = styled.div`
 		}
 	}};
 `;
+
+export const SliderContainer = styled.div`
+	width: var(--primary-width);
+	margin: 0 auto 2rem auto;
+	min-height: 49rem;
+	position: relative;
+`;
+
+export const SliderTitle = styled.div`
+	margin: 0 auto 4rem auto;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--primary-color);
+	padding: .5rem 0;
+	a {
+		font-size: 1.5rem;
+		color: #005eb8;
+	}
+`;

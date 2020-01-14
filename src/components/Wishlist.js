@@ -29,7 +29,7 @@ const Grid = styled.div`
 	display: grid;
 	grid-column-gap: 2rem;
 	grid-row-gap: 5rem;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 `;
 
 const NoProductsMessage = styled.div`
@@ -117,6 +117,7 @@ const Wishlist = () => {
 									showWishlist={false}
 									showDelete={true}
 									deleteFunction={() => deleteProduct(x._id)}
+									wishlistProduct={true}
 								/>
 							))}
 						</Grid>

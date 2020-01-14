@@ -57,6 +57,8 @@ const OutOfStockMessage = styled.h2`
 	position: absolute;
 	top: 20%;
 	color: red;
+
+	font-size: ${props => props.wishlistProduct && '2rem'};
 `;
 
 const Product = ({
@@ -70,7 +72,8 @@ const Product = ({
 	showWishlist = true,
 	showDelete = false,
 	deleteFunction,
-	disabled = true
+	disabled = true,
+	wishlistProduct = false
 }) => {
 	const imageURL = `http://localhost:3333/images/${imagesURL[0]}.jpg`;
 
@@ -96,7 +99,7 @@ const Product = ({
 				{showWishlist && <WishlistButton opacity={disabled && '.5'} productId={_id} />}
 				{showDelete && <DeleteButton onClick={deleteFunction} />}
 			</FlexContainer>
-			{disabled && <OutOfStockMessage>Stoc epuizat</OutOfStockMessage>}
+			{disabled && <OutOfStockMessage wishlistProduct={wishlistProduct}>Stoc epuizat</OutOfStockMessage>}
 		</StyledProduct>
 	);
 };

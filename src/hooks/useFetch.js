@@ -5,8 +5,6 @@ const useFetch = (url, config) => {
 	const [ data, setData ] = useState();
 	const [ loading, setLoading ] = useState(true);
 
-	console.log(url);
-
 	const fetchData = async () => {
 		try {
 			setLoading(true);

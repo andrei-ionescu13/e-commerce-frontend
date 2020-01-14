@@ -40,6 +40,10 @@ const Navbar = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	@media (max-width: 1200px) {
+		padding: 1rem;
+	}
 `;
 
 const FlexContainer = styled.div`

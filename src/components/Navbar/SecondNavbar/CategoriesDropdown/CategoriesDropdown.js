@@ -24,7 +24,7 @@ const StyledButton = styled.button`
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
-	@media (max-width: 700px) {
+	@media (max-width: 900px) {
 		width: 5rem;
 	}
 `;
@@ -37,12 +37,12 @@ const HamburgerIcon = styled.div`
 		background-color: black;
 		margin: 6px 0;
 	}
-	@media (max-width: 700px) {
+	@media (max-width: 900px) {
 		display: block;
 	}
 `;
 
-const StyledName = styled.div`@media (max-width: 700px) {display: none;}`;
+const StyledName = styled.div`@media (max-width: 900px) {display: none;}`;
 const CategoriesDropdown = () => {
 	return (
 		<StyledDropdown>

@@ -63,7 +63,7 @@ const LogIn = ({ email, password }) => {
 					email: email || '',
 					password: password || ''
 				}}
-				validationSchema={logInSchema}
+				// validationSchema={logInSchema}
 				validateOnChange={false}
 				onSubmit={async (values, { setErrors, setSubmitting }) => {
 					try {

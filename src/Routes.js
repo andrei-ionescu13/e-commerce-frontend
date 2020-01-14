@@ -11,9 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import ProductReview from './components/Forms/ProductReview';
 import Navbar from './components/Navbar/Navbar';
-import Brands from './components/Brands/Brands';
 import Wishlist from './components/Wishlist';
-import PromotionsSlider from './components/PromotionsSlider';
 import UserInfo from './components/UserInfo/UserInfo';
 import ProductQuestion from './components/Forms/ProductQuestion';
 import UserReviews from './components/UserReviews';
@@ -21,6 +19,7 @@ import UserQuestions from './components/UserQuestions';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import Orders from './components/UserInfo/Orders';
 import Order from './components/UserInfo/Order';
+import FrontPage from './components/FrontPage/FrontPage';
 
 const Routes = () => {
 	const history = useHistory();
@@ -29,7 +28,6 @@ const Routes = () => {
 	return (
 		<React.Fragment>
 			<Route path="/" component={Navbar} />
-
 			<Switch>
 				<Route path="/search" component={ProductsSection} />
 				<Route path="/promotions" component={ProductsSection} />
@@ -50,15 +48,7 @@ const Routes = () => {
 				<Route path="/info" component={UserInfo} />
 				<Route path="/cart" />
 				<Route path="/:productName" component={ProductPage} />
-				<Route
-					path="/"
-					render={() => (
-						<React.Fragment>
-							<PromotionsSlider itemsPerSlide={6} numberOfItems={20} />
-							<Brands />
-						</React.Fragment>
-					)}
-				/>
+				<Route path="/" component={FrontPage} />
 			</Switch>
 		</React.Fragment>
 	);

@@ -9,7 +9,7 @@ const StyledLogo = styled(Link)`
 	user-select: none;
 
 	@media (max-width: 700px) {
-		font-size: 3.3rem;
+		font-size: 2.3rem;
 	}
 `;
 
