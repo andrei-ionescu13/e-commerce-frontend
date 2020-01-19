@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Banner from '../../../Banner/Banner';
+
 import styled from 'styled-components';
 import CategoriesList from './CategoriesList';
 
@@ -24,6 +23,7 @@ const StyledButton = styled.button`
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	@media (max-width: 900px) {
 		width: 5rem;
 	}
@@ -55,7 +55,6 @@ const CategoriesDropdown = () => {
 				</HamburgerIcon>
 			</StyledButton>
 			<CategoriesList display="none" position="absolute" />
-			{/* <Banner /> */}
 		</StyledDropdown>
 	);
 };

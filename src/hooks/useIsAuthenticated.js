@@ -21,6 +21,8 @@ const useIsAuthenticated = () => {
 
 	const token = Cookies.get('Authorization');
 
+	const isAdmin = verifyAuthentication() ? jwt_decode(token.split(' ')[1]).admin : false;
+
 	const isAuthenticated = verifyAuthentication();
 
 	const redirectToLogin = () => {
@@ -29,7 +31,7 @@ const useIsAuthenticated = () => {
 		history.push('/login');
 	};
 
-	return [ isAuthenticated, token, redirectToLogin ];
+	return [ isAuthenticated, token, redirectToLogin, isAdmin ];
 };
 
 export default useIsAuthenticated;

@@ -40,7 +40,7 @@ const AnswerForm = ({ questions, setQuestions, questionId, setShow }) => {
 
 	const answerRef = useRef(null);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const handleAnswerChange = e => {
 		setAnswer(e.target.value);

@@ -110,7 +110,7 @@ const UserReviews = () => {
 	const [ reviews, setReviews ] = useState([]);
 	const [ loading, setLoading ] = useState(true);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -143,7 +143,7 @@ const UserReviews = () => {
 		try {
 			const headers = { Authorization: token };
 
-			await axios.delete(`http://localhost:3333/review/${reviewId}`, {
+			await axios.delete(`http://localhost:3333/user/review/${reviewId}`, {
 				headers: headers
 			});
 
@@ -167,7 +167,7 @@ const UserReviews = () => {
 						</Product>
 						<Review>
 							<Rating value={x.rating} count={5} width="2.3rem" />
-							<StyledDate>{new Date(x.date).toLocaleDateString('ro-RO')} </StyledDate>
+							<StyledDate>{new Date(x.createdAt).toLocaleDateString('ro-RO')} </StyledDate>
 							<p> {x.review}</p>
 							<DeleteButton
 								onClick={() => {

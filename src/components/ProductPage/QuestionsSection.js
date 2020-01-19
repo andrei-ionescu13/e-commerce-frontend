@@ -118,7 +118,7 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 
 	const [ showAnswerForm, setShowAnswerForm ] = useState(false);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	if (isAuthenticated) {
 		userId = decodeToken(token).id;
@@ -136,7 +136,7 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 		try {
 			const headers = { Authorization: token };
 
-			await axios.delete(`http://localhost:3333/question/${questionId}`, {
+			await axios.delete(`http://localhost:3333/user/question/${questionId}`, {
 				headers: headers
 			});
 
@@ -154,16 +154,14 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 		try {
 			const headers = { Authorization: token };
 
+			await axios.delete(`http://localhost:3333/user/answer/${questionId}/${answerId}`, {
+				headers: headers
+			});
 			const questionIndex = questions.findIndex(x => x._id == questionId);
 
 			questions[questionIndex].answers = questions[questionIndex].answers.filter(x => x._id !== answerId);
 			console.log(questions[questionIndex].answers.filter(x => x._id !== answerId));
 			setQuestions(questions);
-
-			await axios.delete(`http://localhost:3333/question/answer/${questionId}/${answerId}`, {
-				headers: headers
-			});
-
 			// setQuestions(questions.filter(x => x._id !== questionId));
 		} catch (error) {
 			console.log(error);
@@ -175,7 +173,7 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 			<UserQuestion key={question._id}>
 				<User>
 					<h3>{`${question.user.lastName} ${question.user.firstName}`}</h3>
-					<div>{new Date(question.date).toLocaleDateString('ro-RO')} </div>
+					<div>{new Date(question.createdAt).toLocaleDateString('ro-RO')} </div>
 				</User>
 				<Question>
 					<p> {question.content}</p>
@@ -204,9 +202,9 @@ const QuestionsSection = ({ questions, setQuestions, productName }) => {
 			</UserQuestion>
 			{question.answers.map(answer => (
 				<Answer>
-					<h6>{`${answer.user.lastName} ${answer.user.firstName} - ${new Date(answer.date).toLocaleDateString(
-						'ro-RO'
-					)}`}</h6>
+					<h6>{`${answer.user.lastName} ${answer.user.firstName} - ${new Date(
+						answer.createdAt
+					).toLocaleDateString('ro-RO')}`}</h6>
 					<p>{answer.content}</p>
 					{userId === answer.user._id && (
 						<StyledButton

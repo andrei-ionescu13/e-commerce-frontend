@@ -46,7 +46,7 @@ const Wishlist = () => {
 	const [ products, setProducts ] = useState();
 	const [ loading, setLoading ] = useState(true);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -106,6 +106,7 @@ const Wishlist = () => {
 						<Grid>
 							{products.map(x => (
 								<Product
+									quantity={x.quantity}
 									key={x._id}
 									_id={x._id}
 									name={x.name}

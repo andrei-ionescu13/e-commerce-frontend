@@ -115,7 +115,7 @@ const StyledButton = styled.button`
 registerLocale('ro', ro);
 
 const UserDataForm = ({ firstName, lastName, phone, dateOfBirth }) => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const lastMonth = new Date();
 	lastMonth.setMonth(lastMonth.getMonth() - 168);

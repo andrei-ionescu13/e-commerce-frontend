@@ -87,7 +87,7 @@ const UserQuestions = () => {
 	const [ questions, setQuestions ] = useState([]);
 	const [ loading, setLoading ] = useState(true);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -120,7 +120,7 @@ const UserQuestions = () => {
 		try {
 			const headers = { Authorization: token };
 
-			await axios.delete(`http://localhost:3333/question/${questionId}`, {
+			await axios.delete(`http://localhost:3333/user/question/${questionId}`, {
 				headers: headers
 			});
 
@@ -142,7 +142,7 @@ const UserQuestions = () => {
 							<img src={`http://localhost:3333/images/${x.product.imagesURL[0]}.jpg`} />
 						</Product>
 						<Question>
-							<StyledDate>{new Date(x.date).toLocaleDateString('ro-RO')} </StyledDate>
+							<StyledDate>{new Date(x.createdAt).toLocaleDateString('ro-RO')} </StyledDate>
 							<p> {x.content}</p>
 							<DeleteButton
 								onClick={() => {

@@ -97,7 +97,7 @@ const StyledCircle = styled.div`
 `;
 
 const Cart = () => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const cart = useSelector(state => cartSelector(state));
 

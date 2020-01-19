@@ -108,7 +108,7 @@ const StyledSummary = styled.div`
 `;
 
 const Order = () => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 	const [ order, setOrder ] = useState({});
 	const [ loading, setLoading ] = useState(true);
 

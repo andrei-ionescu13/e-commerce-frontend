@@ -14,7 +14,7 @@ const StyledCloseButton = styled.button`
 `;
 
 const DeleteProductButton = ({ productId }) => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const dispatch = useDispatch();
 

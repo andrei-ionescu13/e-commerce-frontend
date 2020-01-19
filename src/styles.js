@@ -136,3 +136,46 @@ export const SliderTitle = styled.div`
 		color: #005eb8;
 	}
 `;
+
+export const PaginationWrapper = styled.div`
+	.pagination {
+		margin: ${props => (props.admin ? '20rem auto 4rem auto' : 'auto 9rem auto 0')};
+		display: flex;
+		list-style-type: none;
+		justify-content: center;
+		align-content: center;
+
+		@media (max-width: 1050px) {
+			font-size: 1.3rem;
+		}
+	}
+
+	.page,
+	.previous-page,
+	.next-page {
+		user-select: none;
+		color: ${props => (props.admin ? '#6d76db' : 'var(--primary-color)')};
+		cursor: pointer;
+		border: 1.5px solid ${props => (props.admin ? '#6d76db' : 'var(--primary-color)')};
+		padding: .4rem 1.5rem;
+		margin: 0 .2rem;
+		outline: none;
+	}
+	.page:hover,
+	.previous-page:hover,
+	.next-page:hover,
+	.page:focus {
+		background-color: ${props => (props.admin ? '#6d76db' : 'var(--primary-color)')};
+		color: black;
+	}
+
+	.active {
+		background-color: ${props => (props.admin ? '#6d76db' : 'var(--primary-color)')};
+		color: black;
+	}
+
+	.break-me {
+		cursor: pointer;
+		color: ${props => (props.admin ? '#6d76db' : 'var(--primary-color)')};
+	}
+`;

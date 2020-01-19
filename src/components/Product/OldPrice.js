@@ -7,7 +7,7 @@ const StyledOldPrice = styled.div`
 	margin-top: 1rem;
 	height: 2rem;
 	color: grey;
-	opacity: ${props => props.opacity};
+	opacity: ${(props) => (props.disabled ? '.5' : undefined)};
 
 	sup {
 		display: inline-block;
@@ -20,9 +20,9 @@ const StyledOldPrice = styled.div`
 	}
 `;
 
-const OldPrice = ({ price, discountedPrice, opacity }) => {
+const OldPrice = ({ price, discountedPrice, disabled }) => {
 	return (
-		<StyledOldPrice opacity={opacity}>
+		<StyledOldPrice disabled={disabled}>
 			<span>{discountedPrice && insertCharacterFromEnd(price.toString().split('.')[0], '.', 3)}</span>
 			<sup>{discountedPrice && parseFloat(price).toFixed(2).toString().split('.')[1]}</sup>
 			{discountedPrice && ' lei'}

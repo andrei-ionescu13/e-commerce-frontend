@@ -93,7 +93,7 @@ const StyledHeader = styled.h4`text-align: center;`;
 const ReviewsSection = ({ reviews, setReviews, productName }) => {
 	let userId;
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	if (isAuthenticated) {
 		userId = decodeToken(token).id;
@@ -107,7 +107,7 @@ const ReviewsSection = ({ reviews, setReviews, productName }) => {
 		try {
 			const headers = { Authorization: token };
 
-			await axios.delete(`http://localhost:3333/review/${reviewId}`, {
+			await axios.delete(`http://localhost:3333/user/review/${reviewId}`, {
 				headers: headers
 			});
 
@@ -121,7 +121,7 @@ const ReviewsSection = ({ reviews, setReviews, productName }) => {
 		<UserReview key={x._id}>
 			<User>
 				<h3>{`${x.user.lastName} ${x.user.firstName}`}</h3>
-				<div>{new Date(x.date).toLocaleDateString('ro-RO')} </div>
+				<div>{new Date(x.createdAt).toLocaleDateString('ro-RO')} </div>
 			</User>
 			<Review>
 				<Rating value={x.rating} count={5} width="2.3rem" />

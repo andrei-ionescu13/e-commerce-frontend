@@ -180,7 +180,7 @@ const StyledMessage = styled.h3`
 `;
 
 const ShoppingCart = () => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const [ disabled, setDisabled ] = useState(false);
 	const [ addresses, setAddresses ] = useState([]);
@@ -329,8 +329,8 @@ const ShoppingCart = () => {
 					<StyledSummary>
 						<div>{`TOTAL: ${cart.totalQuantity} produse`}</div>
 						<FlexColumnContainer>
-							<div>Livrare la domiciliu: 18 lei</div>
-							<div>{`TOTAL comanda: ${cart.totalPrice + 18} lei`}</div>
+							<div>{`Livrare la domiciliu: ${cart.deliveryFee} lei`}</div>
+							<div>{`TOTAL comanda: ${cart.totalPrice + cart.deliveryFee} lei`}</div>
 						</FlexColumnContainer>
 					</StyledSummary>
 

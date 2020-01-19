@@ -8,56 +8,14 @@ import queryString from 'query-string';
 import _ from 'lodash';
 import styled from 'styled-components';
 import useWindowDimensions from '../../hooks/useWindowSize';
-
-const Wrapper = styled.div`
-	.pagination {
-		margin: auto 9rem auto 0;
-		display: flex;
-		list-style-type: none;
-		justify-content: center;
-		align-content: center;
-
-		@media (max-width: 1050px) {
-			font-size: 1.3rem;
-		}
-	}
-
-	.page,
-	.previous-page,
-	.next-page {
-		user-select: none;
-		color: var(--primary-color);
-		cursor: pointer;
-		border: 1.5px solid var(--primary-color);
-		padding: .4rem 1.5rem;
-		margin: 0 .2rem;
-		outline: none;
-	}
-	.page:hover,
-	.previous-page:hover,
-	.next-page:hover,
-	.page:focus {
-		background-color: var(--primary-color);
-		color: black;
-	}
-
-	.active {
-		background-color: var(--primary-color);
-		color: black;
-	}
-
-	.break-me {
-		cursor: pointer;
-		color: var(--primary-color);
-	}
-`;
+import { PaginationWrapper } from '../../styles';
 
 const StyledProducts = styled.div`
 	grid-area: p;
 	display: grid;
 	justify-items: center;
 	align-content: flex-start;
-	min-height: 1764px;
+	min-height: 220rem;
 	grid-gap: 2rem;
 	grid-template-columns: repeat(4, 1fr);
 
@@ -89,6 +47,7 @@ const Products = () => {
 			if (products.length > 0) {
 				products = products.map(x => (
 					<Product
+						quantity={x.quantity}
 						key={x._id}
 						_id={x._id}
 						name={x.name}
@@ -137,7 +96,7 @@ const Products = () => {
 	};
 
 	return (
-		<Wrapper>
+		<PaginationWrapper>
 			<StyledProducts>{productsShown}</StyledProducts>
 			<ReactPaginate
 				previousLabel={width < 1050 ? '<' : 'Pagina anterioare'}
@@ -156,7 +115,7 @@ const Products = () => {
 				pageLinkClassName={'page'}
 				activeLinkClassName={'active'}
 			/>
-		</Wrapper>
+		</PaginationWrapper>
 	);
 };
 

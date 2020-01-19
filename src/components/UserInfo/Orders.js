@@ -54,7 +54,7 @@ const StyledPrice = styled(Price)`
 `;
 
 const Orders = () => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 	const [ orders, setOrders ] = useState([]);
 	const [ loading, setLoading ] = useState(true);
 	const location = useLocation();

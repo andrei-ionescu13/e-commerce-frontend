@@ -14,13 +14,13 @@ const StyledDiscount = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-bottom-right-radius: 1.5rem;
-	opacity: ${props => props.opacity};
+	opacity: ${(props) => (props.disabled ? '.5' : undefined)};
 `;
 
-const Discount = ({ price, discountedPrice, opacity }) => {
+const Discount = ({ price, discountedPrice, disabled }) => {
 	return (
 		discountedPrice && (
-			<StyledDiscount opacity={opacity}>{`${Math.floor(
+			<StyledDiscount disabled={disabled}>{`${Math.floor(
 				100 - getPercentage(discountedPrice, price)
 			)}%`}</StyledDiscount>
 		)

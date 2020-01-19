@@ -69,7 +69,7 @@ const checkInteger = value => !isNaN(value) && parseInt(Number(value)) == value 
 const Product = ({ imgURL, name, price, discountedPrice, quantity, productId, productQuantity }) => {
 	const [ quantitySelected, setQuantitySelected ] = useState(quantity);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const dispatch = useDispatch();
 

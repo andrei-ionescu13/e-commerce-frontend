@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { reviewSchema } from '../../validation';
 import { FormError } from '../../styles';
 import { FormMessage } from '../../styles';
@@ -54,7 +53,7 @@ const ProductReview = () => {
 	const [ isSubmitting, setIsSubmitting ] = useState(false);
 	const [ succesMessage, setSuccesMessage ] = useState(null);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const dispatch = useDispatch();
 	const history = useHistory();

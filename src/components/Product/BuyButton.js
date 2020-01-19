@@ -27,8 +27,8 @@ const StyledBuyButton = styled.button`
 		background-color: ${props => (props.disabledStyle ? ' var(--primary-color)' : ' #fe7f01')};
 	}
 `;
-const BuyButton = ({ productId, opacity, disabled }) => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+const BuyButton = ({ productId, disabled }) => {
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const [ isDisabled, setIsDisabled ] = useState(disabled);
 

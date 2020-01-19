@@ -35,7 +35,7 @@ const WishlistButton = ({ productId, disabled }) => {
 
 	const [ isDisabled, setIsDisabled ] = useState(disabled);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const handleClick = async () => {
 		if (!isAuthenticated) {

@@ -36,7 +36,8 @@ const Navbar = styled.div`
 	padding: 1rem 0;
 	margin: auto;
 	width: var(--primary-width);
-	height: 100%;
+	height: 6rem;
+
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -54,7 +55,7 @@ const FlexContainer = styled.div`
 `;
 const MainNavbar = () => {
 	// const isLogged = useSelector(state => isLoggedSelector(state));
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 	return (
 		<NavbarContainer>
 			<Navbar>

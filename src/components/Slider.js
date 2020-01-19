@@ -80,6 +80,8 @@ const Slider = ({ items, initialItemsPerSlide }) => {
 
 	const { width } = useWindowDimensions();
 
+	console.log('itemsPerSlide', itemsPerSlide);
+
 	useEffect(
 		() => {
 			if (width < 750) setItemsPerSlide(initialItemsPerSlide - 3);
@@ -91,11 +93,11 @@ const Slider = ({ items, initialItemsPerSlide }) => {
 	);
 
 	const handleClickNext = () => {
-		setSlide(slide => slide + 1);
+		setSlide((slide) => slide + 1);
 	};
 
 	const handleClickPrevious = () => {
-		setSlide(slide => slide - 1);
+		setSlide((slide) => slide - 1);
 	};
 
 	useEffect(

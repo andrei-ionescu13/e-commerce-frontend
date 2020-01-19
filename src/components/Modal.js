@@ -15,12 +15,12 @@ const StyledModal = styled.div`
 	background-color: rgb(0, 0, 0);
 	background-color: rgba(0, 0, 0, 0.4);
 `;
-const Modal = ({ children, close }) => {
-	const handleClick = e => {
+const Modal = ({ children, close, className }) => {
+	const handleClick = (e) => {
 		if (e.target.id === 'modal') close();
 	};
 	return (
-		<StyledModal id="modal" onClick={e => handleClick(e)}>
+		<StyledModal className={className} id="modal" onClick={(e) => handleClick(e)}>
 			{children}
 		</StyledModal>
 	);

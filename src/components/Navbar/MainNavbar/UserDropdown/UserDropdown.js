@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as UserIcon } from '../../../../assets/icons/user.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { PortalWithState } from 'react-portal';
 import Modal from '../../../Modal';
@@ -107,15 +107,24 @@ const StyledUserIcon = styled(UserIcon)`
 			}
 `;
 
+const StyledModal = styled(Modal)`@media (min-width: 700px) {
+	display: none;
+}
+`;
+
 const UserDropdown = () => {
 	const { width } = useWindowSize();
+	const location = useLocation();
 
 	return (
 		<PortalWithState closeOnOutsideClick closeOnEsc>
 			{({ openPortal, closePortal, isOpen, portal }) => (
 				<React.Fragment>
 					<StyledUserDropdown>
-						<StyledUserIconLink to={width < 768 ? '' : '/info'} onClick={width < 768 && openPortal}>
+						<StyledUserIconLink
+							to={width < 768 ? location.pathname : '/info'}
+							onClick={width < 768 ? openPortal : undefined}
+						>
 							<StyledUserIcon />
 						</StyledUserIconLink>
 						<StyledContent>
@@ -128,7 +137,7 @@ const UserDropdown = () => {
 						</StyledContent>
 					</StyledUserDropdown>
 					{portal(
-						<Modal close={closePortal}>
+						<StyledModal close={closePortal}>
 							<StyledContent2>
 								<CloseButton onClick={closePortal}>Inchide</CloseButton>
 								<Link to="/info">Date Personale</Link>
@@ -138,7 +147,7 @@ const UserDropdown = () => {
 								<Link to="/wishlist">Wishlist</Link>
 								<LogoutButton />
 							</StyledContent2>
-						</Modal>
+						</StyledModal>
 					)}
 				</React.Fragment>
 			)}

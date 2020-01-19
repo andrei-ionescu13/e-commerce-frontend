@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { questionSchema } from '../../validation';
 import { FormError } from '../../styles';
 import { FormMessage } from '../../styles';
@@ -44,7 +43,7 @@ const ProductQuestion = () => {
 	const [ isSubmitting, setIsSubmitting ] = useState(false);
 	const [ succesMessage, setSuccesMessage ] = useState(null);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const params = useParams();
 

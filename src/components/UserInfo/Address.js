@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Modal from '../Modal';
@@ -47,7 +46,7 @@ const Address = ({ setAddresses, id, firstName, lastName, phone, county, city, a
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	const deleteAddressHandler = async () => {
 		if (!isAuthenticated) {

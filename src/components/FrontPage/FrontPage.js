@@ -3,9 +3,10 @@ import PromotionsSlider from './PromotionsSlider';
 import RecentlyViewedSlider from './RecentlyViewedSlider';
 import RecentlyWishlistedSlider from './RecentlyWishlistedSlider';
 import Brands from './Brands';
-import Banner from '../Banner/Banner';
+import Banner from './Banner';
 import CategoriesList from '../Navbar/SecondNavbar/CategoriesDropdown/CategoriesList';
 import styled from 'styled-components';
+import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 
 const Container = styled.div`
 	width: var(--primary-width);
@@ -14,6 +15,9 @@ const Container = styled.div`
 `;
 
 const FrontPage = () => {
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
+	console.log(isAdmin);
+
 	return (
 		<React.Fragment>
 			<Container>

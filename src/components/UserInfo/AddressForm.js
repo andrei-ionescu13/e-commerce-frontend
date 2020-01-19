@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { FormError, FormMessage } from '../../styles';
 import regions from '../../helpers/regions';
 import { AddressSchema } from '../../validation';
-import Cookies from 'js-cookie';
 import useIsAuthenticated from '../../hooks/useIsAuthenticated';
 const StyledForm = styled.form`
 	display: flex;
@@ -81,7 +80,7 @@ const StyledCancelButton = styled.button`
 `;
 
 const AddressForm = ({ setAddresses, closePortal, id, firstName, lastName, phone, county, city, address }) => {
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	return (
 		<Formik

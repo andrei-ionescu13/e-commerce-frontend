@@ -59,7 +59,7 @@ const UserInfo = () => {
 	const [ dateOfBirth, setDateOfBirth ] = useState(null);
 	const [ addresses, setAddresses ] = useState([]);
 
-	const [ isAuthenticated, token, redirectToLogin ] = useIsAuthenticated();
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
 
 	useEffect(() => {
 		const fetchData = async () => {

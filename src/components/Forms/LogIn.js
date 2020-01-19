@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Formik } from 'formik';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { logInSchema } from '../../validation';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -71,9 +70,11 @@ const LogIn = ({ email, password }) => {
 							email: values.email,
 							password: values.password
 						});
+
 						Cookies.set('Authorization', `Bearer ${response.data.token}`);
 						dispatch(setIsLogged(true));
-						history.push('/');
+						if (response.data.admin) history.push('/admin');
+						else history.push('/');
 					} catch (err) {
 						setErrors({ reqErrors: err.response.data.error });
 						console.log(err.response.data.error);

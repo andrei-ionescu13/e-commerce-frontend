@@ -21,15 +21,16 @@ const StyledFilters = styled.div`
 	min-width: 25.2rem;
 
 	@media (max-width: 700px) {
-		display: none;
+		display: ${(props) => !props.mobile && 'none'};
+		border: ${(props) => props.mobile && 'none'};
 	}
 `;
 
-const Filters = () => {
-	const productsLoading = useSelector(state => productsLoadingSelector(state));
-	const filters = useSelector(state => filtersSelector(state));
-	const products = useSelector(state => productsSelector(state));
-	const badKeyword = useSelector(state => badKeywordSelector(state));
+const Filters = ({ mobile }) => {
+	const productsLoading = useSelector((state) => productsLoadingSelector(state));
+	const filters = useSelector((state) => filtersSelector(state));
+	const products = useSelector((state) => productsSelector(state));
+	const badKeyword = useSelector((state) => badKeywordSelector(state));
 
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -39,7 +40,7 @@ const Filters = () => {
 	if (products.length > 0 && filters.length > 0 && !productsLoading) {
 		let [ prices, ...otherFilters ] = filters;
 		prices = prices.pret;
-		filters.forEach(element => array.push([]));
+		filters.forEach((element) => array.push([]));
 
 		for (let index = 0; index < products.length; index++) {
 			const productPrice = products[index].discountedPrice || products[index].price;
@@ -59,13 +60,13 @@ const Filters = () => {
 				value = value.toString().trim();
 				if (value.includes(',')) {
 					value = value.split(',');
-					value.forEach(x => {
+					value.forEach((x) => {
 						array[index2 + 1].push(x.trim());
 					});
 				} else array[index2 + 1].push(value);
 			}
 		}
-		array.forEach((x, index) => (array[index] = _.countBy(array[index], x => x.toString())));
+		array.forEach((x, index) => (array[index] = _.countBy(array[index], (x) => x.toString())));
 	}
 
 	useEffect(
@@ -83,7 +84,7 @@ const Filters = () => {
 		[ location.search, filters ]
 	);
 	return (
-		<StyledFilters>
+		<StyledFilters mobile={mobile}>
 			{array.map((x, index) => (
 				<Filter
 					key={index}

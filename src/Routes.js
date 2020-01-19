@@ -20,36 +20,47 @@ import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import Orders from './components/UserInfo/Orders';
 import Order from './components/UserInfo/Order';
 import FrontPage from './components/FrontPage/FrontPage';
+import useIsAuthenticated from './hooks/useIsAuthenticated';
+import AdminPanel from './components/AdminPanel/AdminPanel';
 
 const Routes = () => {
+	const [ isAuthenticated, token, redirectToLogin, isAdmin ] = useIsAuthenticated();
+
 	const history = useHistory();
 	const dispatch = useDispatch();
 
 	return (
 		<React.Fragment>
-			<Route path="/" component={Navbar} />
-			<Switch>
-				<Route path="/search" component={ProductsSection} />
-				<Route path="/promotions" component={ProductsSection} />
-				<Route path="/orders/:id" component={Order} />
-				<Route path="/orders" component={Orders} />
-				<Route path="/reviews" component={UserReviews} />
-				<Route path="/cart" component={ShoppingCart} />
-				<Route path="/questions" component={UserQuestions} />
-				<Route path="/cat/:category" component={ProductsSection} />
-				<Route path="/compare" component={ComparisonPage} />
-				<Route path="/signup" component={SignUp} />
-				<Route path="/login" component={LogIn} />
-				<Route path="/recovery" component={PasswordRecovery} />
-				<Route path="/reset/:token" component={PasswordReset} />
-				<Route path="/review/:productName" component={ProductReview} />
-				<Route path="/question/:productName" component={ProductQuestion} />
-				<Route path="/wishlist" component={Wishlist} />
-				<Route path="/info" component={UserInfo} />
-				<Route path="/cart" />
-				<Route path="/:productName" component={ProductPage} />
-				<Route path="/" component={FrontPage} />
-			</Switch>
+			{isAuthenticated && isAdmin ? (
+				<Route path="/admin" component={AdminPanel} />
+			) : (
+				<React.Fragment>
+					<Route path="/" component={Navbar} />
+					<Switch>
+						<Route path="/admin" component={AdminPanel} />
+						<Route path="/signup" component={isAuthenticated ? undefined : SignUp} />
+						<Route path="/login" component={isAuthenticated ? undefined : LogIn} />
+						<Route path="/recovery" component={isAuthenticated ? undefined : PasswordRecovery} />
+						<Route path="/reset/:token" component={isAuthenticated ? undefined : PasswordReset} />
+						<Route path="/search" component={ProductsSection} />
+						<Route path="/promotions" component={ProductsSection} />
+						<Route path="/orders/:id" component={Order} />
+						<Route path="/orders" component={Orders} />
+						<Route path="/reviews" component={UserReviews} />
+						<Route path="/cart" component={ShoppingCart} />
+						<Route path="/questions" component={UserQuestions} />
+						<Route path="/cat/:category" component={ProductsSection} />
+						<Route path="/compare" component={ComparisonPage} />
+						<Route path="/review/:productName" component={ProductReview} />
+						<Route path="/question/:productName" component={ProductQuestion} />
+						<Route path="/wishlist" component={Wishlist} />
+						<Route path="/info" component={UserInfo} />
+						<Route path="/cart" />
+						<Route path="/:productName" component={ProductPage} />
+						<Route path="/" component={FrontPage} />{' '}
+					</Switch>
+				</React.Fragment>
+			)}
 		</React.Fragment>
 	);
 };

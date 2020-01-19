@@ -18,8 +18,9 @@ const RecentlyWishlistedSlider = ({ itemsPerSlide, numberOfItems }) => {
 	console.log(products);
 	let productsRendered = [];
 	if (!loading) {
-		productsRendered = products.map(x => (
+		productsRendered = products.map((x) => (
 			<Product
+				quantity={x.quantity}
 				key={x._id}
 				_id={x._id}
 				name={x.name}

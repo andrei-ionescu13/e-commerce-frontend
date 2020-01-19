@@ -55,9 +55,9 @@ const RatingContainer = styled.div`
 const StyledButton = styled.button`
 	cursor: pointer;
 	text-decoration: none;
-	background: ${props => (props.active ? 'var(--primary-color)' : 'white')};
-	color: ${props => (props.active ? 'white' : 'var(--primary-color)')};
-	border: ${props => (props.active ? 'white' : `2px solid  var(--primary-color)`)};
+	background: ${(props) => (props.active ? 'var(--primary-color)' : 'white')};
+	color: ${(props) => (props.active ? 'white' : 'var(--primary-color)')};
+	border: ${(props) => (props.active ? 'white' : `2px solid  var(--primary-color)`)};
 	height: 4rem;
 	width: 13rem;
 	display: flex;
@@ -68,8 +68,8 @@ const StyledButton = styled.button`
 
 const FlexContainer = styled.div`
 	display: flex;
-	width: ${props => props.width};
-	justify-content: ${props => props.justifyContent};
+	width: ${(props) => props.width};
+	justify-content: ${(props) => props.justifyContent};
 
 	@media (max-width: 850px) {
 		width: 15rem;
@@ -92,7 +92,7 @@ const ProductPage = ({ location }) => {
 		() => {
 			axios
 				.get(`http://localhost:3333/products/${productName}`)
-				.then(result => {
+				.then((result) => {
 					if (!result.data) {
 						history.push('/');
 						return;
@@ -100,7 +100,7 @@ const ProductPage = ({ location }) => {
 					setProduct(result.data);
 					setLoading(false);
 				})
-				.catch(err => console.log(err));
+				.catch((err) => console.log(err));
 		},
 		[ productName ]
 	);
@@ -134,12 +134,12 @@ const ProductPage = ({ location }) => {
 		setShowQuestions(true);
 	};
 
-	const setReviews = reviews => {
-		setProduct(product => ({ ...product, reviews }));
+	const setReviews = (reviews) => {
+		setProduct((product) => ({ ...product, reviews }));
 	};
 
-	const setQuestions = questions => {
-		setProduct(product => ({ ...product, questions }));
+	const setQuestions = (questions) => {
+		setProduct((product) => ({ ...product, questions }));
 	};
 
 	return (
@@ -154,7 +154,7 @@ const ProductPage = ({ location }) => {
 						discountedPrice={product.discountedPrice}
 					/>
 					<StyledRight>
-						<OutOfStockMessage>Stoc epuizat</OutOfStockMessage>
+						{product.quantity < 1 && <OutOfStockMessage>Stoc epuizat</OutOfStockMessage>}
 						<RatingContainer>
 							<ProductRating reviews={product.reviews} width="2rem" />
 						</RatingContainer>

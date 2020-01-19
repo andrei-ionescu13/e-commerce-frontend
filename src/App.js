@@ -26,7 +26,7 @@ const App = () => {
 	}, []);
 	return (
 		<Router>
-			<div className="App">
+			<div id="app">
 				<Routes />
 				{/* <Container>
 					<CategoriesList position="relative" display="flex" />

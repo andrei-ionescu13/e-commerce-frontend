@@ -9,6 +9,8 @@ import { productsLoadingSelector, badKeywordSelector } from '../../store/Selecto
 import queryString from 'query-string';
 import Comparison from './Comparison/Comparison';
 import styled from 'styled-components';
+import { PortalWithState } from 'react-portal';
+import Modal from '../Modal';
 
 const StyledProductsSection = styled.div`
 	width: var(--primary-width);
@@ -50,11 +52,43 @@ const FlexContainer = styled.div`
 	}
 `;
 
+const CloseButton = styled.div`
+	align-self: flex-end;
+	cursor: pointer;
+	font-weight: 600;
+	background: transparent;
+	color: #005eb8;
+	font-size: 2rem;
+`;
+
+const StyledFiltersContainer = styled.div`
+	border: 2px solid var(--primary-color);
+	padding: 2rem;
+	display: flex;
+	flex-flow: column;
+	background: white;
+	width: 80vw;
+	position: relative;
+	height: 82vh;
+	overflow-y: scroll;
+	-ms-overflow-style: none;
+	overscroll-behavior: contain;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const StyledModal = styled(Modal)`@media (min-width: 700px) {
+	display: none;
+}
+`;
+
 const NoProductsFound = <NoProductsFoundMessage>Nu s-a gasit niciun produs</NoProductsFoundMessage>;
 
 const ProductsSection = ({ location, match }) => {
-	const badKeyword = useSelector(state => badKeywordSelector(state));
-	const productsLoading = useSelector(state => productsLoadingSelector(state));
+	const badKeyword = useSelector((state) => badKeywordSelector(state));
+	const productsLoading = useSelector((state) => productsLoadingSelector(state));
 	const dispatch = useDispatch();
 	const query = queryString.parse(location.search).query;
 
@@ -89,18 +123,46 @@ const ProductsSection = ({ location, match }) => {
 	return badKeyword ? (
 		NoProductsFound
 	) : (
-		<React.Fragment>
-			<FlexContainer>
-				<button>Filtreaza</button>
-				<button>Arata</button>
-			</FlexContainer>
-			<StyledProductsSection>
-				{productsLoading ? <Spinner /> : <Products />}
-				<Filters />
-				<DisplayCriteria />
-				<Comparison />
-			</StyledProductsSection>
-		</React.Fragment>
+		<PortalWithState closeOnOutsideClick closeOnEsc>
+			{({ openPortal, closePortal, isOpen, portal }) => (
+				<React.Fragment>
+					<FlexContainer>
+						<button onClick={openPortal}>Filtreaza</button>
+						{/* <button>Arata</button> */}
+						<PortalWithState closeOnOutsideClick closeOnEsc>
+							{({ openPortal, closePortal, isOpen, portal }) => (
+								<React.Fragment>
+									<button onClick={openPortal}>Arata</button>
+
+									{portal(
+										<StyledModal close={closePortal}>
+											<StyledFiltersContainer>
+												<CloseButton onClick={closePortal}>Afiseaza</CloseButton>
+												<DisplayCriteria mobile />
+											</StyledFiltersContainer>
+										</StyledModal>
+									)}
+								</React.Fragment>
+							)}
+						</PortalWithState>
+					</FlexContainer>
+					<StyledProductsSection>
+						{productsLoading ? <Spinner /> : <Products />}
+						<Filters />
+						<DisplayCriteria />
+						<Comparison />
+					</StyledProductsSection>
+					{portal(
+						<StyledModal close={closePortal}>
+							<StyledFiltersContainer>
+								<CloseButton onClick={closePortal}>Afiseaza</CloseButton>
+								<Filters mobile />
+							</StyledFiltersContainer>
+						</StyledModal>
+					)}
+				</React.Fragment>
+			)}
+		</PortalWithState>
 	);
 };
 
